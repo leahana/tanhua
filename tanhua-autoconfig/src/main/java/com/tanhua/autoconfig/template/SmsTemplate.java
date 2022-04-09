@@ -8,7 +8,7 @@ import com.tanhua.autoconfig.properties.SmsProperties;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/8 23:11
- * @Desc: 短信发送模板
+ * @Desc: 阿里云短信发送
  */
 
 public class SmsTemplate {
@@ -18,7 +18,6 @@ public class SmsTemplate {
     public  SmsTemplate(SmsProperties properties) {
         this.properties = properties;
     }
-
 
     public void sendSms(String mobile, String code) {
 

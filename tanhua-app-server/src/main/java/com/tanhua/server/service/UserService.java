@@ -1,5 +1,4 @@
 package com.tanhua.server.service;
-
 import com.tanhua.api.UserApi;
 import com.tanhua.autoconfig.template.SmsTemplate;
 import com.tanhua.commons.utils.JwtUtils;
@@ -11,7 +10,6 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-
 import java.time.Duration;
 import java.util.Date;
 import java.util.HashMap;
