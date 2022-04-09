@@ -42,7 +42,6 @@ public class UserController {
 //        Claims claims = JwtUtils.getClaims(token);
 //        Integer id = (Integer) claims.get("id");
 
-
         userInfo.setId(UserHolderUtil.getUserId());
         // 3.调用service保存用户信息
 

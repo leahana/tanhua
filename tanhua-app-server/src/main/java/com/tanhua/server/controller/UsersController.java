@@ -9,6 +9,9 @@ import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 /**
  * @Author: leah_ana
@@ -64,5 +67,12 @@ public class UsersController {
         userInfo.setId(UserHolderUtil.getUserId());
         userInfoService.update(userInfo);
         return  ResponseEntity.ok(null);
+    }
+
+
+    @PostMapping("/headr")
+    public ResponseEntity updateHand(MultipartFile headPhoto) throws IOException {
+        userInfoService.updateHeadr(headPhoto,UserHolderUtil.getUserId());
+        return ResponseEntity.ok(null);
     }
 }

@@ -9,4 +9,6 @@ public interface UserInfoApi {
     public  void update(UserInfo userInfo);
 
     UserInfo findById(Long id);
+
+    void updateHeader(String imageUrl, Long userId);
 }

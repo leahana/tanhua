@@ -1,5 +1,6 @@
 package com.tanhua.dubbo.api;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.tanhua.api.UserInfoApi;
 import com.tanhua.dubbo.mappers.UserInfoMapper;
 import com.tanhua.model.domain.UserInfo;
@@ -30,5 +31,11 @@ public class UserInfoApiImpl implements UserInfoApi {
     @Override
     public UserInfo findById(Long id) {
         return userInfoMapper.selectById(id);
+    }
+
+    @Override
+    public void updateHeader(String imageUrl, Long userId) {
+        UpdateWrapper<UserInfo> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("id", userId).set("avatar", imageUrl);
     }
 }

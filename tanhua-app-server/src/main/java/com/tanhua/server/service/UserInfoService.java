@@ -1,5 +1,6 @@
 package com.tanhua.server.service;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.google.gson.annotations.Until;
 import com.tanhua.api.UserInfoApi;
 import com.tanhua.autoconfig.template.ApiFaceTemplate;
@@ -15,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -48,13 +50,13 @@ public class UserInfoService {
         // 2.调用ApiFace图片识别
         boolean detectFace = apiFaceTemplate.detectFace(imageUrl);
 
-        if (!detectFace){
+        if (!detectFace) {
             // 2.1 不包含人脸 抛出异常
 //          throw new RuntimeException("图片中不包含人脸");
-            throw  new BusinessException(ErrorResult.faceError());
-        }else {
+            throw new BusinessException(ErrorResult.faceError());
+        } else {
             // 2.2 包含人脸 调用Api更新用户信息
-            UserInfo userInfo =new UserInfo();
+            UserInfo userInfo = new UserInfo();
             userInfo.setId(id);
             userInfo.setAvatar(imageUrl);
             userInfoApi.update(userInfo);
@@ -66,7 +68,7 @@ public class UserInfoService {
         UserInfo userInfo = userInfoApi.findById(id);
 
         UserInfoVo userInfoVo = new UserInfoVo();
-        BeanUtils.copyProperties(userInfo,userInfoVo);
+        BeanUtils.copyProperties(userInfo, userInfoVo);
         Integer age = userInfo.getAge();
         if (age != null) {
             userInfoVo.setAge(age.toString());
@@ -78,5 +80,22 @@ public class UserInfoService {
     //更新用户信息
     public void update(UserInfo userInfo) {
         userInfoApi.update(userInfo);
+    }
+
+    //更新用户头像
+    public void updateHeadr(MultipartFile headPhoto, Long userId) throws IOException {
+        // 1.上传文件到阿里云Oss
+        String imageUrl = ossTemplate.upload(headPhoto.getOriginalFilename(), headPhoto.getInputStream());
+        // 2.调用ApiFace图片识别
+        boolean detectFace = apiFaceTemplate.detectFace(imageUrl);
+        boolean empty = StringUtils.isEmpty(imageUrl);
+        if (!detectFace && !empty) {
+            // 2.1 不包含人脸 抛出异常
+//          throw new RuntimeException("图片中不包含人脸");
+            throw new BusinessException(ErrorResult.faceError());
+        } else {
+
+            userInfoApi.updateHeader(imageUrl, userId);
+        }
     }
 }
