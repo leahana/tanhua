@@ -1,0 +1,25 @@
+tanhua:
+  sms:
+    signName: 物流云商
+    templateCode: SMS_106590012
+    accessKey: LTAI4GKgob9vZ53k2SZdyAC7
+    secret: LHLBvXmILRoyw0niRSBuXBZewQ30la
+server:
+  port: 18080
+spring:
+  application:
+    name: tanhua-app-service
+  redis:
+    port: 6379
+    host: 192.168.136.160
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.136.160:8848
+      config:
+        enabled: false
+dubbo:
+  registry:
+    address: spring-cloud://localhost
+  consumer:
+    check: false
