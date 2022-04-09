@@ -14,6 +14,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class AppServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(AppServerApplication.class, args);
-        log.info("AppServerApplication start success");
+        log.info("AppServerApplication start success ! ! !");
     }
 }

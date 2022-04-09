@@ -1,7 +1,9 @@
 package com.tanhua.autoconfig;
 
+import com.tanhua.autoconfig.properties.AipFaceProperties;
 import com.tanhua.autoconfig.properties.OssProperties;
 import com.tanhua.autoconfig.properties.SmsProperties;
+import com.tanhua.autoconfig.template.ApiFaceTemplate;
 import com.tanhua.autoconfig.template.OssTemplate;
 import com.tanhua.autoconfig.template.SmsTemplate;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -15,7 +17,8 @@ import org.springframework.context.annotation.Configuration;
  */
 @EnableConfigurationProperties({
         SmsProperties.class,
-        OssProperties.class
+        OssProperties.class,
+        AipFaceProperties.class
 })
 public class TanhuaConfiguration {
     @Bean
@@ -27,4 +30,10 @@ public class TanhuaConfiguration {
     public OssTemplate ossTemplate(OssProperties properties) {
         return new OssTemplate(properties);
     }
+
+    @Bean
+    public ApiFaceTemplate apiFaceTemplate() {
+        return new ApiFaceTemplate();
+    }
+
 }

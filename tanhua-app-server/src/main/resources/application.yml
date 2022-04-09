@@ -5,11 +5,16 @@ tanhua:
     accessKey: xxxxxxxxxxxxxxxxxx
     secret: xxxxxxxxxxxxxxxxxx
   oss:
-    accessKey: xxxxxxxxxxxxxxxx
-    secret: xxxxxxxxxxxx
-    endpoint: x
-    bucketName: x
-    url: x
+    accessKey: LTAI5tJUV3eYXNLNe6DSq2q1
+    secret: 6vtlVoziC8X23TjM1GwrOUrhidFQ1s
+    endpoint: oss-cn-hangzhou.aliyuncs.com
+    bucketName: leahana-tanhua
+    url: https://leahana-tanhua.oss-cn-hangzhou.aliyuncs.com/
+
+  aip:
+    appId: 25935069
+    apiKey: uhosxqPfpNLls8HmV9eXG6Eq
+    secretKey: E82t7GayGjRQUWITW6TqyLQvfHWeRVfI
 
 server:
   port: 18080

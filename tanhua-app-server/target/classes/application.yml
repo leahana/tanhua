@@ -11,6 +11,11 @@ tanhua:
     bucketName: leahana-tanhua
     url: https://leahana-tanhua.oss-cn-hangzhou.aliyuncs.com/
 
+  aip:
+    appId: 25935069
+    apiKey: uhosxqPfpNLls8HmV9eXG6Eq
+    secretKey: E82t7GayGjRQUWITW6TqyLQvfHWeRVfI
+
 server:
   port: 18080
 spring:

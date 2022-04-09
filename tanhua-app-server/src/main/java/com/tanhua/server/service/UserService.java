@@ -3,6 +3,8 @@ import com.tanhua.api.UserApi;
 import com.tanhua.autoconfig.template.SmsTemplate;
 import com.tanhua.commons.utils.JwtUtils;
 import com.tanhua.model.domain.User;
+import com.tanhua.model.vo.ErrorResult;
+import com.tanhua.server.exception.BusinessException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -67,7 +69,8 @@ public class UserService {
         // 2.校验验证码是否正确
         if (StringUtils.isEmpty(redisCode) || !redisCode.equals(code)) {
             // 验证码错误
-            throw new RuntimeException("验证码错误");
+//            throw new RuntimeException("验证码错误");
+            throw  new BusinessException(ErrorResult.loginError());
         }
         // 3.删除redis中的验证码
         redisTemplate.delete(CHECK_CODE_KEY + phone);

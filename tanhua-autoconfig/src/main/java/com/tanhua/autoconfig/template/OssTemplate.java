@@ -33,6 +33,7 @@ public class OssTemplate {
      */
     public String upload(String fileName, InputStream inputStream) {
 
+        System.out.println(fileName);
         String filepath = new SimpleDateFormat("yyyy/MM/dd").format(new Date())
                 + "/" + UUID.randomUUID() + fileName.substring(fileName.lastIndexOf("."));
 

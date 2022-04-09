@@ -15,6 +15,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DubboDBApplication {
     public static void main(String[] args) {
         SpringApplication.run(DubboDBApplication.class, args);
-        log.info("DubboDBApplication start success");
+        log.info("DubboDBApplication start success ! ! !");
     }
 }

@@ -1,6 +1,11 @@
 {
   "groups": [
     {
+      "name": "tanhua.aip",
+      "type": "com.tanhua.autoconfig.properties.AipFaceProperties",
+      "sourceType": "com.tanhua.autoconfig.properties.AipFaceProperties"
+    },
+    {
       "name": "tanhua.oss",
       "type": "com.tanhua.autoconfig.properties.OssProperties",
       "sourceType": "com.tanhua.autoconfig.properties.OssProperties"
@@ -12,6 +17,21 @@
     }
   ],
   "properties": [
+    {
+      "name": "tanhua.aip.api-key",
+      "type": "java.lang.String",
+      "sourceType": "com.tanhua.autoconfig.properties.AipFaceProperties"
+    },
+    {
+      "name": "tanhua.aip.app-id",
+      "type": "java.lang.String",
+      "sourceType": "com.tanhua.autoconfig.properties.AipFaceProperties"
+    },
+    {
+      "name": "tanhua.aip.secret-key",
+      "type": "java.lang.String",
+      "sourceType": "com.tanhua.autoconfig.properties.AipFaceProperties"
+    },
     {
       "name": "tanhua.oss.access-key",
       "type": "java.lang.String",
