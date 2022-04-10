@@ -1,5 +1,5 @@
 server:
-  port: 18081
+  port: 18082
 spring:
   application:
     name: tanhua-dubbo-db
@@ -14,10 +14,11 @@ spring:
         enabled: false
       discovery:
         server-addr: 192.168.136.160:8848
+
 dubbo:
   protocol:
     name: dubbo
-    port: 20881
+    port: 20882
   registry:
     address: spring-cloud://localhost
   scan:

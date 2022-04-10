@@ -1,20 +1,20 @@
 tanhua:
   sms:
     signName: 测试短信
-    templateCode: xx
+    templateCode: SMS_123456677
     accessKey: xxxxxxxxxxxxxxxxxx
     secret: xxxxxxxxxxxxxxxxxx
   oss:
-    accessKey: xx
-    secret: x
-    endpoint: xx
-    bucketName: xx
-    url: xx
+    accessKey: LTAI5tJUV3eYXNLNe6DSq2q1
+    secret: 6vtlVoziC8X23TjM1GwrOUrhidFQ1s
+    endpoint: oss-cn-hangzhou.aliyuncs.com
+    bucketName: leahana-tanhua
+    url: https://leahana-tanhua.oss-cn-hangzhou.aliyuncs.com/
 
   aip:
-    appId: x
-    apiKey: xx
-    secretKey: x
+    appId: 25935069
+    apiKey: uhosxqPfpNLls8HmV9eXG6Eq
+    secretKey: E82t7GayGjRQUWITW6TqyLQvfHWeRVfI
 
 server:
   port: 18080
@@ -26,8 +26,8 @@ spring:
     host: 192.168.136.160
   cloud:
     nacos:
-     discovery:
-       server-addr: 192.168.136.160:8848
+      discovery:
+        server-addr: 192.168.136.160:8848
 
 dubbo:
   registry:

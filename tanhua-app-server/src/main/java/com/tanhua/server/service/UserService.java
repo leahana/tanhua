@@ -1,10 +1,12 @@
 package com.tanhua.server.service;
+
 import com.tanhua.api.UserApi;
 import com.tanhua.autoconfig.template.SmsTemplate;
 import com.tanhua.commons.utils.JwtUtils;
 import com.tanhua.model.domain.User;
 import com.tanhua.model.vo.ErrorResult;
 import com.tanhua.server.exception.BusinessException;
+import com.tanhua.server.interceptor.UserHolderUtil;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -12,6 +14,7 @@ import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+
 import java.time.Duration;
 import java.util.Date;
 import java.util.HashMap;
@@ -63,17 +66,10 @@ public class UserService {
      * @return 校验结果
      */
     public Map loginVerification(String phone, String code) {
-        // 1.获取redis中的验证码
-        String redisCode = redisTemplate.opsForValue().get(CHECK_CODE_KEY + phone);
 
-        // 2.校验验证码是否正确
-        if (StringUtils.isEmpty(redisCode) || !redisCode.equals(code)) {
-            // 验证码错误
-//            throw new RuntimeException("验证码错误");
-            throw  new BusinessException(ErrorResult.loginError());
-        }
-        // 3.删除redis中的验证码
-        redisTemplate.delete(CHECK_CODE_KEY + phone);
+        //从redis中获取验证码验证,如果验证码不存在或者验证码不正确，则抛出异常
+        checkCode(phone, code);
+
         // 4.通过手机号查询用户信息
         User user = userApi.findByMobile(phone);
         boolean isNew = false;
@@ -99,15 +95,55 @@ public class UserService {
             isNew = true;
         }
         // 6.生成token
-        Map tokenMap =new HashMap();
-        tokenMap.put("id",user.getId());
-        tokenMap.put("mobile",user.getMobile());
+        Map tokenMap = new HashMap();
+        tokenMap.put("id", user.getId());
+        tokenMap.put("mobile", user.getMobile());
         String token = JwtUtils.getToken(tokenMap);
         // 7.返回结果
-        Map retMap=new HashMap();
-        retMap.put("token",token);
-        retMap.put("isNew",isNew);
+        Map retMap = new HashMap();
+        retMap.put("token", token);
+        retMap.put("isNew", isNew);
 
         return retMap;
+    }
+
+
+    public void  updatePhone(String phone) {
+        //获取用户id
+        Long userId = UserHolderUtil.getUserId();
+        userApi.updatePhone(phone, userId);
+    }
+
+    public void sendMsg() {
+        //获取用户当前用户手机号 发送信息
+        String mobile = UserHolderUtil.getMobile();
+        this.sendMsg(mobile);
+    }
+
+    public void checkMsg(String code) {
+        //获取用户当前用户手机号 发送信息
+        String mobile = UserHolderUtil.getMobile();
+        //从redis中获取验证码验证,如果验证码不存在或者验证码不正确，则抛出异常
+        checkCode(mobile, code);
+
+        //获取用户id
+        Long userId = UserHolderUtil.getUserId();
+
+        userApi.updatePhone(mobile,userId);
+    }
+
+
+    private void checkCode(String phone, String code) {
+        // 1.获取redis中的验证码
+        String redisCode = redisTemplate.opsForValue().get(CHECK_CODE_KEY + phone);
+
+        // 2.校验验证码是否正确
+        if (StringUtils.isEmpty(redisCode) || !redisCode.equals(code)) {
+            // 验证码错误
+//            throw new RuntimeException("验证码错误");
+            throw new BusinessException(ErrorResult.loginError());
+        }
+        // 3.删除redis中的验证码
+        redisTemplate.delete(CHECK_CODE_KEY + phone);
     }
 }

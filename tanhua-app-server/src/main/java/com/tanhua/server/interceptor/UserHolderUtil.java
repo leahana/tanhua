@@ -32,6 +32,11 @@ public class UserHolderUtil {
         return threadLocal.get().getMobile();
     }
 
+    //更新用户手机
+    public static void setMobile(String mobile) {
+        threadLocal.get().setMobile(mobile);
+    }
+
     //清空线程
     public static void remove() {
         threadLocal.remove();

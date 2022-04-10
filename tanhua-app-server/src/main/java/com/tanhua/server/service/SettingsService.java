@@ -1,9 +1,11 @@
 package com.tanhua.server.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.tanhua.api.BlackListApi;
 import com.tanhua.api.QuestionApi;
 import com.tanhua.api.SettingsApi;
-import com.tanhua.model.domain.Question;
-import com.tanhua.model.domain.Settings;
+import com.tanhua.model.domain.*;
+import com.tanhua.model.vo.PageResult;
 import com.tanhua.model.vo.SettingsVo;
 import com.tanhua.server.interceptor.UserHolderUtil;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -26,8 +28,12 @@ public class SettingsService {
     @DubboReference
     private SettingsApi settingsApi;
 
+    @DubboReference
+    private BlackListApi blackListApi;
+
     //查询通用设置
     public SettingsVo querySettingsById() {
+
         SettingsVo vo = new SettingsVo();
 
         Long userId = UserHolderUtil.getUserId();
@@ -60,11 +66,11 @@ public class SettingsService {
         // 3.判断用户是否有陌生人问题
         if (question == null) {
             //3.1 如果没有，则新增
-            question=new Question();
+            question = new Question();
             question.setUserId(userId);
             question.setTxt(content);
             questionApi.addQuestion(question);
-        }else {
+        } else {
             //3.2 如果有，则修改
             question.setTxt(content);
             questionApi.updateQuestion(question);
@@ -85,18 +91,41 @@ public class SettingsService {
         // 3.判断用户是否有通知设置
         if (settings == null) {
             //3.1 如果没有，则新增
-            settings=new Settings();
+            settings = new Settings();
             settings.setUserId(userId);
             settings.setGonggaoNotification(gonggaoNotification);
             settings.setPinglunNotification(pinglunNotification);
             settings.setLikeNotification(likeNotification);
             settingsApi.addSettings(settings);
-        }else {
+        } else {
             //3.2 如果有，则修改
             settings.setGonggaoNotification(gonggaoNotification);
             settings.setPinglunNotification(pinglunNotification);
             settings.setLikeNotification(likeNotification);
             settingsApi.updateSettings(settings);
         }
+    }
+
+    //分页查询黑名单列表
+    public PageResult queryBlackList(int page, int size) {
+        // 1.获取当前用户id
+        Long userId = UserHolderUtil.getUserId();
+
+        // 2.调用api查询用户黑名单分页列表 Mybatis-plus分页对象 IPage<T>
+        IPage<UserInfo> iPage = blackListApi.queryBlackListByUserId(userId, page, size);
+
+        // 3.转换为PageResult
+        PageResult pageResult =  new PageResult(page, size, (int) iPage.getTotal(), iPage.getRecords());
+
+        return pageResult;
+    }
+
+    //取消黑名单
+    public void removeBlackList(Long blackUserId) {
+        // 1.获取当前用户id
+        Long userId = UserHolderUtil.getUserId();
+
+        blackListApi.removeBlackListById(userId, blackUserId);
+
     }
 }

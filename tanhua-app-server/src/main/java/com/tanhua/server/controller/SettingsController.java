@@ -2,6 +2,7 @@ package com.tanhua.server.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.tanhua.model.domain.Question;
+import com.tanhua.model.vo.PageResult;
 import com.tanhua.model.vo.SettingsVo;
 import com.tanhua.server.service.SettingsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,33 @@ public class SettingsController {
     public  ResponseEntity updateNotification(@RequestBody Map map) {
 
         settingsService.updateNotificationSetting(map);
+        return ResponseEntity.ok(null);
+    }
+
+
+    /**
+     * 分页查询黑名单列表
+     * @param page,size 分页参数
+     */
+
+    @GetMapping("/blacklist")
+    public ResponseEntity queryBlackList(@RequestParam(defaultValue = "1") int page,
+                                         @RequestParam(defaultValue = "10") int size) {
+        // 1.调用service 进行查询
+        PageResult pageResult=settingsService.queryBlackList(page,size);
+        // 2.构造放回
+        return ResponseEntity.ok(pageResult);
+    }
+
+
+    /**
+     * 取消黑名单
+     */
+    @DeleteMapping("/blacklist/{uid}")
+    public ResponseEntity deleteBlackList(@PathVariable("uid") Long uid) {
+
+        settingsService.removeBlackList(uid);
+
         return ResponseEntity.ok(null);
     }
 }

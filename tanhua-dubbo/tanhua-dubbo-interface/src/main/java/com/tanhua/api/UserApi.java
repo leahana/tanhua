@@ -10,4 +10,7 @@ public interface UserApi {
 
     //保存用户 返回用户id
     Long save(User user);
+
+    //更新用户手机号
+    void updatePhone(String phone,Long id);
 }

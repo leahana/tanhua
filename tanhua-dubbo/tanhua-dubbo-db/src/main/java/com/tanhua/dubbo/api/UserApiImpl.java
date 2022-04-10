@@ -1,6 +1,7 @@
 package com.tanhua.dubbo.api;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.tanhua.api.UserApi;
 import com.tanhua.dubbo.mappers.UserMapper;
@@ -31,5 +32,13 @@ public class UserApiImpl implements UserApi {
     public Long save(User user) {
         userMapper.insert(user);
         return user.getId();
+    }
+
+    @Override
+    public void updatePhone(String phone, Long id) {
+
+        UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("id", id).set("mobile", phone);
+        userMapper.update(null, updateWrapper);
     }
 }
