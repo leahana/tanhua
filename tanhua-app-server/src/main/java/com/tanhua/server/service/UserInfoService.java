@@ -83,7 +83,7 @@ public class UserInfoService {
     }
 
     //更新用户头像
-    public void updateHeadr(MultipartFile headPhoto, Long userId) throws IOException {
+    public void updateHeader(MultipartFile headPhoto, Long userId) throws IOException {
         // 1.上传文件到阿里云Oss
         String imageUrl = ossTemplate.upload(headPhoto.getOriginalFilename(), headPhoto.getInputStream());
         // 2.调用ApiFace图片识别

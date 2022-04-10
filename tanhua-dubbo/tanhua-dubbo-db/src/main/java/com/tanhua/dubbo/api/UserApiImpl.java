@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/9 13:39
+ * @Desc: 用户基本服务实现类
  */
+
 @DubboService
 public class UserApiImpl implements UserApi {
 

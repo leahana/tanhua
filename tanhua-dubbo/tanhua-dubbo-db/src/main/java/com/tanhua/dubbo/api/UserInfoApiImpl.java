@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/9 19:54
+ * @Desc: 用户信息服务实现类
  */
 
 @DubboService

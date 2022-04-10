@@ -69,10 +69,14 @@ public class UsersController {
         return  ResponseEntity.ok(null);
     }
 
-
-    @PostMapping("/headr")
-    public ResponseEntity updateHand(MultipartFile headPhoto) throws IOException {
-        userInfoService.updateHeadr(headPhoto,UserHolderUtil.getUserId());
+    /**
+     * 更新用户头像
+     * 请求参数: 图片文件 headPhoto
+     */
+    @PostMapping("/header")
+    public ResponseEntity updateHeader(MultipartFile headPhoto) throws IOException {
+        userInfoService.updateHeader(headPhoto,UserHolderUtil.getUserId());
         return ResponseEntity.ok(null);
     }
+
 }
