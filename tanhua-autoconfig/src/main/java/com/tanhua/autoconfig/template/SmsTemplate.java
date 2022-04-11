@@ -36,12 +36,13 @@ public class SmsTemplate {
 
             com.aliyun.dysmsapi20170525.Client client = new com.aliyun.dysmsapi20170525.Client(config);
             SendSmsRequest sendSmsRequest = new SendSmsRequest()
+                    .setSignName("阿里云短信测试")
+                    .setTemplateCode("SMS_154950909")
                     .setPhoneNumbers(mobile)
-                    .setSignName("短信测试")
-                    .setTemplateCode("{\"code\":" + code + "}");
+                    .setTemplateParam("{\"code\":" + code + "}");
             // 复制代码运行请自行打印 API 的返回值
             SendSmsResponse response = client.sendSms(sendSmsRequest);
-            response.getBody();
+            System.out.println(response.getBody());
         } catch (Exception e) {
             e.printStackTrace();
 

@@ -53,8 +53,8 @@ public class UserInfoApiImpl implements UserInfoApi {
         //构造查询条件
         queryWrapper.in("id", ids);
         if (userInfo != null) {
-            queryWrapper.lt(userInfo.getAge() != null, "age", userInfo.getAge());
-            queryWrapper.eq(!StringUtils.isEmpty(userInfo.getGender()), "gender", userInfo.getGender());
+            queryWrapper.lt(userInfo.getAge() != null, "age", userInfo.getAge())
+                    .eq(!StringUtils.isEmpty(userInfo.getGender()), "gender", userInfo.getGender());
         }
         List<UserInfo> list = userInfoMapper.selectList(queryWrapper);
         //封装map
