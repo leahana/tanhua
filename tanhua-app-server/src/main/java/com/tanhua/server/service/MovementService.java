@@ -1,5 +1,6 @@
 package com.tanhua.server.service;
 
+import cn.hutool.core.collection.CollUtil;
 import com.tanhua.api.MovementApi;
 import com.tanhua.api.UserInfoApi;
 import com.tanhua.autoconfig.template.OssTemplate;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: leah_ana
@@ -101,5 +103,46 @@ public class MovementService {
 
         // 5.构建返回值
         return pageResult;
+    }
+
+    public PageResult queryFriendsMovements(Integer page, Integer pageSize) {
+        PageResult pageResult = new PageResult();
+
+        // 1.查询好友动态详情数据
+        Long userId = UserHolderUtil.getUserId();
+        List<Movement> movements = movementApi.queryFriendsMovements(userId, page, pageSize);
+
+        if (CollUtil.isEmpty(movements)) return pageResult;
+        //if (movements == null || movements.isEmpty()) return pageResult;
+
+        // 2. 提取动态发布人id
+        List<Long> ids = CollUtil.getFieldValues(movements, "userId", Long.class);
+
+        Map<Long, UserInfo> map = userInfoApi.findByIds(ids, null);
+
+        List<MovementsVo> list = new ArrayList<>();
+
+        // 2.查询好友动态发布人
+        movements.forEach(movement -> {
+            UserInfo userInfo = map.get(movement.getUserId());
+
+            // 3.构造vo对象
+            if (userInfo != null) {
+                MovementsVo movementsVo = MovementsVo.init(userInfo, movement);
+                list.add(movementsVo);
+            }
+        });
+
+        pageResult.setItems(list);
+        // 4. 返回pageResult
+        pageResult.setPage(page);
+        pageResult.setPageSize(pageSize);
+        pageResult.setCounts(0);
+        return pageResult;
+    }
+
+    public PageResult queryRecommendMovements(Integer page, Integer pagesize) {
+
+        return null;
     }
 }

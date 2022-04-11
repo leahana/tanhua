@@ -66,7 +66,6 @@ public class UserInfoService {
     //根据id查询
     public UserInfoVo findById(Long id) {
         UserInfo userInfo = userInfoApi.findById(id);
-
         UserInfoVo userInfoVo = new UserInfoVo();
         BeanUtils.copyProperties(userInfo, userInfoVo);
         Integer age = userInfo.getAge();

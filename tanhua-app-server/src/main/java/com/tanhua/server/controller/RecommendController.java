@@ -1,5 +1,6 @@
 package com.tanhua.server.controller;
 
+import cn.hutool.core.collection.CollUtil;
 import com.tanhua.model.dto.RecommendUserDto;
 import com.tanhua.model.vo.PageResult;
 import com.tanhua.model.vo.TodayBest;
@@ -26,13 +27,18 @@ public class RecommendController {
     @GetMapping("/todayBest")
     public ResponseEntity queryTodayBest() {
         TodayBest todayBest = beautyTodayService.queryTodayBest();
+
         return ResponseEntity.ok(todayBest);
     }
 
     @GetMapping("/recommendation")
-    public ResponseEntity<PageResult> queryRecommendationFriends( RecommendUserDto recommendUserDto) {
+    public ResponseEntity<PageResult> queryRecommendationFriends(RecommendUserDto recommendUserDto) {
 
         PageResult pageResult = beautyTodayService.queryRecommendationFriends(recommendUserDto);
+
         return ResponseEntity.ok(pageResult);
     }
+
+
+
 }

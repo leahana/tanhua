@@ -73,6 +73,16 @@ public class RecommendService {
         // 4.提取所有推荐用户的id
         List<Long> ids = CollUtil.getFieldValues(recommendUsers, "userId", Long.class);
 
+
+        //结果为空 给他推荐小小难顶!
+        if (CollUtil.isNotEmpty(ids)||ids.size()==0) {
+            RecommendUser recommendUser = new RecommendUser();
+            UserInfo info = userInfoApi.findById(106L);
+            TodayBest vo = TodayBest.init(info, recommendUser);
+            todayBestList.add(vo);
+            pageResult.setItems(todayBestList);
+            return pageResult;
+        }
 //        List<Long> ids = recommendUsers.stream()
 //                .map(RecommendUser::getUserId).collect(Collectors.toList());
 
@@ -83,7 +93,7 @@ public class RecommendService {
         Map<Long, UserInfo> map = userInfoApi.findByIds(ids, userInfo);
 
         // 6.构建vo对象
-        recommendUsers.forEach(item->{
+        recommendUsers.forEach(item -> {
             UserInfo info = map.get(item.getUserId());
             if (info != null) {
                 TodayBest vo = TodayBest.init(info, item);

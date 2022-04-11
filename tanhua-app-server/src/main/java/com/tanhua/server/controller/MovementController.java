@@ -48,4 +48,32 @@ public class MovementController {
 
         return ResponseEntity.ok(pageResult);
     }
+
+    /**
+     * 查询好友动态
+     */
+    @GetMapping
+    public ResponseEntity queryFriendsMovement(@RequestParam(defaultValue = "1") Integer page,
+                                               @RequestParam(defaultValue = "10") Integer pagesize) {
+
+        PageResult pageResult = movementService.queryFriendsMovements(page, pagesize);
+
+        return ResponseEntity.ok(pageResult);
+
+
+    }
+
+    /**
+     * 查询推荐动态
+     */
+    @GetMapping("/recommend")
+    public ResponseEntity queryRecommendMovements(@RequestParam(defaultValue = "1") Integer page,
+                                                  @RequestParam(defaultValue = "10") Integer pagesize) {
+
+        PageResult pageResult = movementService.queryRecommendMovements(page, pagesize);
+
+        return ResponseEntity.ok(pageResult);
+
+
+    }
 }

@@ -1,6 +1,7 @@
 package com.tanhua.dubbo.api;
 
 import cn.hutool.core.collection.CollUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.tanhua.api.UserInfoApi;
@@ -51,11 +52,17 @@ public class UserInfoApiImpl implements UserInfoApi {
     public Map<Long, UserInfo> findByIds(List<Long> ids, UserInfo userInfo) {
         QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
         //构造查询条件
-        queryWrapper.in("id", ids);
+
+        queryWrapper.in(!ids.isEmpty(),"id", ids);
+
         if (userInfo != null) {
-            queryWrapper.lt(userInfo.getAge() != null, "age", userInfo.getAge())
-                    .eq(!StringUtils.isEmpty(userInfo.getGender()), "gender", userInfo.getGender());
+            queryWrapper.eq(!StringUtils.isEmpty(userInfo.getGender()), "gender", userInfo.getGender())
+                    .lt(userInfo.getAge() != null, "age", userInfo.getAge());
+
         }
+
+
+
         List<UserInfo> list = userInfoMapper.selectList(queryWrapper);
         //封装map
 

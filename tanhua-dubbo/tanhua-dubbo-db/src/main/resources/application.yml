@@ -30,3 +30,5 @@ mybatis-plus:
     db-config:
       table-prefix: tb_  #表前缀
       id-type: auto  #id策略为自增
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

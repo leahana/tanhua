@@ -1,5 +1,6 @@
 package com.tanhua.dubbo.api;
 
+import cn.hutool.core.collection.CollUtil;
 import com.tanhua.api.RecommendUserApi;
 import com.tanhua.model.mongo.RecommendUser;
 import com.tanhua.model.vo.PageResult;
