@@ -1,6 +1,9 @@
 package com.tanhua.api;
 
 import com.tanhua.model.mongo.RecommendUser;
+import com.tanhua.model.vo.PageResult;
+
+import java.util.List;
 
 /**
  * @Author: leah_ana
@@ -11,4 +14,7 @@ public interface RecommendUserApi {
 
     //查询今日佳人
     RecommendUser queryWithMaxScore(Long toUserId);
+
+    //查询好友推荐列表
+    PageResult queryRecommendUserList(Long toUserId, Integer page, Integer pageSize);
 }

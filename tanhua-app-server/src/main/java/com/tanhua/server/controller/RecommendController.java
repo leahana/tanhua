@@ -1,11 +1,13 @@
 package com.tanhua.server.controller;
 
+import com.tanhua.model.dto.RecommendUserDto;
+import com.tanhua.model.vo.PageResult;
 import com.tanhua.model.vo.TodayBest;
-import com.tanhua.server.service.BeautyTodayService;
+import com.tanhua.server.service.RecommendService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisHash;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,14 +18,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/tanhua")
-public class BeautyTodayController {
+public class RecommendController {
 
     @Autowired
-    private BeautyTodayService beautyTodayService;
+    private RecommendService beautyTodayService;
 
     @GetMapping("/todayBest")
     public ResponseEntity queryTodayBest() {
         TodayBest todayBest = beautyTodayService.queryTodayBest();
         return ResponseEntity.ok(todayBest);
+    }
+
+    @GetMapping("/recommendation")
+    public ResponseEntity<PageResult> queryRecommendationFriends( RecommendUserDto recommendUserDto) {
+
+        PageResult pageResult = beautyTodayService.queryRecommendationFriends(recommendUserDto);
+        return ResponseEntity.ok(pageResult);
     }
 }
