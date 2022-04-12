@@ -1,7 +1,10 @@
 package com.tanhua.server.controller;
 
+import com.sun.org.apache.regexp.internal.RE;
 import com.tanhua.model.mongo.Movement;
+import com.tanhua.model.vo.MovementsVo;
 import com.tanhua.model.vo.PageResult;
+import com.tanhua.server.service.CommentsService;
 import com.tanhua.server.service.MovementService;
 import org.apache.commons.lang.enums.Enum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,11 @@ public class MovementController {
 
     @Autowired
     private MovementService movementService;
+
+
+    @Autowired
+    private CommentsService commentsService;
+
 
     /**
      * 发布动态
@@ -75,5 +83,28 @@ public class MovementController {
         return ResponseEntity.ok(pageResult);
 
 
+    }
+
+    /**
+     * 查询动态详情
+     */
+    @GetMapping("/{id}")
+    public ResponseEntity queryMovementById(@PathVariable("id") String movementId) {
+
+        MovementsVo movementsVo = movementService.queryByMovementId(movementId);
+
+        return ResponseEntity.ok(movementsVo);
+
+    }
+
+    /**
+     * 点赞
+     */
+    @GetMapping("/{id}/like")
+    public ResponseEntity likeMovement(@PathVariable("id") String movementId) {
+
+        Integer count =commentsService.likeComment(movementId);
+
+        return ResponseEntity.ok(count);
     }
 }

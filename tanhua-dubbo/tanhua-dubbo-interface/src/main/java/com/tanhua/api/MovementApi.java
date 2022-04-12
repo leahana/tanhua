@@ -11,7 +11,13 @@ public interface MovementApi {
     //发布动态
     void publishMovement(Movement movement);
 
-    PageResult queryMovementsByUserId(Long userId, Integer page, Integer pageSize);
+    List<Movement> queryMovementsByUserId(Long userId, Integer page, Integer pageSize);
 
     List<Movement> queryFriendsMovements(Long userId, Integer page, Integer pageSize);
+
+    List<Movement> randomMovements(Integer pageSize);
+
+    List<Movement> queryMovementsByPids(List<Long> pids);
+
+    Movement queryByMovementId(String movementId);
 }

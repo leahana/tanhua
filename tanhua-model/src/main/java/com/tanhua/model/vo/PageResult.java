@@ -19,13 +19,13 @@ public class PageResult implements Serializable {
     private Integer page;//当前页码
     private List<?> items = Collections.emptyList(); //列表
 
-    public PageResult(Integer page,Integer pagesize,
+    public PageResult(Integer page,Integer pageSize,
                       int counts,List<?> list) {
         this.page = page;
-        this.pageSize = pagesize;
+        this.pageSize = pageSize;
         this.items = list;
         this.counts = counts;
-        this.pages = counts % pagesize == 0 ? counts / pagesize : counts / pagesize + 1;
+        this.pages = counts % pageSize == 0 ? counts / pageSize : counts / pageSize + 1;
     }
 
 }

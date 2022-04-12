@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import com.tanhua.api.MovementApi;
 import com.tanhua.api.UserInfoApi;
 import com.tanhua.autoconfig.template.OssTemplate;
+import com.tanhua.commons.utils.Constants;
 import com.tanhua.model.domain.UserInfo;
 import com.tanhua.model.mongo.Movement;
 import com.tanhua.model.vo.ErrorResult;
@@ -13,14 +14,14 @@ import com.tanhua.server.exception.BusinessException;
 import com.tanhua.server.interceptor.UserHolderUtil;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @Author: leah_ana
@@ -34,12 +35,17 @@ public class MovementService {
     private OssTemplate ossTemplate;
 
 
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+
     @DubboReference
     private MovementApi movementApi;
 
 
     @DubboReference
     private UserInfoApi userInfoApi;
+
+
 
 
     /**
@@ -81,40 +87,104 @@ public class MovementService {
     public PageResult queryMovementsByUserId(Long userId, Integer page, Integer pageSize) {
 
         // 1.根据 用户id查询 个人动态 mongoDB (movement)
-        PageResult pageResult = movementApi.queryMovementsByUserId(userId, page, pageSize);
-
-        // 2.获取PageResult中的列表
-        List<Movement> items = (List<Movement>) pageResult.getItems();
+        List<Movement> movements = movementApi.queryMovementsByUserId(userId, page, pageSize);
 
         // 3.判断
-        if (items == null || items.size() == 0) {
-            return pageResult;
+        if (movements == null || movements.size() == 0) {
+            return new PageResult(page, pageSize, 0, movements);
         }
 
         // 4.循环数据列表,构建vo
         //先获取用户详情
         UserInfo userInfo = userInfoApi.findById(userId);
         List<MovementsVo> list = new ArrayList<>();
-        items.forEach(movement -> {
+        movements.forEach(movement -> {
             MovementsVo init = MovementsVo.init(userInfo, movement);
             list.add(init);
         });
-        pageResult.setItems(list);
 
         // 5.构建返回值
-        return pageResult;
+        return new PageResult(page, pageSize, movements.size(), list);
     }
 
+    /**
+     * 查询好友动态
+     *
+     * @param page     页码
+     * @param pageSize 分页大小
+     * @return PageResult
+     */
     public PageResult queryFriendsMovements(Integer page, Integer pageSize) {
-        PageResult pageResult = new PageResult();
+
 
         // 1.查询好友动态详情数据
         Long userId = UserHolderUtil.getUserId();
         List<Movement> movements = movementApi.queryFriendsMovements(userId, page, pageSize);
 
-        if (CollUtil.isEmpty(movements)) return pageResult;
-        //if (movements == null || movements.isEmpty()) return pageResult;
+        return getPageResult(page, pageSize, movements);
+    }
 
+    /**
+     * 查询推荐用户动态
+     *
+     * @param page     页码
+     * @param pageSize 分页大小
+     * @return PageResult
+     */
+    public PageResult queryRecommendMovements(Integer page, Integer pageSize) {
+        // 1.从redis中获取推荐数据
+        String redisKey = Constants.MOVEMENTS_RECOMMEND + UserHolderUtil.getUserId();
+
+        String redisValue = redisTemplate.opsForValue().get(redisKey);
+        // 2.判断推荐数据是否存在
+        //List<Movement> movementList = Collections.EMPTY_LIST;
+        List<Movement> movementList = new ArrayList<>();
+        if (StringUtils.isEmpty(redisValue)) {
+            // 3.如果不存在 调用api随机生成10条数据
+            movementList = movementApi.randomMovements(pageSize);
+        } else {
+            //"16,17,18,19,10100,10101,10102,10130"
+            // 4.如果存在处理pid数据
+            String[] split = redisValue.split(",");
+            // 判断当前页的起始条数是否小于数组总数
+            if ((page - 1) * pageSize < split.length) {
+                List<Long> pids = Arrays.stream(split).skip((long) (page - 1) * pageSize).limit(pageSize)
+                        .map(Long::parseLong).collect(Collectors.toList());
+                movementList = movementApi.queryMovementsByPids(pids);
+            }
+        }
+        // 5.根据pid数组查询用户数据
+        // 6.构建返回值
+
+        return getPageResult(page, pageSize, movementList);
+    }
+
+    /**
+     * 查询动态详情
+     *
+     * @param movementId 动态id
+     * @return 动态详情
+     */
+    public MovementsVo queryByMovementId(String movementId) {
+        // 1. 根据movementId查询动态详情
+        Movement movement = movementApi.queryByMovementId(movementId);
+        // 2. 根据userId查询用户详情
+        if (movement != null) {
+            Long userId = movement.getUserId();
+            UserInfo userInfo = userInfoApi.findById(userId);
+            // 3. 构建返回值
+            // 4. 返回
+            return MovementsVo.init(userInfo, movement);
+        } else {
+            return null;
+        }
+    }
+
+
+    //封装PageResult 好友动态通用动态的公用方法
+    private PageResult getPageResult(Integer page, Integer pageSize, List<Movement> movements) {
+        if (CollUtil.isEmpty(movements)) return new PageResult();
+        //if (movements == null || movements.isEmpty()) return pageResult;
         // 2. 提取动态发布人id
         List<Long> ids = CollUtil.getFieldValues(movements, "userId", Long.class);
 
@@ -129,20 +199,19 @@ public class MovementService {
             // 3.构造vo对象
             if (userInfo != null) {
                 MovementsVo movementsVo = MovementsVo.init(userInfo, movement);
+                //修复点赞状态bug
+
+                String key = Constants.MOVEMENTS_INTERACT_KEY + movement.getId().toHexString();
+
+                String hasKey=Constants.MOVEMENT_LIKE_HASHKEY+UserHolderUtil.getUserId();
+                if (redisTemplate.opsForHash().hasKey(key, hasKey)){
+                    movementsVo.setHasLiked(1);
+                }
                 list.add(movementsVo);
             }
         });
 
-        pageResult.setItems(list);
-        // 4. 返回pageResult
-        pageResult.setPage(page);
-        pageResult.setPageSize(pageSize);
-        pageResult.setCounts(0);
-        return pageResult;
+        return new PageResult(page, pageSize, 0, list);
     }
 
-    public PageResult queryRecommendMovements(Integer page, Integer pagesize) {
-
-        return null;
-    }
 }

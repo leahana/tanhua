@@ -4,19 +4,19 @@ import cn.hutool.core.collection.CollUtil;
 import com.tanhua.api.MovementApi;
 import com.tanhua.dubbo.utils.IdWorker;
 import com.tanhua.dubbo.utils.TimeLineService;
-import com.tanhua.model.mongo.Friend;
 import com.tanhua.model.mongo.Movement;
 import com.tanhua.model.mongo.MovementTimeLine;
-import com.tanhua.model.vo.PageResult;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.TypedAggregation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import java.util.ConcurrentModificationException;
 import java.util.List;
 
 /**
@@ -78,7 +78,7 @@ public class MovementApiImpl implements MovementApi {
 
 
     @Override
-    public PageResult queryMovementsByUserId(Long userId, Integer page, Integer pageSize) {
+    public List<Movement> queryMovementsByUserId(Long userId, Integer page, Integer pageSize) {
         // 1.构建Criteria
         Criteria criteria = Criteria.where("userId").is(userId);
 
@@ -87,9 +87,8 @@ public class MovementApiImpl implements MovementApi {
                 .with(Sort.by(Sort.Order.desc("created")));
 
         // 3.查询
-        List<Movement> movements = mongoTemplate.find(query, Movement.class);
 
-        return new PageResult(page, pageSize, 0, movements);
+        return mongoTemplate.find(query, Movement.class);
     }
 
     /**
@@ -114,5 +113,37 @@ public class MovementApiImpl implements MovementApi {
         // 2.返回结果
         return mongoTemplate.find(queryTL, Movement.class);
 
+    }
+
+
+    @Override
+    public List<Movement> randomMovements(Integer counts) {
+        // 1. 创建统计对象(找到操作对应的表
+        TypedAggregation<Movement> typedAggregation = Aggregation.newAggregation(
+                Movement.class,
+                Aggregation.sample(10));
+
+        // 2. 调用mongoTemplate查询
+        AggregationResults<Movement> aggregate = mongoTemplate.aggregate(typedAggregation, Movement.class);
+
+        // 3.返回结果
+        return aggregate.getMappedResults();
+
+
+    }
+
+    @Override
+    public List<Movement> queryMovementsByPids(List<Long> pids) {
+        //构建query对象
+
+        Query query = Query.query(Criteria.where("pid").in(pids));
+
+        return mongoTemplate.find(query, Movement.class);
+    }
+
+    @Override
+    public Movement queryByMovementId(String movementId) {
+
+        return mongoTemplate.findById(movementId, Movement.class);
     }
 }
