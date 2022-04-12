@@ -71,6 +71,5 @@ public class UserController {
         // 3.调用service 保存头像
         userInfoService.updateHead(headPhoto, UserHolderUtil.getUserId());
         return ResponseEntity.ok(null);
-
     }
 }

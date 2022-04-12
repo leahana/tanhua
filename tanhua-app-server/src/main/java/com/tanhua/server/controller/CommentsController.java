@@ -48,4 +48,27 @@ public class CommentsController {
         return ResponseEntity.ok(pageResult);
     }
 
+
+
+    /**
+     * 点赞
+     */
+    @GetMapping("/{id}/like")
+    public ResponseEntity likeComment(@PathVariable("id") String movementId) {
+
+        Integer count =commentsService.likeComment(movementId);
+
+        return ResponseEntity.ok(count);
+    }
+    /**
+     * 取消点赞
+     */
+    @GetMapping("/{id}/dislike")
+    public ResponseEntity dislikeComment(@PathVariable("id") String movementId) {
+
+        Integer count =commentsService.dislikeComment(movementId);
+
+        return ResponseEntity.ok(count);
+    }
+
 }

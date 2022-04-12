@@ -43,7 +43,7 @@ public class CommentsService {
     private UserInfoApi userInfoApi;
 
     @Autowired
-    private RedisTemplate<String,String> redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
     //发布评论
     public void save(String movementId, String content) {
@@ -95,10 +95,10 @@ public class CommentsService {
     /**
      * 动态 点赞
      */
-    public Integer likeComment(String movementId) {
+    public Integer likeMovement(String movementId) {
         // 1.查询 用户是否点过赞
         Boolean hasComment = commentApi.hasComment(movementId,
-                UserHolderUtil.getUserId(),CommentType.LIKE);
+                UserHolderUtil.getUserId(), CommentType.LIKE);
 
         // 2.如果点过赞 抛出异常
         if (hasComment) {
@@ -117,12 +117,149 @@ public class CommentsService {
         // 4.将点赞状态存入redis 将用户点赞状态存入redis
         String key = Constants.MOVEMENTS_INTERACT_KEY + movementId;
 
-        String hasKey=Constants.MOVEMENT_LIKE_HASHKEY+UserHolderUtil.getUserId();
+        String hasKey = Constants.MOVEMENT_LIKE_HASHKEY + UserHolderUtil.getUserId();
 
         redisTemplate.opsForHash().put(key, hasKey, "1");
 
         return count;
     }
+
+
+    public Integer dislikeMovement(String movementId) {
+        // 1.查询 用户是否点过赞
+        Boolean hasComment = commentApi.hasComment(movementId,
+                UserHolderUtil.getUserId(), CommentType.LIKE);
+
+        // 2.如果未点赞  抛出异常
+        if (!hasComment) {
+            throw new BusinessException(ErrorResult.disLikeError());
+        }
+
+        // 3.如果点赞了 调用api 删除数 返回点赞数量
+        Comment comment = new Comment();
+        comment.setPublishId(new ObjectId(movementId));
+        comment.setCommentType(CommentType.LIKE.getType());
+        comment.setUserId(UserHolderUtil.getUserId());
+
+        Integer count = commentApi.delete(comment);
+
+        // 4.删除 redis中的点赞状态
+
+        String key = Constants.MOVEMENTS_INTERACT_KEY + movementId;
+
+        String hasKey = Constants.MOVEMENT_LIKE_HASHKEY + UserHolderUtil.getUserId();
+
+        redisTemplate.opsForHash().delete(key, hasKey);
+        return count;
+    }
+
+    //喜欢
+    public Integer loveMovement(String movementId) {
+
+        // 1.查询 用户是否点过赞
+        Boolean hasComment = commentApi.hasComment(movementId,
+                UserHolderUtil.getUserId(), CommentType.LOVE);
+
+        // 2.如果已经喜欢 抛出异常
+        if (hasComment) {
+            throw new BusinessException(ErrorResult.loveError());
+        }
+
+        // 3.如果没有点赞调用api 保存数据
+        Comment comment = new Comment();
+        comment.setPublishId(new ObjectId(movementId));
+        comment.setCommentType(CommentType.LOVE.getType());
+        comment.setUserId(UserHolderUtil.getUserId());
+        comment.setCreated(System.currentTimeMillis());
+
+        Integer count = commentApi.save(comment);
+
+        // 4.将点赞状态存入redis 将用户点赞状态存入redis
+        String key = Constants.MOVEMENTS_INTERACT_KEY + movementId;
+
+        String hasKey = Constants.MOVEMENT_LOVE_HASHKEY + UserHolderUtil.getUserId();
+
+        redisTemplate.opsForHash().put(key, hasKey, "1");
+
+        return count;
+
+    }
+
+    //不喜欢
+    public Integer unloveMovement(String movementId) {
+
+        // 1.查询 用户是否点过赞
+        Boolean hasComment = commentApi.hasComment(movementId,
+                UserHolderUtil.getUserId(), CommentType.LOVE);
+
+        // 2.如果未点赞  抛出异常
+        if (!hasComment) {
+            throw new BusinessException(ErrorResult.disloveError());
+        }
+
+        // 3.如果点赞了 调用api 删除数 返回点赞数量
+        Comment comment = new Comment();
+        comment.setPublishId(new ObjectId(movementId));
+        comment.setCommentType(CommentType.LOVE.getType());
+        comment.setUserId(UserHolderUtil.getUserId());
+
+        Integer count = commentApi.delete(comment);
+
+        // 4.删除 redis中的点赞状态
+
+        String key = Constants.MOVEMENTS_INTERACT_KEY + movementId;
+
+        String hasKey = Constants.MOVEMENT_LOVE_HASHKEY + UserHolderUtil.getUserId();
+
+        redisTemplate.opsForHash().delete(key, hasKey);
+        return count;
+    }
+
+    public Integer likeComment(String movementId) {
+        // 1.查询用户是否给这条评论点过赞
+        Boolean isThumb = commentApi.checkEvaluate(UserHolderUtil.getUserId(), movementId);
+
+        // 2.如果点过赞  抛出异常
+        if (isThumb) {
+            throw new BusinessException(ErrorResult.likeError());
+        }
+
+        // 3.如果没有点赞调用api 保存数据
+        Integer count =commentApi.saveEvaluate(UserHolderUtil.getUserId(), movementId);
+
+        // 4.将点赞状态存入redis 将用户点赞状态存入redis
+        String key = Constants.MOVEMENTS_INTERACT_KEY + movementId;
+        String  hashKey = Constants.MOVEMENT_EVALUATE_HASHKEY + UserHolderUtil.getUserId();
+        redisTemplate.opsForHash().put(key, hashKey, "1");
+
+        return count;
+    }
+
+    public Integer dislikeComment(String movementId) {
+
+        // 1.查询用户是否给这条评论点过赞
+        Boolean isThumb = commentApi.checkEvaluate(UserHolderUtil.getUserId(), movementId);
+
+        // 2.如果点过赞  抛出异常
+        if (!isThumb) {
+            throw new BusinessException(ErrorResult.likeError());
+        }
+
+        // 3.如果没有点赞调用api 保存数据
+        Integer count =commentApi.deleteEvaluate(UserHolderUtil.getUserId(), movementId);
+
+        // 4.将点赞状态存入redis 将用户点赞状态存入redis
+        String key = Constants.MOVEMENTS_INTERACT_KEY + movementId;
+        String  hashKey = Constants.MOVEMENT_EVALUATE_HASHKEY + UserHolderUtil.getUserId();
+        redisTemplate.opsForHash().delete(key, hashKey, "1");
+
+        return count;
+    }
+
+
+
+
+
 
 /*    //查询评论列表
     public PageResult queryComments(Integer page, Integer pageSize, String publishId) {

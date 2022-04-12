@@ -56,4 +56,7 @@ public class Constants {
 
     //关注用户的key
     public static final String FOCUS_USER_KEY = "FOCUS_USER_KEY_";
+
+
+    public static final String MOVEMENT_EVALUATE_HASHKEY ="MOVEMENT_EVALUATE_" ;
 }

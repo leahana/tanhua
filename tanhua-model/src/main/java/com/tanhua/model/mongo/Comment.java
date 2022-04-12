@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
+import java.io.Serializable;
 
 /**
  * 圈子互动表（点赞，评论，喜欢）
@@ -13,7 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 @Document(collection = "comment")
-public class Comment implements java.io.Serializable{
+public class Comment implements Serializable {
     
     private ObjectId id;
     private ObjectId publishId;    //动态id

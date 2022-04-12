@@ -207,6 +207,13 @@ public class MovementService {
                 if (redisTemplate.opsForHash().hasKey(key, hasKey)){
                     movementsVo.setHasLiked(1);
                 }
+
+                String lovHasKey=Constants.MOVEMENT_LOVE_HASHKEY+UserHolderUtil.getUserId();
+                if (redisTemplate.opsForHash().hasKey(key, lovHasKey)){
+                    movementsVo.setHasLoved(1);
+                }
+
+
                 list.add(movementsVo);
             }
         });

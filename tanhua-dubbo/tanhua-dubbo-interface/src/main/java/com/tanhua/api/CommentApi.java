@@ -17,4 +17,13 @@ public interface CommentApi {
 
     //判断comment数据是否存在
     Boolean hasComment(String movementId, Long userId, CommentType like);
+
+
+    Integer delete(Comment comment);
+
+    Boolean checkEvaluate(Long userId, String movementId);
+
+    Integer deleteEvaluate(Long userId, String movementId);
+
+    Integer saveEvaluate(Long userId, String movementId);
 }

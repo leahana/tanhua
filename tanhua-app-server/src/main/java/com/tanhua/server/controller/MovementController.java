@@ -103,7 +103,40 @@ public class MovementController {
     @GetMapping("/{id}/like")
     public ResponseEntity likeMovement(@PathVariable("id") String movementId) {
 
-        Integer count =commentsService.likeComment(movementId);
+        Integer count =commentsService.likeMovement(movementId);
+
+        return ResponseEntity.ok(count);
+    }
+    /**
+     * 取消点赞
+     */
+    @GetMapping("/{id}/dislike")
+    public ResponseEntity dislikeMovement(@PathVariable("id") String movementId) {
+
+        Integer count =commentsService.dislikeMovement(movementId);
+
+        return ResponseEntity.ok(count);
+    }
+
+
+
+    /**
+     * 喜欢
+     */
+    @GetMapping("/{id}/love")
+    public ResponseEntity loveMovement(@PathVariable("id") String movementId) {
+
+        Integer count =commentsService.loveMovement(movementId);
+
+        return ResponseEntity.ok(count);
+    }
+    /**
+     * 取消喜欢
+     */
+    @GetMapping("/{id}/unlove")
+    public ResponseEntity unloveMovement(@PathVariable("id") String movementId) {
+
+        Integer count =commentsService.unloveMovement(movementId);
 
         return ResponseEntity.ok(count);
     }
