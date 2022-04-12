@@ -1,9 +1,0 @@
-spring:
-  application:
-    name: tanhua-dubbo-mongo
-  cloud:
-    nacos:
-      config:
-        enabled: false
-      discovery:
-        server-addr: 192.168.136.160:8848
