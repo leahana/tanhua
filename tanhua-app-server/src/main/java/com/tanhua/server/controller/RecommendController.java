@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,7 +25,6 @@ public class RecommendController {
 
     @Autowired
     private RecommendService recommendService;
-
 
     @GetMapping("/todayBest")
     public ResponseEntity queryTodayBest() {
@@ -41,11 +41,9 @@ public class RecommendController {
         return ResponseEntity.ok(pageResult);
     }
 
-
     /**
      * 查看佳人信息
      */
-
     @GetMapping("/{id}/personalInfo")
     public ResponseEntity queryPersonalInfo(@PathVariable("id") Long userId) {
         TodayBest todayBest = recommendService.queryPersonalInfo(userId);
@@ -78,5 +76,35 @@ public class RecommendController {
 
         return ResponseEntity.ok(null);
     }
+
+    /**
+     * 探花-推荐用户列表
+     */
+    @GetMapping("/cards")
+    public ResponseEntity queryCardsList() {
+        List<TodayBest> list = this.recommendService.queryCardsList();
+        return ResponseEntity.ok(list);
+    }
+
+
+    /**
+     * 喜欢
+     */
+    @GetMapping("{id}/love")
+    public ResponseEntity<Void> likeUser(@PathVariable("id") Long likeUserId) {
+        this.recommendService.likeUser(likeUserId);
+        return ResponseEntity.ok(null);
+    }
+
+    /**
+     * 不喜欢
+     */
+    @GetMapping("{id}/unlove")
+    public ResponseEntity<Void> dislikeUser(@PathVariable("id") Long likeUserId) {
+        this.recommendService.dislikeUser(likeUserId);
+        return ResponseEntity.ok(null);
+    }
+
+
 
 }

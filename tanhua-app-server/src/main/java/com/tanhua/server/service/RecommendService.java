@@ -1,13 +1,17 @@
 package com.tanhua.server.service;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.tanhua.api.QuestionApi;
 import com.tanhua.api.RecommendUserApi;
 import com.tanhua.api.UserInfoApi;
+import com.tanhua.api.UserLikeApi;
 import com.tanhua.autoconfig.template.ImTemplate;
 import com.tanhua.commons.utils.Constants;
 import com.tanhua.model.domain.Question;
+import com.tanhua.model.domain.User;
 import com.tanhua.model.domain.UserInfo;
 import com.tanhua.model.dto.RecommendUserDto;
 import com.tanhua.model.mongo.RecommendUser;
@@ -18,6 +22,7 @@ import com.tanhua.server.exception.BusinessException;
 import com.tanhua.server.interceptor.UserHolderUtil;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -46,6 +51,12 @@ public class RecommendService {
 
     @Autowired
     private ImTemplate imTemplate;
+
+    @DubboReference
+    private UserLikeApi userLikeApi;
+
+    @Value("${tanhua.default.recommend.users}")
+    private String recommendUser;
 
     //查询今日佳人
     public TodayBest queryTodayBest() {
@@ -182,5 +193,51 @@ public class RecommendService {
             throw new BusinessException(ErrorResult.error());
         }
 
+    }
+
+    // 探花 查询推荐用户
+    public List<TodayBest> queryCardsList() {
+        // 1.调用 推荐api查询数据列表(排除喜欢/不喜欢, 数量限制
+        List<RecommendUser> userList = recommendUserApi.queryCardList(UserHolderUtil.getUserId(), 10);
+        // 2.判断数据是否存在,不存在默认构造
+
+        if (CollUtil.isEmpty(userList)) {
+            userList = new ArrayList<>();
+            String[] userIdS = recommendUser.split(",");
+            for (String userId : userIdS) {
+                RecommendUser recommendUser = new RecommendUser();
+                recommendUser.setUserId(Convert.toLong(userId));
+                recommendUser.setToUserId(UserHolderUtil.getUserId());
+                recommendUser.setScore(RandomUtil.randomDouble(60, 90));
+                userList.add(recommendUser);
+            }
+        }
+        // 3.构造vo
+        List<Long> ids = CollUtil.getFieldValues(userList, "userId", Long.class);
+        Map<Long, UserInfo> map = userInfoApi.findByIds(ids, null);
+        List<TodayBest> todayBestList = new ArrayList<>();
+        userList.forEach(item -> {
+            UserInfo userInfo = map.get(item.getUserId());
+            if (null != userInfo) {
+                TodayBest vo = TodayBest.init(userInfo, item);
+                todayBestList.add(vo);
+            }
+        });
+        return todayBestList;
+    }
+
+    public void likeUser(Long likeUserId) {
+        // 1. 保存喜欢数据到MongoDB中
+
+        // 2. 操作redis 写入喜欢的数据
+
+        // 3. 判断是否是双向喜欢
+
+        // 4. 添加好友
+
+
+    }
+
+    public void dislikeUser(Long likeUserId) {
     }
 }

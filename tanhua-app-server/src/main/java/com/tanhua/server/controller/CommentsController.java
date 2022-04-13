@@ -20,7 +20,6 @@ public class CommentsController {
     @Autowired
     private CommentsService commentsService;
 
-
     /**
      * 发布评论
      */

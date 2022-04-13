@@ -19,4 +19,6 @@ public interface RecommendUserApi {
     PageResult queryRecommendUserList(Long toUserId, Integer page, Integer pageSize);
 
     RecommendUser queryByUserId(Long userId, Long toUserId);
+
+    List<RecommendUser> queryCardList(Long userId, int i);
 }
