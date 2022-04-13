@@ -6,6 +6,7 @@ import com.tanhua.model.enums.CommentType;
 import com.tanhua.model.mongo.Comment;
 import com.tanhua.model.mongo.CommentOfEvaluate;
 import com.tanhua.model.mongo.Movement;
+import javafx.scene.shape.Circle;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -162,6 +163,7 @@ public class CommentApiImpl implements CommentApi {
         return evalueCount(commentId, 1);
     }
 
+
     private Integer evalueCount(String commentId, int type) {
 
         //根据评论id查询评论表中的数据
@@ -182,5 +184,29 @@ public class CommentApiImpl implements CommentApi {
         // 5.获取最新的评论数据返回
         assert comment != null;
         return comment.getLikeCount();
+    }
+
+    @Override
+    public List<Comment>  queryCommentUserIds(Long publishId, CommentType type, Integer page, Integer pageSize) {
+
+        Criteria criteria = Criteria.where("publishUserId").is(publishId);
+        if (type == CommentType.LIKE) {
+            //点赞
+            criteria.and("commentType").is(CommentType.LIKE.getType());
+        } else if (type == CommentType.COMMENT) {
+            //评论
+            criteria.and("commentType").is(CommentType.COMMENT.getType());
+        }else {
+            //喜欢
+            criteria.and("commentType").is(CommentType.LOVE.getType());
+        }
+
+        Query query = Query.query(criteria)
+                .skip((page - 1) * pageSize)
+                .limit(pageSize)
+                .with(Sort.by(Sort.Order.desc("created")));
+
+
+        return mongoTemplate.find(query, Comment.class);
     }
 }

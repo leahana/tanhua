@@ -49,7 +49,6 @@ public class CommentsController {
     }
 
 
-
     /**
      * 点赞
      */
@@ -60,6 +59,7 @@ public class CommentsController {
 
         return ResponseEntity.ok(count);
     }
+
     /**
      * 取消点赞
      */

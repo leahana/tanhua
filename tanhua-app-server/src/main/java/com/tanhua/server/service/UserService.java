@@ -1,7 +1,9 @@
 package com.tanhua.server.service;
 
 import com.tanhua.api.UserApi;
+import com.tanhua.autoconfig.template.ImTemplate;
 import com.tanhua.autoconfig.template.SmsTemplate;
+import com.tanhua.commons.utils.Constants;
 import com.tanhua.commons.utils.JwtUtils;
 import com.tanhua.model.domain.User;
 import com.tanhua.model.vo.ErrorResult;
@@ -38,6 +40,9 @@ public class UserService {
 
     @DubboReference
     private UserApi userApi;
+
+    @Autowired
+    private ImTemplate  imTemplate;
 
     /**
      * 发送验证码
@@ -93,6 +98,15 @@ public class UserService {
             Long userId = userApi.save(user);
             user.setId(userId);
             isNew = true;
+
+            //注册环信用户
+            String hxUser ="hx"+user.getId();
+            Boolean isCreated = imTemplate.createUser(hxUser, Constants.INIT_PASSWORD);
+            if (isCreated) {
+                user.setHxUser(hxUser);
+                user.setHxPassword(Constants.INIT_PASSWORD);
+                userApi.update(user);
+            }
         }
         // 6.生成token
         Map tokenMap = new HashMap();
@@ -107,19 +121,29 @@ public class UserService {
         return retMap;
     }
 
-
+    /**
+     * 更新手机号
+     * @param phone 手机号
+     */
     public void  updatePhone(String phone) {
         //获取用户id
         Long userId = UserHolderUtil.getUserId();
         userApi.updatePhone(phone, userId);
     }
 
+    /**
+     * 更新手机号 给旧手机发送验证码
+     */
     public void sendMsg() {
         //获取用户当前用户手机号 发送信息
         String mobile = UserHolderUtil.getMobile();
         this.sendMsg(mobile);
     }
 
+    /**
+     * 旧手机号验证码校验
+     * @param code 验证码
+     */
     public void checkMsg(String code) {
         //获取用户当前用户手机号 发送信息
         String mobile = UserHolderUtil.getMobile();
@@ -132,8 +156,13 @@ public class UserService {
         userApi.updatePhone(mobile,userId);
     }
 
-
+    /**
+     *  校验验证码
+     * @param phone 手机号
+     * @param code 验证码
+     */
     private void checkCode(String phone, String code) {
+
         // 1.获取redis中的验证码
         String redisCode = redisTemplate.opsForValue().get(CHECK_CODE_KEY + phone);
 

@@ -9,6 +9,8 @@ import com.tanhua.model.domain.User;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 /**
  * @Author: leah_ana
  * @Date: 2022/4/9 13:39
@@ -40,5 +42,28 @@ public class UserApiImpl implements UserApi {
         UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
         updateWrapper.eq("id", id).set("mobile", phone);
         userMapper.update(null, updateWrapper);
+    }
+
+    @Override
+    public void update(User user) {
+        userMapper.updateById(user);
+    }
+
+    @Override
+    public User queryById(Long userId) {
+        return userMapper.selectById(userId);
+    }
+
+    @Override
+    public User queryByImId(String imId) {
+        QueryWrapper<User> qw = new QueryWrapper<User>()
+                .eq("hx_user", imId);
+
+        return userMapper.selectOne(qw);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userMapper.selectList(null);
     }
 }

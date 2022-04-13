@@ -1,19 +1,28 @@
 package com.tanhua.server.service;
 
 import cn.hutool.core.collection.CollUtil;
+import com.alibaba.fastjson.JSONObject;
+import com.tanhua.api.QuestionApi;
 import com.tanhua.api.RecommendUserApi;
 import com.tanhua.api.UserInfoApi;
+import com.tanhua.autoconfig.template.ImTemplate;
+import com.tanhua.commons.utils.Constants;
+import com.tanhua.model.domain.Question;
 import com.tanhua.model.domain.UserInfo;
 import com.tanhua.model.dto.RecommendUserDto;
 import com.tanhua.model.mongo.RecommendUser;
+import com.tanhua.model.vo.ErrorResult;
 import com.tanhua.model.vo.PageResult;
 import com.tanhua.model.vo.TodayBest;
+import com.tanhua.server.exception.BusinessException;
 import com.tanhua.server.interceptor.UserHolderUtil;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -31,6 +40,12 @@ public class RecommendService {
 
     @DubboReference
     private UserInfoApi userInfoApi;
+
+    @DubboReference
+    private QuestionApi questionApi;
+
+    @Autowired
+    private ImTemplate imTemplate;
 
     //查询今日佳人
     public TodayBest queryTodayBest() {
@@ -56,6 +71,8 @@ public class RecommendService {
     }
 
     public PageResult queryRecommendationFriends(RecommendUserDto recommendUserDto) {
+
+
         // 1.获取用户id
         Long userId = UserHolderUtil.getUserId();
 
@@ -75,7 +92,7 @@ public class RecommendService {
 
 
         //结果为空 给他推荐小小难顶!
-        if (CollUtil.isNotEmpty(ids)||ids.size()==0) {
+        if (CollUtil.isEmpty(ids) || ids.size() == 0) {
             RecommendUser recommendUser = new RecommendUser();
             UserInfo info = userInfoApi.findById(106L);
             TodayBest vo = TodayBest.init(info, recommendUser);
@@ -123,4 +140,47 @@ public class RecommendService {
 
     }
 
+
+    public TodayBest queryPersonalInfo(Long userId) {
+
+        // 1.根据用户id查询用户详情
+        UserInfo userInfo = userInfoApi.findById(userId);
+
+        // 2.根据操作人id和查看用户的id查询缘分值
+        RecommendUser recommendUser = recommendUserApi.queryByUserId(userId, UserHolderUtil.getUserId());
+
+        // 3.构造返回值
+
+        return TodayBest.init(userInfo, recommendUser);
+    }
+
+    public String queryQuestions(Long userId) {
+        Question question = questionApi.queryQuestionByUserId(userId);
+        return question == null ? "你是?" : question.getTxt();
+    }
+
+    //回复陌生人问题
+    public void replyQuestions(Long userId, String reply) {
+        // 1. 构造消息数据
+        Long id = UserHolderUtil.getUserId();
+        UserInfo userinfo = userInfoApi.findById(id);
+
+        Map map = new HashMap();
+        map.put("userId", id);
+        map.put("huanxinId", Constants.HX_USER_PREFIX + id);
+        map.put("nickname", userinfo.getNickname());
+        map.put("strangerQuestion", queryQuestions(userId));
+        map.put("reply", reply);
+
+        String messge = JSONObject.toJSONString(map);
+
+        // 2.调用template对象.发送消息
+        Boolean aBoolean = imTemplate.sendMsg(
+                Constants.HX_USER_PREFIX + userId, messge);
+
+        if (!aBoolean) {
+            throw new BusinessException(ErrorResult.error());
+        }
+
+    }
 }

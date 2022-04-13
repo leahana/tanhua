@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class BasePojo implements Serializable {
+public abstract class BasePojo implements Serializable {
 
     @TableField(fill = FieldFill.INSERT)
     private Date created;

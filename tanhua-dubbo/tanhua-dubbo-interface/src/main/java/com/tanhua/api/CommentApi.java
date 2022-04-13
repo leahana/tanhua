@@ -26,4 +26,6 @@ public interface CommentApi {
     Integer deleteEvaluate(Long userId, String movementId);
 
     Integer saveEvaluate(Long userId, String movementId);
+
+    List<Comment>  queryCommentUserIds(Long publishId, CommentType type, Integer page, Integer pageSize);
 }

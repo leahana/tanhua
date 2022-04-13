@@ -54,6 +54,23 @@ public class RecommendUserApiImpl implements RecommendUserApi {
 
         return new PageResult(page, pageSize, count, recommendUserList);
     }
+
+
+    @Override
+    public RecommendUser queryByUserId(Long userId, Long toUserId) {
+        Criteria criteria = Criteria.where("toUserId").is(toUserId).and("userId").is(userId);
+
+        Query query = Query.query(criteria);
+
+        RecommendUser user = mongoTemplate.findOne(query, RecommendUser.class);
+        if (user == null) {
+            user=new RecommendUser();
+            user.setUserId(userId);
+            user.setToUserId(toUserId);
+            user.setScore(95d);
+        }
+        return user;
+    }
 }
 
 

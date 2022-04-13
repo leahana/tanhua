@@ -17,4 +17,6 @@ public interface RecommendUserApi {
 
     //查询好友推荐列表
     PageResult queryRecommendUserList(Long toUserId, Integer page, Integer pageSize);
+
+    RecommendUser queryByUserId(Long userId, Long toUserId);
 }

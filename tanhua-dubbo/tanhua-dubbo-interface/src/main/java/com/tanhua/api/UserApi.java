@@ -2,6 +2,8 @@ package com.tanhua.api;
 
 import com.tanhua.model.domain.User;
 
+import java.util.List;
+
 public interface UserApi {
 
 
@@ -13,4 +15,12 @@ public interface UserApi {
 
     //更新用户手机号
     void updatePhone(String phone,Long id);
+
+    void update(User user);
+
+    User queryById(Long userId);
+
+    User queryByImId(String imId);
+
+    List<User> findAll();
 }

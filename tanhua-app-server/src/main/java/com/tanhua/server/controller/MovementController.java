@@ -107,6 +107,7 @@ public class MovementController {
 
         return ResponseEntity.ok(count);
     }
+
     /**
      * 取消点赞
      */
@@ -118,8 +119,6 @@ public class MovementController {
         return ResponseEntity.ok(count);
     }
 
-
-
     /**
      * 喜欢
      */
@@ -130,6 +129,7 @@ public class MovementController {
 
         return ResponseEntity.ok(count);
     }
+
     /**
      * 取消喜欢
      */

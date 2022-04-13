@@ -18,4 +18,8 @@ public class User extends BasePojo {
     private Long id;
     private String mobile;
     private String password;
+
+    //环信用户信息
+    private String hxUser;
+    private String hxPassword;
 }

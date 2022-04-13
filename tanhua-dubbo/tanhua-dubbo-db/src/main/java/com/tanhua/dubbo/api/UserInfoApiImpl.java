@@ -57,7 +57,8 @@ public class UserInfoApiImpl implements UserInfoApi {
 
         if (userInfo != null) {
             queryWrapper.eq(!StringUtils.isEmpty(userInfo.getGender()), "gender", userInfo.getGender())
-                    .lt(userInfo.getAge() != null, "age", userInfo.getAge());
+                    .lt(userInfo.getAge() != null, "age", userInfo.getAge())
+                    .like(!StringUtils.isEmpty(userInfo.getNickname()),"nikename",userInfo.getNickname());
 
         }
 
