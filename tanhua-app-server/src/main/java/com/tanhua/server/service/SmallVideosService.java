@@ -5,6 +5,7 @@ import cn.hutool.core.util.PageUtil;
 import com.github.tobato.fastdfs.domain.conn.FdfsWebServer;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
+import com.tanhua.api.FocusUserApi;
 import com.tanhua.api.UserInfoApi;
 import com.tanhua.api.VideoApi;
 import com.tanhua.autoconfig.template.OssTemplate;
@@ -59,6 +60,8 @@ public class SmallVideosService {
     @DubboReference
     private UserInfoApi userInfoApi;
 
+    @DubboReference
+    private com.tanhua.api.FocusUserApi FocusUserApi;
 
     //上传视频
     public void saveVideos(MultipartFile videoThumbnail, MultipartFile videoFile) throws IOException {
@@ -94,7 +97,6 @@ public class SmallVideosService {
         // 1.查询redis
         String redisKey = Constants.VIDEOS_RECOMMEND + UserHolderUtil.getUserId();
         String redisValue = redisTemplate.opsForValue().get(redisKey);
-        System.err.println(redisValue);
         // 2.判断redis数据是否存在 判断redis中的数据是否满足本次分页条件
         List<Video> list = new ArrayList<>();
         int redisPage = 0;
@@ -120,6 +122,9 @@ public class SmallVideosService {
         List<Long> ids = CollUtil.getFieldValues(list, "userId", Long.class);
         // 6.查询用户信息
         Map<Long, UserInfo> map = userInfoApi.findByIds(ids, null);
+
+        //  查询用户是否关注
+
         // 7.构建返回值
         List<VideoVo> vos = new ArrayList<>();
         for (Video video : list) {
@@ -130,6 +135,26 @@ public class SmallVideosService {
             }
         }
 
-        return new PageResult(page,pageSize,0,vos);
+        return new PageResult(page, pageSize, 0, vos);
+    }
+
+    public void addUserFocus(Long uid) {
+        String key = Constants.FOCUS_USER_KEY + UserHolderUtil.getUserId();
+        String hashKey = uid.toString();
+        redisTemplate.opsForHash().put(key, hashKey, "1");
+        String _id = FocusUserApi.save(UserHolderUtil.getUserId(), uid);
+        if (StringUtils.isEmpty(_id)) {
+            throw new BusinessException(ErrorResult.error());
+        }
+    }
+
+    public void deleteUserFocus(Long uid) {
+        String key = Constants.FOCUS_USER_KEY + UserHolderUtil.getUserId();
+        String hashKey = uid.toString();
+        if (!redisTemplate.opsForHash().hasKey(key, hashKey)) {
+            throw new BusinessException(ErrorResult.error());
+        }
+        redisTemplate.opsForHash().delete(key, hashKey);
+        long delete = FocusUserApi.delete(UserHolderUtil.getUserId(), uid);
     }
 }

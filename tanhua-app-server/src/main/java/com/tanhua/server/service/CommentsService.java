@@ -2,14 +2,12 @@ package com.tanhua.server.service;
 
 import cn.hutool.core.collection.CollUtil;
 import com.tanhua.api.CommentApi;
-import com.tanhua.api.MovementApi;
 import com.tanhua.api.UserInfoApi;
 import com.tanhua.commons.utils.Constants;
 import com.tanhua.model.domain.UserInfo;
 import com.tanhua.model.enums.CommentType;
 import com.tanhua.model.mongo.Comment;
-import com.tanhua.model.mongo.CommentVo;
-import com.tanhua.model.mongo.Movement;
+import com.tanhua.model.vo.CommentVo;
 import com.tanhua.model.vo.ErrorResult;
 import com.tanhua.model.vo.PageResult;
 import com.tanhua.server.exception.BusinessException;
@@ -17,7 +15,6 @@ import com.tanhua.server.interceptor.UserHolderUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.bson.types.ObjectId;
-import org.checkerframework.checker.signature.qual.PolySignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -25,7 +22,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @Author: leah_ana
@@ -91,7 +87,6 @@ public class CommentsService {
 
     }
 
-
     /**
      * 动态 点赞
      */
@@ -124,7 +119,6 @@ public class CommentsService {
         return count;
     }
 
-
     public Integer dislikeMovement(String movementId) {
         // 1.查询 用户是否点过赞
         Boolean hasComment = commentApi.hasComment(movementId,
@@ -152,7 +146,6 @@ public class CommentsService {
         redisTemplate.opsForHash().delete(key, hasKey);
         return count;
     }
-
     //喜欢
     public Integer loveMovement(String movementId) {
 
@@ -184,7 +177,6 @@ public class CommentsService {
         return count;
 
     }
-
     //不喜欢
     public Integer unloveMovement(String movementId) {
 

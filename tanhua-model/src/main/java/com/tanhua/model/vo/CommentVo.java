@@ -1,4 +1,4 @@
-package com.tanhua.model.mongo;
+package com.tanhua.model.vo;
 
 import com.tanhua.model.domain.UserInfo;
 import com.tanhua.model.mongo.Comment;
