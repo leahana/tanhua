@@ -12,10 +12,7 @@ import com.tanhua.model.domain.User;
 import com.tanhua.model.domain.UserInfo;
 import com.tanhua.model.dto.RecommendUserDto;
 import com.tanhua.model.mongo.RecommendUser;
-import com.tanhua.model.vo.ErrorResult;
-import com.tanhua.model.vo.NearUserVo;
-import com.tanhua.model.vo.PageResult;
-import com.tanhua.model.vo.TodayBest;
+import com.tanhua.model.vo.*;
 import com.tanhua.server.exception.BusinessException;
 import com.tanhua.server.interceptor.UserHolderUtil;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -26,10 +23,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -56,6 +51,10 @@ public class RecommendService {
     private UserLocationApi locationApi;
 
 
+    @DubboReference
+    private VisitorsApi visitorsApi;
+
+
     @Autowired
     private ImTemplate imTemplate;
 
@@ -64,7 +63,6 @@ public class RecommendService {
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
-
 
     @Autowired
     private MessageService messageService;
@@ -164,6 +162,8 @@ public class RecommendService {
     }
 
 
+
+    //查看佳人信息
     public TodayBest queryPersonalInfo(Long userId) {
 
         // 1.根据用户id查询用户详情
@@ -171,6 +171,17 @@ public class RecommendService {
 
         // 2.根据操作人id和查看用户的id查询缘分值
         RecommendUser recommendUser = recommendUserApi.queryByUserId(userId, UserHolderUtil.getUserId());
+
+
+        //访客数据
+        Visitors visitors = new Visitors();
+        visitors.setUserId(userId);
+        visitors.setVisitorUserId(UserHolderUtil.getUserId());
+        visitors.setFrom("首页");
+        visitors.setDate(System.currentTimeMillis());
+        visitors.setVisitDate(new SimpleDateFormat("yyyyMMdd").format(new Date()));
+        visitors.setScore(recommendUser.getScore());
+        visitorsApi.save(visitors);
 
         // 3.构造返回值
 
@@ -259,7 +270,6 @@ public class RecommendService {
         }
     }
 
-
     public void dislikeUser(Long likeUserId) {
         // 1. 保存喜欢数据到MongoDB中
         Boolean save = userLikeApi.saveOrUpdate(UserHolderUtil.getUserId(), likeUserId, false);
@@ -284,7 +294,6 @@ public class RecommendService {
         String key = Constants.USER_LIKE_KEY + userId;
         return redisTemplate.opsForSet().isMember(key, likeUserId.toString());
     }
-
 
     // 搜附近
     public List<NearUserVo> queryNearby(String gender, String distance) {

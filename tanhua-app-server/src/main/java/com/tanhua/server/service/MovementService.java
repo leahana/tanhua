@@ -3,13 +3,12 @@ package com.tanhua.server.service;
 import cn.hutool.core.collection.CollUtil;
 import com.tanhua.api.MovementApi;
 import com.tanhua.api.UserInfoApi;
+import com.tanhua.api.VisitorsApi;
 import com.tanhua.autoconfig.template.OssTemplate;
 import com.tanhua.commons.utils.Constants;
 import com.tanhua.model.domain.UserInfo;
 import com.tanhua.model.mongo.Movement;
-import com.tanhua.model.vo.ErrorResult;
-import com.tanhua.model.vo.MovementsVo;
-import com.tanhua.model.vo.PageResult;
+import com.tanhua.model.vo.*;
 import com.tanhua.server.exception.BusinessException;
 import com.tanhua.server.interceptor.UserHolderUtil;
 import org.apache.dubbo.config.annotation.DubboReference;
@@ -34,18 +33,17 @@ public class MovementService {
     @Autowired
     private OssTemplate ossTemplate;
 
-
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
     @DubboReference
     private MovementApi movementApi;
 
-
     @DubboReference
     private UserInfoApi userInfoApi;
 
-
+    @DubboReference
+    private VisitorsApi visitorsApi;
 
 
     /**
@@ -203,13 +201,13 @@ public class MovementService {
 
                 String key = Constants.MOVEMENTS_INTERACT_KEY + movement.getId().toHexString();
 
-                String hasKey=Constants.MOVEMENT_LIKE_HASHKEY+UserHolderUtil.getUserId();
-                if (redisTemplate.opsForHash().hasKey(key, hasKey)){
+                String hasKey = Constants.MOVEMENT_LIKE_HASHKEY + UserHolderUtil.getUserId();
+                if (redisTemplate.opsForHash().hasKey(key, hasKey)) {
                     movementsVo.setHasLiked(1);
                 }
 
-                String lovHasKey=Constants.MOVEMENT_LOVE_HASHKEY+UserHolderUtil.getUserId();
-                if (redisTemplate.opsForHash().hasKey(key, lovHasKey)){
+                String lovHasKey = Constants.MOVEMENT_LOVE_HASHKEY + UserHolderUtil.getUserId();
+                if (redisTemplate.opsForHash().hasKey(key, lovHasKey)) {
                     movementsVo.setHasLoved(1);
                 }
 
@@ -221,4 +219,34 @@ public class MovementService {
         return new PageResult(page, pageSize, 0, list);
     }
 
+    //首页访客列表
+    public List<VisitorsVo> queryVisitorsList() {
+        // 1. 查询访问时间
+        String key = Constants.VISITORS_USER;
+        String hashKey = String.valueOf(UserHolderUtil.getUserId());
+
+        String value = (String) redisTemplate.opsForHash().get(key, hashKey);
+        Long date = StringUtils.isEmpty(value) ? null : Long.parseLong(value);
+
+        // 2.查询访客列表
+        List<Visitors> list = visitorsApi.queryVisitors(date, UserHolderUtil.getUserId());
+        if (CollUtil.isEmpty(list)) {
+            return new ArrayList<>();
+        }
+
+        // 3.提取用户id 查看用户详情
+        List<Long> ids = CollUtil.getFieldValues(list, "visitorUserId", Long.class);
+
+        Map<Long, UserInfo> map = userInfoApi.findByIds(ids, null);
+        // 4. 构建vo返回
+        List<VisitorsVo> vos = new ArrayList<>();
+        for (Visitors visitors : list) {
+            UserInfo userInfo = map.get(visitors.getVisitorUserId());
+            if (userInfo != null) {
+                VisitorsVo vo = VisitorsVo.init(userInfo, visitors);
+                vos.add(vo);
+            }
+        }
+        return vos;
+    }
 }

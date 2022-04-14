@@ -4,6 +4,7 @@ import com.sun.org.apache.regexp.internal.RE;
 import com.tanhua.model.mongo.Movement;
 import com.tanhua.model.vo.MovementsVo;
 import com.tanhua.model.vo.PageResult;
+import com.tanhua.model.vo.VisitorsVo;
 import com.tanhua.server.service.CommentsService;
 import com.tanhua.server.service.MovementService;
 import org.apache.commons.lang.enums.Enum;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @Author: leah_ana
@@ -139,5 +141,14 @@ public class MovementController {
         Integer count =commentsService.unloveMovement(movementId);
 
         return ResponseEntity.ok(count);
+    }
+
+    /**
+     * 谁看过我
+     */
+    @GetMapping("visitors")
+    public ResponseEntity queryVisitorsList(){
+        List<VisitorsVo> list = movementService.queryVisitorsList();
+        return ResponseEntity.ok(list);
     }
 }
