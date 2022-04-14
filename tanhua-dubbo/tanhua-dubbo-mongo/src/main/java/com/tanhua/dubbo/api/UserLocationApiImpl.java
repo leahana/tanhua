@@ -1,14 +1,20 @@
 package com.tanhua.dubbo.api;
 
+import cn.hutool.core.collection.CollUtil;
 import com.tanhua.api.UserLocationApi;
 import com.tanhua.model.mongo.UserLocation;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Circle;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Metrics;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+
+import java.util.List;
 
 /**
  * @Author: leah_ana
@@ -53,5 +59,28 @@ public class UserLocationApiImpl implements UserLocationApi {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public List<Long> queryNearbyUser(Long userId, Double metre) {
+        // 1.根据用户id查询用户位置信息
+
+        Query query = Query.query(Criteria.where("userId").is(userId));
+        UserLocation userLocation = mongoTemplate.findOne(query, UserLocation.class);
+        if (userLocation == null) return null;
+        // 2.以当前用户的位置为中心 绘制原点
+        GeoJsonPoint point = userLocation.getLocation();
+        // 3.绘制半径
+        Distance distance = new Distance(metre / 1000, Metrics.KILOMETERS);
+        // 4.绘制圆形
+        Circle circle = new Circle(point, distance);
+        // 5.查询
+        Query queryLocation = Query.query(Criteria.where("location").withinSphere(circle));
+
+        List<UserLocation> userLocations = mongoTemplate.find(queryLocation, UserLocation.class);
+
+        List<Long> ids = CollUtil.getFieldValues(userLocations, "userId", Long.class);
+
+        return ids;
     }
 }

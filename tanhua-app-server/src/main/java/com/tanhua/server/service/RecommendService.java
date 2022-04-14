@@ -4,10 +4,7 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.RandomUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.tanhua.api.QuestionApi;
-import com.tanhua.api.RecommendUserApi;
-import com.tanhua.api.UserInfoApi;
-import com.tanhua.api.UserLikeApi;
+import com.tanhua.api.*;
 import com.tanhua.autoconfig.template.ImTemplate;
 import com.tanhua.commons.utils.Constants;
 import com.tanhua.model.domain.Question;
@@ -16,6 +13,7 @@ import com.tanhua.model.domain.UserInfo;
 import com.tanhua.model.dto.RecommendUserDto;
 import com.tanhua.model.mongo.RecommendUser;
 import com.tanhua.model.vo.ErrorResult;
+import com.tanhua.model.vo.NearUserVo;
 import com.tanhua.model.vo.PageResult;
 import com.tanhua.model.vo.TodayBest;
 import com.tanhua.server.exception.BusinessException;
@@ -23,6 +21,7 @@ import com.tanhua.server.interceptor.UserHolderUtil;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.repository.Near;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -52,6 +51,10 @@ public class RecommendService {
 
     @DubboReference
     private UserLikeApi userLikeApi;
+
+    @DubboReference
+    private UserLocationApi locationApi;
+
 
     @Autowired
     private ImTemplate imTemplate;
@@ -227,7 +230,7 @@ public class RecommendService {
         List<TodayBest> todayBestList = new ArrayList<>();
         userList.forEach(item -> {
             UserInfo userInfo = map.get(item.getUserId());
-            if (userInfo!=null) {
+            if (userInfo != null) {
                 TodayBest vo = TodayBest.init(userInfo, item);
                 todayBestList.add(vo);
             }
@@ -275,14 +278,39 @@ public class RecommendService {
         // 3. 判断是否双向喜欢 如果喜欢 删除好友
 
 
-
-
     }
-
 
     public Boolean isLike(Long userId, Long likeUserId) {
         String key = Constants.USER_LIKE_KEY + userId;
         return redisTemplate.opsForSet().isMember(key, likeUserId.toString());
     }
 
+
+    // 搜附近
+    public List<NearUserVo> queryNearby(String gender, String distance) {
+        // 1.调用api 查询附近的用户(返回的是附近的人的所有用户的id
+        Long id = UserHolderUtil.getUserId();
+        List<Long> userIds = locationApi.queryNearbyUser(id, Double.valueOf(distance));
+        // 2.判断集合是否为空
+        if (CollUtil.isEmpty(userIds)) {
+            return new ArrayList<>();
+        }
+        // 3.调用 userInfoApi 根据用户id查询用户信息
+
+        UserInfo userInfo = new UserInfo();
+        userInfo.setGender(gender);
+        Map<Long, UserInfo> map = userInfoApi.findByIds(userIds, userInfo);
+        // 4.构造返回
+        List<NearUserVo> vos = new ArrayList<>();
+
+        for (Long userId : userIds) {
+            if (userId == id) continue;
+            UserInfo info = map.get(userId);
+            if (info != null) {
+                NearUserVo vo = NearUserVo.init(info);
+                vos.add(vo);
+            }
+        }
+        return vos;
+    }
 }

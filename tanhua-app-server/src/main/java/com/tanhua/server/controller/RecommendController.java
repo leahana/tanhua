@@ -3,6 +3,7 @@ package com.tanhua.server.controller;
 import cn.hutool.core.collection.CollUtil;
 import com.tanhua.api.QuestionApi;
 import com.tanhua.model.dto.RecommendUserDto;
+import com.tanhua.model.vo.NearUserVo;
 import com.tanhua.model.vo.PageResult;
 import com.tanhua.model.vo.TodayBest;
 import com.tanhua.server.service.RecommendService;
@@ -72,7 +73,7 @@ public class RecommendController {
         String reply = map.get("reply").toString();
 
 
-        recommendService.replyQuestions(userId,reply);
+        recommendService.replyQuestions(userId, reply);
 
         return ResponseEntity.ok(null);
     }
@@ -107,5 +108,14 @@ public class RecommendController {
     }
 
 
-
+    /**
+     * 搜附近
+     */
+    @GetMapping("/search")
+    public ResponseEntity queryNearby(String gender,
+                                      @RequestParam(defaultValue = "2000") String distance) {
+        List<NearUserVo> list = this.recommendService.queryNearby(gender, distance);
+        System.err.println(list);
+        return ResponseEntity.ok(list);
+    }
 }
