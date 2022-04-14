@@ -60,7 +60,7 @@ public class FriendApiImpl implements FriendApi {
     public List<Friend> queryFriends(Long userId, Integer page, Integer pageSize, String keyword) {
         Criteria criteria = Criteria.where("userId").is(userId);
         Query query = Query.query(criteria)
-                .skip((page - 1) * pageSize)
+                .skip((long) (page - 1) * pageSize)
                 .limit(pageSize)
                 .with(Sort.by(Sort.Order.desc("created")));
         return mongoTemplate.find(query, Friend.class);

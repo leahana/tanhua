@@ -123,7 +123,7 @@ public class UsersController {
     @PostMapping("/phone")
     public ResponseEntity updatePhone(@RequestBody Map map) {
 
-        String phone = (String)map.get("phone");
+        String phone = (String) map.get("phone");
         // 2. 校验参数
         if (phone == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("参数错误");
@@ -134,5 +134,11 @@ public class UsersController {
         userService.updatePhone(phone);
         UserHolderUtil.setMobile(phone);
         return ResponseEntity.ok(null);
+    }
+
+    @GetMapping("/counts")
+    public ResponseEntity queryCounts() {
+        Map<String, Integer> map = userService.queryCounts();
+        return ResponseEntity.ok(map);
     }
 }

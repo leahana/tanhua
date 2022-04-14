@@ -202,11 +202,9 @@ public class CommentApiImpl implements CommentApi {
         }
 
         Query query = Query.query(criteria)
-                .skip((page - 1) * pageSize)
+                .skip((long) (page - 1) * pageSize)
                 .limit(pageSize)
                 .with(Sort.by(Sort.Order.desc("created")));
-
-
         return mongoTemplate.find(query, Comment.class);
     }
 }

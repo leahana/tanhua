@@ -21,8 +21,10 @@ public class SettingsApiImpl implements SettingsApi {
 
     @Override
     public Settings querySettingsByUserId(Long userId) {
+
         QueryWrapper<Settings> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
+
         return settingsMapper.selectOne(queryWrapper);
     }
 

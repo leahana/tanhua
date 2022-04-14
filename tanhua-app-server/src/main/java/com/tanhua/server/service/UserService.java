@@ -1,6 +1,7 @@
 package com.tanhua.server.service;
 
 import com.tanhua.api.UserApi;
+import com.tanhua.api.UserLikeApi;
 import com.tanhua.autoconfig.template.ImTemplate;
 import com.tanhua.autoconfig.template.SmsTemplate;
 import com.tanhua.commons.utils.Constants;
@@ -41,8 +42,11 @@ public class UserService {
     @DubboReference
     private UserApi userApi;
 
+    @DubboReference
+    private UserLikeApi userLikeApi;
+
     @Autowired
-    private ImTemplate  imTemplate;
+    private ImTemplate imTemplate;
 
     /**
      * 发送验证码
@@ -100,7 +104,7 @@ public class UserService {
             isNew = true;
 
             //注册环信用户
-            String hxUser ="hx"+user.getId();
+            String hxUser = "hx" + user.getId();
             Boolean isCreated = imTemplate.createUser(hxUser, Constants.INIT_PASSWORD);
             if (isCreated) {
                 user.setHxUser(hxUser);
@@ -123,9 +127,10 @@ public class UserService {
 
     /**
      * 更新手机号
+     *
      * @param phone 手机号
      */
-    public void  updatePhone(String phone) {
+    public void updatePhone(String phone) {
         //获取用户id
         Long userId = UserHolderUtil.getUserId();
         userApi.updatePhone(phone, userId);
@@ -142,6 +147,7 @@ public class UserService {
 
     /**
      * 旧手机号验证码校验
+     *
      * @param code 验证码
      */
     public void checkMsg(String code) {
@@ -153,13 +159,14 @@ public class UserService {
         //获取用户id
         Long userId = UserHolderUtil.getUserId();
 
-        userApi.updatePhone(mobile,userId);
+        userApi.updatePhone(mobile, userId);
     }
 
     /**
-     *  校验验证码
+     * 校验验证码
+     *
      * @param phone 手机号
-     * @param code 验证码
+     * @param code  验证码
      */
     private void checkCode(String phone, String code) {
 
@@ -174,5 +181,23 @@ public class UserService {
         }
         // 3.删除redis中的验证码
         redisTemplate.delete(CHECK_CODE_KEY + phone);
+    }
+
+    /**
+     * 统计数量
+     * 1.双向喜欢数量  eachLoveCount
+     * 2.用户单项喜欢数量  loveCount
+     * 3.用户被单项喜欢数量 fanCount
+     */
+    public Map<String, Integer> queryCounts() {
+        Long userId = UserHolderUtil.getUserId();
+        //1 从redis中获取用户
+        //redisTemplate.
+
+
+        // 2.从mongodb中获取数据
+        Map<String, Integer> map = userLikeApi.queryCounts(userId);
+
+        return map;
     }
 }

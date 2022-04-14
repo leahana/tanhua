@@ -1,14 +1,25 @@
 package com.tanhua.dubbo.api;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.map.MapUtil;
 import com.tanhua.api.UserLikeApi;
+import com.tanhua.model.mongo.RecommendUser;
 import com.tanhua.model.mongo.UserLike;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.TypedAggregation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: leah_ana
@@ -46,5 +57,43 @@ public class UserLikeApiImpl implements UserLikeApi {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public Map<String, Integer> queryCounts(Long userId) {
+        int eachLoveCount = 0;
+        int loveCount = 0;
+        int fanCount;
+        // 根据用户id查询UserLike表
+        Criteria criteria = Criteria.where("userId").is(userId)
+                .and("isLike").is(true);
+        Query query = Query.query(criteria);
+
+        List<UserLike> likesUser = mongoTemplate.find(query, UserLike.class);
+
+        //用户喜欢
+        loveCount = likesUser.size();
+
+
+        criteria = Criteria.where("likeUserId").is(userId)
+                .and("isLike").is(true);
+        query = Query.query(criteria);
+
+        //用户粉丝
+        List<UserLike> userLikes = mongoTemplate.find(query, UserLike.class);
+        fanCount = userLikes.size() == 0 ? 0 : userLikes.size();
+
+        List<Long> likeUserIds = CollUtil.getFieldValues(likesUser, "likeUserId", Long.class);
+
+        List<Long> userLikeIds = CollUtil.getFieldValues(userLikes, "userId", Long.class);
+
+        likeUserIds.retainAll(userLikeIds);
+        eachLoveCount= likeUserIds.size();
+        HashMap<String, Integer> map = new HashMap<>();
+
+        map.put("eachLoveCount", eachLoveCount);
+        map.put("loveCount", loveCount);
+        map.put("fanCount", fanCount);
+        return map;
     }
 }
