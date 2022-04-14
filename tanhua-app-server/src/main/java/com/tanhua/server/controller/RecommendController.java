@@ -77,12 +77,13 @@ public class RecommendController {
         return ResponseEntity.ok(null);
     }
 
+
     /**
      * 探花-推荐用户列表
      */
     @GetMapping("/cards")
     public ResponseEntity queryCardsList() {
-        List<TodayBest> list = this.recommendService.queryCardsList();
+        List<TodayBest> list = recommendService.queryCardsList();
         return ResponseEntity.ok(list);
     }
 
@@ -90,7 +91,7 @@ public class RecommendController {
     /**
      * 喜欢
      */
-    @GetMapping("{id}/love")
+    @GetMapping("/{id}/love")
     public ResponseEntity<Void> likeUser(@PathVariable("id") Long likeUserId) {
         this.recommendService.likeUser(likeUserId);
         return ResponseEntity.ok(null);
@@ -99,7 +100,7 @@ public class RecommendController {
     /**
      * 不喜欢
      */
-    @GetMapping("{id}/unlove")
+    @GetMapping("/{id}/unlove")
     public ResponseEntity<Void> dislikeUser(@PathVariable("id") Long likeUserId) {
         this.recommendService.dislikeUser(likeUserId);
         return ResponseEntity.ok(null);

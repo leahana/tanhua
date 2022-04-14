@@ -85,12 +85,15 @@ public class RecommendUserApiImpl implements RecommendUserApi {
     @Override
     public List<RecommendUser> queryCardList(Long userId, int counts) {
         // 1. 查询 喜欢和不喜欢的用户
-        List<UserLike> userLikes = mongoTemplate.find(Query.query(Criteria.where("userId").is(userId)), UserLike.class);
+        List<UserLike> userLikes = mongoTemplate.find(
+                Query.query(Criteria.where("userId").is(userId)), UserLike.class);
+
         List<Long> likeUserIds = CollUtil.getFieldValues(userLikes, "likeUserId", Long.class);
         // 2.构造查询推荐用户的条件
         Criteria criteria = Criteria.where("toUserId").is(userId).and("userId").nin(likeUserIds);
         TypedAggregation<RecommendUser> newAggregation =
-                TypedAggregation.newAggregation(RecommendUser.class,
+                TypedAggregation.newAggregation(
+                        RecommendUser.class,
                         Aggregation.match(criteria),
                         Aggregation.sample(counts));
         // 3.使用统计函数

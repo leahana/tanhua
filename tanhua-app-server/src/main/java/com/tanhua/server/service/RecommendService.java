@@ -23,6 +23,7 @@ import com.tanhua.server.interceptor.UserHolderUtil;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -49,14 +50,22 @@ public class RecommendService {
     @DubboReference
     private QuestionApi questionApi;
 
-    @Autowired
-    private ImTemplate imTemplate;
-
     @DubboReference
     private UserLikeApi userLikeApi;
 
+    @Autowired
+    private ImTemplate imTemplate;
+
     @Value("${tanhua.default.recommend.users}")
     private String recommendUser;
+
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+
+
+    @Autowired
+    private MessageService messageService;
+
 
     //查询今日佳人
     public TodayBest queryTodayBest() {
@@ -218,7 +227,7 @@ public class RecommendService {
         List<TodayBest> todayBestList = new ArrayList<>();
         userList.forEach(item -> {
             UserInfo userInfo = map.get(item.getUserId());
-            if (null != userInfo) {
+            if (userInfo!=null) {
                 TodayBest vo = TodayBest.init(userInfo, item);
                 todayBestList.add(vo);
             }
@@ -228,16 +237,52 @@ public class RecommendService {
 
     public void likeUser(Long likeUserId) {
         // 1. 保存喜欢数据到MongoDB中
-
+        Boolean save = userLikeApi.saveOrUpdate(UserHolderUtil.getUserId(), likeUserId, true);
+        if (!save) {
+            throw new BusinessException(ErrorResult.error());
+        }
         // 2. 操作redis 写入喜欢的数据
+        redisTemplate.opsForSet().remove(
+                Constants.USER_NOT_LIKE_KEY + UserHolderUtil.getUserId(),
+                likeUserId.toString());
+        redisTemplate.opsForSet().add(
+                Constants.USER_LIKE_KEY + UserHolderUtil.getUserId(),
+                likeUserId.toString());
 
         // 3. 判断是否是双向喜欢
-
-        // 4. 添加好友
-
-
+        if (isLike(likeUserId, UserHolderUtil.getUserId())) {
+            // 4. 添加好友
+            messageService.addContact(likeUserId);
+        }
     }
+
 
     public void dislikeUser(Long likeUserId) {
+        // 1. 保存喜欢数据到MongoDB中
+        Boolean save = userLikeApi.saveOrUpdate(UserHolderUtil.getUserId(), likeUserId, false);
+        if (!save) {
+            throw new BusinessException(ErrorResult.error());
+        }
+
+        // 2. 操作redis 写入喜欢的数据
+        redisTemplate.opsForSet().add(
+                Constants.USER_NOT_LIKE_KEY + UserHolderUtil.getUserId(),
+                likeUserId.toString());
+        redisTemplate.opsForSet().remove(
+                Constants.USER_LIKE_KEY + UserHolderUtil.getUserId(),
+                likeUserId.toString());
+
+        // 3. 判断是否双向喜欢 如果喜欢 删除好友
+
+
+
+
     }
+
+
+    public Boolean isLike(Long userId, Long likeUserId) {
+        String key = Constants.USER_LIKE_KEY + userId;
+        return redisTemplate.opsForSet().isMember(key, likeUserId.toString());
+    }
+
 }
