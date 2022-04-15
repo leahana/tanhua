@@ -5,6 +5,7 @@ import com.tanhua.api.VideoApi;
 import com.tanhua.dubbo.utils.IdWorker;
 import com.tanhua.model.mongo.Video;
 import com.tanhua.model.mongo.VideoComment;
+import com.tanhua.model.vo.PageResult;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,24 +58,15 @@ public class VideoApiImpl implements VideoApi {
     }
 
     @Override
-    public Boolean checkVideoLike(Long userId, String videoId) {
-        Query query = Query.query(Criteria
-                .where("userId").is(userId)
-                .and("videoId").is(videoId)
-                .and("isLike").is(true));
+    public PageResult findByUserId(Integer page, Integer pageSize, Long userId) {
+        Query query = Query.query(Criteria.where("userId").is(userId));
+        long count = mongoTemplate.count(query, Video.class);
 
-        return mongoTemplate.exists(query, VideoComment.class);
+        query.limit(pageSize).skip((long) pageSize * (page - 1)).with(Sort.by(Sort.Order.desc("created")));
+
+        List<Video> videos = mongoTemplate.find(query, Video.class);
+        return new PageResult(page, pageSize, (int) count, videos);
     }
 
 
-    @Override
-    public long upsert(Long userId, String videoId, Boolean isLike) {
-        Query query = Query.query(Criteria.where("userId").is(userId).and("videoId").is(new ObjectId(videoId)));
-        Update update = new Update()
-                .set("isLike", isLike)
-                .set("updated", System.currentTimeMillis());
-        UpdateResult upsert = mongoTemplate.upsert(query, update, VideoComment.class);
-
-        return upsert.getModifiedCount();
-    }
 }

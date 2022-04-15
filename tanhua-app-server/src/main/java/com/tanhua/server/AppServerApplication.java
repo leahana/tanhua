@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+import org.springframework.cache.annotation.EnableCaching;
 
 /**
  * @Author: leah_ana
@@ -16,6 +17,7 @@ import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
         MongoAutoConfiguration.class,
         MongoDataAutoConfiguration.class
 })//排除Mongo自动配置
+@EnableCaching
 public class AppServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(AppServerApplication.class, args);

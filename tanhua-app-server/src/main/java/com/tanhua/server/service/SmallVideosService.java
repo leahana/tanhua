@@ -8,18 +8,20 @@ import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.tanhua.api.FocusUserApi;
 import com.tanhua.api.UserInfoApi;
 import com.tanhua.api.VideoApi;
+import com.tanhua.api.VideoCommentApi;
 import com.tanhua.autoconfig.template.OssTemplate;
 import com.tanhua.commons.utils.Constants;
 import com.tanhua.model.domain.UserInfo;
 import com.tanhua.model.mongo.Video;
-import com.tanhua.model.vo.ErrorResult;
-import com.tanhua.model.vo.PageResult;
-import com.tanhua.model.vo.VideoVo;
-import com.tanhua.model.vo.VisitorsVo;
+import com.tanhua.model.mongo.VideoComment;
+import com.tanhua.model.vo.*;
 import com.tanhua.server.exception.BusinessException;
 import com.tanhua.server.interceptor.UserHolderUtil;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -63,6 +65,9 @@ public class SmallVideosService {
     @DubboReference
     private FocusUserApi FocusUserApi;
 
+    @DubboReference
+    private VideoCommentApi videoCommentApi;
+
     //上传视频
     public void saveVideos(MultipartFile videoThumbnail, MultipartFile videoFile) throws IOException {
         if (videoThumbnail.isEmpty() || videoFile.isEmpty()) {
@@ -84,7 +89,7 @@ public class SmallVideosService {
         video.setUserId(UserHolderUtil.getUserId());
         video.setPicUrl(imageUrl);
         video.setVideoUrl(videoUrl);
-        video.setText("我就是个寄");
+        video.setText("测试视频");
         // 4.调用API保存数据
         String videoId = videoApi.save(video);
 
@@ -93,8 +98,9 @@ public class SmallVideosService {
         }
     }
 
-
     //获取视频列表
+    @Cacheable(value = "videos",
+            key = " T(com.tanhua.server.interceptor.UserHolderUtil).getUserId()+'_'+#page+'_'+#pageSize")
     public PageResult queryVideoList(Integer page, Integer pageSize) {
         // 1.查询redis
         String redisKey = Constants.VIDEOS_RECOMMEND + UserHolderUtil.getUserId();
@@ -155,7 +161,7 @@ public class SmallVideosService {
         String hashKey = uid.toString();
         Boolean isExist = FocusUserApi.checkUserFocus(UserHolderUtil.getUserId(), uid);
         if (isExist) {
-            throw  new BusinessException(ErrorResult.error());
+            throw new BusinessException(ErrorResult.error());
         }
         redisTemplate.opsForHash().put(key, hashKey, "1");
         long count = FocusUserApi.upsert(UserHolderUtil.getUserId(), uid, true);
@@ -177,12 +183,12 @@ public class SmallVideosService {
         // 查询用户是否点过赞
         String key = Constants.VIDEO_LIKE + UserHolderUtil.getUserId();
         String hashKey = Constants.VIDEO_LIKE_HASHKEY + videoId;
-        Boolean isExist = videoApi.checkVideoLike(UserHolderUtil.getUserId(), videoId);
+        Boolean isExist = videoCommentApi.checkVideoLike(UserHolderUtil.getUserId(), videoId);
         if (isExist) {
             throw new BusinessException(ErrorResult.error());
         }
         redisTemplate.opsForHash().put(key, hashKey, "1");
-        long count = videoApi.upsert(UserHolderUtil.getUserId(), videoId, true);
+        long count = videoCommentApi.upsert(UserHolderUtil.getUserId(), videoId, true);
         if (StringUtils.isEmpty(count)) {
             throw new BusinessException(ErrorResult.error());
         }
@@ -194,7 +200,69 @@ public class SmallVideosService {
         String key = Constants.VIDEO_LIKE + UserHolderUtil.getUserId();
         String hashKey = Constants.VIDEO_LIKE_HASHKEY + videoId;
         redisTemplate.opsForHash().delete(key, hashKey);
-        long upsert = videoApi.upsert(UserHolderUtil.getUserId(), videoId, false);
+        long upsert = videoCommentApi.upsert(UserHolderUtil.getUserId(), videoId, false);
 
+    }
+
+    //视频评论
+    public void addComments(String videoId, String content) {
+        // 1.获取操作用户
+        Long userId = UserHolderUtil.getUserId();
+        // 2.封装VideoComment对象
+        VideoComment videoComment = new VideoComment();
+        videoComment.setUserId(userId);
+        videoComment.setVideoId(new ObjectId(videoId));
+        videoComment.setContent(content);
+
+        // 3.保存评论
+        videoCommentApi.save(videoComment);
+    }
+
+    //视频评论点赞
+    public void addCommentsLike(String videoId) {
+
+        // 查询用户是否点过赞
+        String key = "video_comment_like" + UserHolderUtil.getUserId();
+        redisTemplate.opsForHash().put(key, videoId, "1");
+
+        videoCommentApi.addLike(UserHolderUtil.getUserId(), videoId);
+    }
+
+    //视频评论取消点赞
+    public void deleteCommentsLike(String videoId) {
+        String key = "video_comment_like" + UserHolderUtil.getUserId();
+        if (!redisTemplate.opsForHash().hasKey(key, videoId)) {
+            throw new BusinessException(ErrorResult.error());
+        }
+        redisTemplate.opsForHash().delete(key, videoId, "1");
+        videoCommentApi.deleteLike(UserHolderUtil.getUserId(), videoId);
+
+    }
+
+    //获取视频评论
+    public PageResult queryComments(String videoId, Integer page, Integer pageSize) {
+        // 1  查询 视频评论
+        List<VideoComment> vcs = videoCommentApi.queryComments(videoId, page, pageSize);
+        if (CollUtil.isEmpty(vcs)) {
+            return new PageResult();
+        }
+        // 2. 提取评论的用户id
+        List<Long> ids = CollUtil.getFieldValues(vcs, "userId", Long.class);
+        // 3. 根据用户id 查询用户详细信息
+        Map<Long, UserInfo> map = userInfoApi.findByIds(ids, null);
+
+        List<VideoCommentVo> vos = new ArrayList<>();
+        for (VideoComment vc : vcs) {
+            UserInfo userInfo = map.get(vc.getUserId());
+            if (userInfo != null) {
+                VideoCommentVo vo = VideoCommentVo.init(userInfo, vc);
+                String key = "video_comment_like" + UserHolderUtil.getUserId();
+                if (redisTemplate.opsForHash().hasKey(key, vc.getId().toString())) {
+                    vo.setHasLiked(1);
+                }
+                vos.add(vo);
+            }
+        }
+        return new PageResult(page, pageSize, 0, vos);
     }
 }

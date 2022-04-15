@@ -249,10 +249,6 @@ public class CommentsService {
     }
 
 
-
-
-
-
 /*    //查询评论列表
     public PageResult queryComments(Integer page, Integer pageSize, String publishId) {
         //  1. 根据id查询动态(publishId 查询 Comment集合

@@ -1,5 +1,6 @@
 package com.tanhua.api;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tanhua.model.domain.UserInfo;
 
 import java.util.List;
@@ -16,4 +17,7 @@ public interface UserInfoApi {
     void updateHeader(String imageUrl, Long userId);
 
     Map<Long,UserInfo> findByIds(List<Long> ids, UserInfo userInfo);
+
+    //分页查询
+    IPage findAll(Integer page,Integer pageSize);
 }

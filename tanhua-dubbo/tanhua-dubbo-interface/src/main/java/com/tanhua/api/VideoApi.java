@@ -1,6 +1,7 @@
 package com.tanhua.api;
 
 import com.tanhua.model.mongo.Video;
+import com.tanhua.model.vo.PageResult;
 
 import java.util.List;
 
@@ -11,8 +12,6 @@ public interface VideoApi {
 
     List<Video> queryVideos(int i, Integer pageSize);
 
-    Boolean checkVideoLike(Long userId, String videoId);
 
-    long upsert(Long userId, String videoId,Boolean isLike);
-
+    PageResult findByUserId(Integer page, Integer pageSize, Long userId);
 }

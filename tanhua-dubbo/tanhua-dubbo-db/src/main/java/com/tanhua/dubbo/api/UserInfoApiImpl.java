@@ -4,6 +4,8 @@ import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tanhua.api.UserInfoApi;
 import com.tanhua.dubbo.mappers.UserInfoMapper;
 import com.tanhua.model.domain.UserInfo;
@@ -75,5 +77,10 @@ public class UserInfoApiImpl implements UserInfoApi {
 //        list.forEach(temp ->
 //                map.put(temp.getId().toString(), temp));
         return map;
+    }
+
+    @Override
+    public IPage findAll(Integer page, Integer pageSize) {
+        return  userInfoMapper.selectPage(new Page<UserInfo>(page, pageSize), null);
     }
 }

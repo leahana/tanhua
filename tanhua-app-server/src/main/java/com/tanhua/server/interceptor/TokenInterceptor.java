@@ -21,13 +21,13 @@ public class TokenInterceptor implements HandlerInterceptor {
         String token = request.getHeader("Authorization");
 
         //2.实用工具类判断token是否合法
-        boolean verifyToken = JwtUtils.verifyToken(token);
-
-        //3. token失效返回401 拦截
-        if (!verifyToken) {
-            response.setStatus(401);
-            return false;
-        }
+//        boolean verifyToken = JwtUtils.verifyToken(token);
+//
+//        //3. token失效返回401 拦截
+//        if (!verifyToken) {
+//            response.setStatus(401);
+//            return false;
+//        }
         //4. token合法返回200 放行
 
         //解析token,获取id和手机号,构造User对象存入ThreadLocal
