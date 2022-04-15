@@ -27,28 +27,26 @@ public class FocusUserApiImpl implements FocusUserApi {
     private MongoTemplate mongoTemplate;
 
     @Override
-    public String save(Long userId, Long uid) {
-        FocusUser focusUser = new FocusUser();
-        focusUser.setUserId(userId);
-        focusUser.setFollowUserId(uid);
-        focusUser.setCreated(System.currentTimeMillis());
-        focusUser.setUpdated(System.currentTimeMillis());
-        focusUser.setIsDeleted(false);
-        FocusUser save = mongoTemplate.save(focusUser);
-        return save.getId().toHexString();
-    }
-
-    @Override
-    public long delete(Long userId, Long uid) {
-
+    public long upsert(Long userId, Long uid, Boolean isFocus) {
         Query query = Query.query(Criteria.where("userId").is(userId).and("followUserId").is(uid));
         Update update = new Update();
-
         update.set("updated", System.currentTimeMillis())
-                .set("isDeleted", true);
-
+                .set("userId", userId)
+                .set("followUserId", uid)
+                .set("isFocus", isFocus)
+                .set("updated", System.currentTimeMillis());
         UpdateResult upsert = mongoTemplate.upsert(query, update, FocusUser.class);
         return upsert.getMatchedCount();
     }
 
+
+    @Override
+    public Boolean checkUserFocus(Long userId, Long uid) {
+        Query query = Query.query(Criteria
+                .where("userId").is(userId)
+                .and("followUserId").is(uid)
+                .and("isFocus").is(true));
+        return mongoTemplate.exists(query, FocusUser.class);
+
+    }
 }

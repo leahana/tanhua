@@ -2,7 +2,9 @@ package com.tanhua.api;
 
 public interface FocusUserApi {
 
-    String save(Long userId, Long uid);
 
-    long delete(Long userId, Long uid);
+
+    long upsert(Long userId, Long uid, Boolean isFocus);
+
+    Boolean checkUserFocus(Long userId, Long id);
 }

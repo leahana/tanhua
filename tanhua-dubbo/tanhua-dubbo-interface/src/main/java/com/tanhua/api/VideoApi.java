@@ -10,4 +10,9 @@ public interface VideoApi {
     List<Video> queryMovementsByVids(List<Long> vids);
 
     List<Video> queryVideos(int i, Integer pageSize);
+
+    Boolean checkVideoLike(Long userId, String videoId);
+
+    long upsert(Long userId, String videoId,Boolean isLike);
+
 }

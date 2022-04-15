@@ -21,8 +21,6 @@ public class FocusUser implements Serializable {
     private ObjectId id; //主键id
     private Long userId;
     private Long followUserId;
-    private Long created;
     private Long updated;
-    private Boolean isDeleted;
-
+    private Boolean isFocus;
 }

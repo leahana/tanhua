@@ -61,7 +61,7 @@ public class SmallVideosService {
     private UserInfoApi userInfoApi;
 
     @DubboReference
-    private com.tanhua.api.FocusUserApi FocusUserApi;
+    private FocusUserApi FocusUserApi;
 
     //上传视频
     public void saveVideos(MultipartFile videoThumbnail, MultipartFile videoFile) throws IOException {
@@ -93,6 +93,8 @@ public class SmallVideosService {
         }
     }
 
+
+    //获取视频列表
     public PageResult queryVideoList(Integer page, Integer pageSize) {
         // 1.查询redis
         String redisKey = Constants.VIDEOS_RECOMMEND + UserHolderUtil.getUserId();
@@ -125,12 +127,21 @@ public class SmallVideosService {
 
         //  查询用户是否关注
 
+
         // 7.构建返回值
         List<VideoVo> vos = new ArrayList<>();
         for (Video video : list) {
             UserInfo userInfo = map.get(video.getUserId());
             if (userInfo != null) {
                 VideoVo vo = VideoVo.init(userInfo, video);
+                String FOCUS_USER_KEY = Constants.FOCUS_USER_KEY + UserHolderUtil.getUserId();
+                String hashKey = userInfo.getId().toString();
+                Boolean aBoolean = redisTemplate.opsForHash().hasKey(FOCUS_USER_KEY, hashKey);
+                vo.setHasFocus(aBoolean ? 1 : 0);
+                String VIDEO_LIKE_KEY = Constants.VIDEO_LIKE + UserHolderUtil.getUserId();
+                hashKey = Constants.VIDEO_LIKE_HASHKEY + video.getId();
+                Boolean isLike = redisTemplate.opsForHash().hasKey(VIDEO_LIKE_KEY, hashKey);
+                vo.setHasLiked(isLike ? 1 : 0);
                 vos.add(vo);
             }
         }
@@ -138,23 +149,52 @@ public class SmallVideosService {
         return new PageResult(page, pageSize, 0, vos);
     }
 
+    //关注
     public void addUserFocus(Long uid) {
         String key = Constants.FOCUS_USER_KEY + UserHolderUtil.getUserId();
         String hashKey = uid.toString();
+        Boolean isExist = FocusUserApi.checkUserFocus(UserHolderUtil.getUserId(), uid);
+        if (isExist) {
+            throw  new BusinessException(ErrorResult.error());
+        }
         redisTemplate.opsForHash().put(key, hashKey, "1");
-        String _id = FocusUserApi.save(UserHolderUtil.getUserId(), uid);
-        if (StringUtils.isEmpty(_id)) {
+        long count = FocusUserApi.upsert(UserHolderUtil.getUserId(), uid, true);
+        if (StringUtils.isEmpty(count)) {
             throw new BusinessException(ErrorResult.error());
         }
     }
 
+    //取消关注
     public void deleteUserFocus(Long uid) {
         String key = Constants.FOCUS_USER_KEY + UserHolderUtil.getUserId();
         String hashKey = uid.toString();
-        if (!redisTemplate.opsForHash().hasKey(key, hashKey)) {
+        redisTemplate.opsForHash().delete(key, hashKey);
+        long delete = FocusUserApi.upsert(UserHolderUtil.getUserId(), uid, false);
+    }
+
+    //点赞
+    public void addLike(String videoId) {
+        // 查询用户是否点过赞
+        String key = Constants.VIDEO_LIKE + UserHolderUtil.getUserId();
+        String hashKey = Constants.VIDEO_LIKE_HASHKEY + videoId;
+        Boolean isExist = videoApi.checkVideoLike(UserHolderUtil.getUserId(), videoId);
+        if (isExist) {
             throw new BusinessException(ErrorResult.error());
         }
+        redisTemplate.opsForHash().put(key, hashKey, "1");
+        long count = videoApi.upsert(UserHolderUtil.getUserId(), videoId, true);
+        if (StringUtils.isEmpty(count)) {
+            throw new BusinessException(ErrorResult.error());
+        }
+
+    }
+
+    //取消点赞
+    public void deleteLike(String videoId) {
+        String key = Constants.VIDEO_LIKE + UserHolderUtil.getUserId();
+        String hashKey = Constants.VIDEO_LIKE_HASHKEY + videoId;
         redisTemplate.opsForHash().delete(key, hashKey);
-        long delete = FocusUserApi.delete(UserHolderUtil.getUserId(), uid);
+        long upsert = videoApi.upsert(UserHolderUtil.getUserId(), videoId, false);
+
     }
 }

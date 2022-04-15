@@ -62,4 +62,46 @@ public class SmallVideosController {
         videosService.deleteUserFocus(uid);
         return ResponseEntity.ok(null);
     }
+
+
+    /**
+     * 视频点赞
+     *
+     */
+    @PostMapping("/{id}/like")
+    public ResponseEntity addLike(@PathVariable("id") String id) {
+        videosService.addLike(id);
+        return ResponseEntity.ok(null);
+    }
+
+
+    /**
+     * 视频取消点赞
+     */
+    @PostMapping("/{id}/dislike")
+    public ResponseEntity deleteLike(@PathVariable("id") String id) {
+        videosService.deleteLike(id);
+        return ResponseEntity.ok(null);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
