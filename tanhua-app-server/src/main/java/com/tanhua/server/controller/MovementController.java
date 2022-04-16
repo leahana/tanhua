@@ -41,6 +41,7 @@ public class MovementController {
     public ResponseEntity addMovement(Movement movement,
                                       MultipartFile[] imageContent) throws IOException {
 
+        System.err.println("发动态了发动态了");
         movementService.publishMovement(movement, imageContent);
 
         return ResponseEntity.ok(null);

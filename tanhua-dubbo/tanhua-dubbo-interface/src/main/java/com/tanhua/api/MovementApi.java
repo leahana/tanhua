@@ -9,7 +9,7 @@ import java.util.List;
 public interface MovementApi {
 
     //发布动态
-    void publishMovement(Movement movement);
+    String publishMovement(Movement movement);
 
     List<Movement> queryMovementsByUserId(Long userId, Integer page, Integer pageSize);
 
@@ -24,4 +24,6 @@ public interface MovementApi {
     PageResult findByUserId(Integer page, Integer pageSize, Long uid, Integer state);
 
     Movement findByMomentId(String commentId);
+
+    void updateState(String id, int state);
 }

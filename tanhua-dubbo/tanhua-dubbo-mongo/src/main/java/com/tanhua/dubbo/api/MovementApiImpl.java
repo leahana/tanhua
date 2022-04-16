@@ -17,6 +17,7 @@ import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.aggregation.TypedAggregation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 import java.util.List;
 
@@ -42,7 +43,7 @@ public class MovementApiImpl implements MovementApi {
 
 
     @Override
-    public void publishMovement(Movement movement) {
+    public String publishMovement(Movement movement) {
         // 1.保存动态详情
         try {
             //  1.1设置PID
@@ -75,13 +76,15 @@ public class MovementApiImpl implements MovementApi {
             //忽略事务处理
             e.printStackTrace();
         }
+        return movement.getId().toHexString();
     }
 
 
+    //查询个人动态
     @Override
     public List<Movement> queryMovementsByUserId(Long userId, Integer page, Integer pageSize) {
         // 1.构建Criteria
-        Criteria criteria = Criteria.where("userId").is(userId);
+        Criteria criteria = Criteria.where("userId").is(userId).and("status").is(1);
 
         // 2.构建Query
         Query query = Query.query(criteria).skip((long) (page - 1) * pageSize).limit(pageSize)
@@ -109,13 +112,12 @@ public class MovementApiImpl implements MovementApi {
         // 1.2 提取动态id
         List<ObjectId> ids = CollUtil.getFieldValues(timeLines, "movementId", ObjectId.class);
         // 1.3 查询动态详情表
-        Criteria criteriaTL = Criteria.where("id").in(ids);
+        Criteria criteriaTL = Criteria.where("id").in(ids).and("status").is(1);
         Query queryTL = Query.query(criteriaTL);
         // 2.返回结果
         return mongoTemplate.find(queryTL, Movement.class);
 
     }
-
 
     @Override
     public List<Movement> randomMovements(Integer counts) {
@@ -158,6 +160,7 @@ public class MovementApiImpl implements MovementApi {
         if (state != null) {
             query.addCriteria(Criteria.where("state").is(state));
         }
+
         long count = mongoTemplate.count(query, Movement.class);
         query.with(Sort.by(Sort.Order.desc("created")))
                 .limit(pageSize)
@@ -170,5 +173,12 @@ public class MovementApiImpl implements MovementApi {
     @Override
     public Movement findByMomentId(String commentId) {
         return mongoTemplate.findById(new ObjectId(commentId), Movement.class);
+    }
+
+    @Override
+    public void updateState(String movementId, int state) {
+        Query query = Query.query(Criteria.where("id").is(new ObjectId(movementId)));
+        Update update =Update.update("state",state);
+        mongoTemplate.updateFirst(query,update,Movement.class);
     }
 }

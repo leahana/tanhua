@@ -112,7 +112,7 @@ public class AliyunGreenTemplate {
                         resultMap.put("reson", "文章内容中有不确定词汇");
                         log.info("返回结果，resultMap={}", resultMap);
                         return resultMap;
-                    } else if (suggestion.equals("block")) {
+                    } else if ("block".equals(suggestion)) {
                         String reson = "文章内容中有敏感词汇";
                         if (label.equals("spam")) {
                             reson = "文章内容中含垃圾信息";

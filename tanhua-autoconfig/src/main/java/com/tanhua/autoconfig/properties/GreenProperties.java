@@ -19,4 +19,11 @@ public class GreenProperties {
      * 场景
      */
     String scenes;
+
+
+    String regionId;
+
+
+    String endpoint;
+
 }

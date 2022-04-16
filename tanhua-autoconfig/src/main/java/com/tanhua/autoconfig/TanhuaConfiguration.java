@@ -51,4 +51,8 @@ public class TanhuaConfiguration {
         return new AliyunGreenTemplate(properties);
     }
 
+    @Bean
+    public AlibabaGreenTemplate alibabaGreenTemplate(GreenProperties properties) {
+        return new AlibabaGreenTemplate(properties);
+    }
 }

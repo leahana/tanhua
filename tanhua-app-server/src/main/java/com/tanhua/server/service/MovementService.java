@@ -75,7 +75,8 @@ public class MovementService {
         movement.setMedias(imageUrlList);
         // 5.调用api完成发布动态
 
-        movementApi.publishMovement(movement);
+        String momentId = movementApi.publishMovement(movement);
+        mqMessageService.sendAudiMessage(momentId);
     }
 
     /**
@@ -182,7 +183,6 @@ public class MovementService {
             return null;
         }
     }
-
 
     //封装PageResult 好友动态通用动态的公用方法
     private PageResult getPageResult(Integer page, Integer pageSize, List<Movement> movements) {
