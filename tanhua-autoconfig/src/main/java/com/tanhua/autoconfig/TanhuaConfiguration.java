@@ -1,13 +1,8 @@
 package com.tanhua.autoconfig;
 
-import com.tanhua.autoconfig.properties.AipFaceProperties;
-import com.tanhua.autoconfig.properties.ImProperties;
-import com.tanhua.autoconfig.properties.OssProperties;
-import com.tanhua.autoconfig.properties.SmsProperties;
-import com.tanhua.autoconfig.template.ApiFaceTemplate;
-import com.tanhua.autoconfig.template.ImTemplate;
-import com.tanhua.autoconfig.template.OssTemplate;
-import com.tanhua.autoconfig.template.SmsTemplate;
+import com.tanhua.autoconfig.properties.*;
+import com.tanhua.autoconfig.template.*;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -21,7 +16,8 @@ import org.springframework.context.annotation.Configuration;
         SmsProperties.class,
         OssProperties.class,
         AipFaceProperties.class,
-        ImProperties.class
+        ImProperties.class,
+        GreenProperties.class
 })
 public class TanhuaConfiguration {
 
@@ -43,6 +39,16 @@ public class TanhuaConfiguration {
     @Bean
     public ImTemplate imTemplate(ImProperties properties) {
         return new ImTemplate(properties);
+    }
+
+    /**
+     * 检测文件中是否有tanhua.green开头的配置
+     * 同事enable属性为true
+     */
+    @Bean
+    @ConditionalOnProperty(prefix = "tanhua.green",value = "enable", havingValue = "true")
+    public AliyunGreenTemplate aliyunGreenTemplate(GreenProperties properties) {
+        return new AliyunGreenTemplate(properties);
     }
 
 }

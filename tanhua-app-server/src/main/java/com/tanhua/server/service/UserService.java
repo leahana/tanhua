@@ -1,5 +1,6 @@
 package com.tanhua.server.service;
 
+import com.alibaba.fastjson.JSON;
 import com.tanhua.api.UserApi;
 import com.tanhua.api.UserLikeApi;
 import com.tanhua.autoconfig.template.ImTemplate;
@@ -14,10 +15,12 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
 import java.util.HashMap;
@@ -50,6 +53,15 @@ public class UserService {
 
     @Autowired
     private UserFreezeService userFreezeService;
+
+
+    @Autowired
+    private AmqpTemplate amqpTemplate;
+
+
+    @Autowired
+    private MqMessageService messageService;
+
     /**
      * 发送验证码
      *
@@ -59,8 +71,8 @@ public class UserService {
         // 1.生成验证码
         //String code = RandomStringUtils.randomNumeric(6);
         User user = userApi.findByMobile(phone);
-        if (user!= null) {
-            userFreezeService.checkUserFreeze("1",user.getId());
+        if (user != null) {
+            userFreezeService.checkUserFreeze("1", user.getId());
         }
         String code = "123456";
         // 2.发送短信
@@ -89,7 +101,9 @@ public class UserService {
         User user = userApi.findByMobile(phone);
         boolean isNew = false;
         // 5.如果用户不存在，则创建用户
+        String type = "0101";
         if (user == null) {
+            type = "0102";
             user = new User();
             user.setMobile(phone);
 //            user.setCreated(new Date());
@@ -118,6 +132,22 @@ public class UserService {
                 userApi.update(user);
             }
         }
+//        try {
+//            Map map = new HashMap();
+//            map.put("userId", user.getId().toString());
+//            map.put("type", type);
+//            map.put("logtime", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+//            String message = JSON.toJSONString(map);
+//            amqpTemplate.convertAndSend(
+//                    "tanhua.log.exchange",
+//                    "log.user",
+//                    message);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+        messageService.sendLogMessage(user.getId(),type,"user",null);
+
         // 6.生成token
         Map tokenMap = new HashMap();
         tokenMap.put("id", user.getId());

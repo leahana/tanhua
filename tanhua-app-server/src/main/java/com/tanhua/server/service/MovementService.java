@@ -12,6 +12,7 @@ import com.tanhua.model.vo.*;
 import com.tanhua.server.exception.BusinessException;
 import com.tanhua.server.interceptor.UserHolderUtil;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -44,6 +45,9 @@ public class MovementService {
 
     @DubboReference
     private VisitorsApi visitorsApi;
+
+    @Autowired
+    private MqMessageService mqMessageService;
 
 
     /**
@@ -164,6 +168,7 @@ public class MovementService {
      * @return 动态详情
      */
     public MovementsVo queryByMovementId(String movementId) {
+        mqMessageService.sendLogMessage(UserHolderUtil.getUserId(),"0202","user",movementId);
         // 1. 根据movementId查询动态详情
         Movement movement = movementApi.queryByMovementId(movementId);
         // 2. 根据userId查询用户详情
