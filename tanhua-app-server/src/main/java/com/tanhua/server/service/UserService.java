@@ -48,6 +48,8 @@ public class UserService {
     @Autowired
     private ImTemplate imTemplate;
 
+    @Autowired
+    private UserFreezeService userFreezeService;
     /**
      * 发送验证码
      *
@@ -56,6 +58,10 @@ public class UserService {
     public void sendMsg(String phone) {
         // 1.生成验证码
         //String code = RandomStringUtils.randomNumeric(6);
+        User user = userApi.findByMobile(phone);
+        if (user!= null) {
+            userFreezeService.checkUserFreeze("1",user.getId());
+        }
         String code = "123456";
         // 2.发送短信
         //smsTemplate.sendSms(phone, code);

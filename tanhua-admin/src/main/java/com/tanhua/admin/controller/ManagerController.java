@@ -76,4 +76,18 @@ public class ManagerController {
         System.out.println("根本就没有这个请求"+messageID);
         return ResponseEntity.ok(null);
     }
+
+    //用户冻结
+    @PostMapping("/users/freeze")
+    public ResponseEntity freeze(@RequestBody Map params) {
+        Map map =  managerService.userFreeze(params);
+        return ResponseEntity.ok(map);
+    }
+
+    //用户解冻
+    @PostMapping("/users/unfreeze")
+    public ResponseEntity unfreeze(@RequestBody Map params) {
+        Map map =  managerService.userUnfreeze(params);
+        return ResponseEntity.ok(map);
+    }
 }

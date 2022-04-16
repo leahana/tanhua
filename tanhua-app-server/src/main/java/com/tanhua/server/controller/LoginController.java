@@ -36,6 +36,7 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody Map map) {
         String phone = (String) map.get("phone");
+
         userService.sendMsg(phone);
         // return ResponseEntity.status(500).body("出错");
         return ResponseEntity.ok("发送成功");

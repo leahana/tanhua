@@ -49,6 +49,7 @@ public class SystemController {
         //3、通过输出流输出验证码
         captcha.write(response.getOutputStream());
     }
+
     /**
      * 用户登录：
      */
@@ -66,5 +67,6 @@ public class SystemController {
         AdminVo vo = adminService.profile();
         return ResponseEntity.ok(vo);
     }
+
 
 }

@@ -1,20 +1,29 @@
 package com.tanhua.admin.service;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.json.JSONGetter;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tanhua.api.MovementApi;
 import com.tanhua.api.UserInfoApi;
 import com.tanhua.api.VideoApi;
+import com.tanhua.commons.utils.Constants;
 import com.tanhua.model.domain.UserInfo;
 import com.tanhua.model.mongo.Movement;
 import com.tanhua.model.vo.MovementsVo;
 import com.tanhua.model.vo.PageResult;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.checkerframework.checker.units.qual.A;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: leah_ana
@@ -33,14 +42,31 @@ public class ManagerService {
     @DubboReference
     private MovementApi movementApi;
 
-    public PageResult findAllUsers(Integer page, Integer pageSize) {
-        IPage iPage = userInfoApi.findAll(page, pageSize);
+    @Autowired
+    private RedisTemplate<String,String> redisTemplate;
 
+    public PageResult findAllUsers(Integer page, Integer pageSize) {
+
+
+        IPage<UserInfo> iPage = userInfoApi.findAll(page, pageSize);
+        iPage.getRecords().forEach(userInfo -> {
+            String key = Constants.USER_FREEZE + userInfo.getId();
+                if (redisTemplate.hasKey(key)) {
+                    userInfo.setUserStatus("2");
+                }
+        });
         return new PageResult(page, pageSize, (int) iPage.getTotal(), iPage.getRecords());
     }
 
     public UserInfo findUserById(Long userId) {
-        return userInfoApi.findById(userId);
+
+        String key = Constants.USER_FREEZE + userId;
+        UserInfo userInfo= userInfoApi.findById(userId);
+        if (redisTemplate.hasKey(key)) {
+            userInfo.setUserStatus("2");
+        }
+
+        return userInfo;
     }
 
     //分页查询用户动态
@@ -69,7 +95,6 @@ public class ManagerService {
         pageResult.setItems(vos);
         return pageResult;
     }
-
 
     public PageResult findAllVideos(Integer page, Integer pageSize, Long uid) {
         return videoApi.findByUserId(page, pageSize, uid);
@@ -105,7 +130,6 @@ public class ManagerService {
 //            map.put("likeCount", movement.getLikeCount());
 
 
-
         }
         return new MovementsVo();
     }
@@ -123,7 +147,7 @@ public class ManagerService {
                 map.put("nickname", userInfo.getNickname());
                 map.put("avatar", userInfo.getAvatar());
                 Date date = new Date(movement.getCreated());
-                map.put("createDate",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));
+                map.put("createDate", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));
                 map.put("textContent", movement.getTextContent());
                 map.put("imageContent", movement.getMedias());
                 map.put("state", movement.getState());
@@ -135,4 +159,40 @@ public class ManagerService {
         return map;
     }
 
+    public Map userFreeze(Map map) {
+        // 1. 构造key
+        String userId = map.get("userId").toString();
+        String key = Constants.USER_FREEZE + userId;
+        // 2. 构造失效时间
+        Integer freezingTime = Integer.valueOf( map.get("freezingTime").toString());
+
+        int days = 0;
+        if (freezingTime == 1) {
+            days = 3;
+        } else if (freezingTime == 2) {
+            days = 7;
+        }
+        // 3. 将数据存入redis
+        String value = JSON.toJSONString(map);
+        if (days > 0) {
+            redisTemplate.opsForValue().set(key, value, days, TimeUnit.DAYS);
+        } else {
+            redisTemplate.opsForValue().set(key, value);
+        }
+        Map retMap = new HashMap();
+        retMap.put("message", "冻结成功");
+        return retMap;
+    }
+
+
+    //用户解冻
+    public Map userUnfreeze(Map map) {
+        String userId = map.get("userId").toString();
+        String key = Constants.USER_FREEZE + userId;
+        //删除redis中的数据
+        redisTemplate.delete(key);
+        Map retMap = new HashMap();
+        retMap.put("message", "解冻成功");
+        return retMap;
+    }
 }
