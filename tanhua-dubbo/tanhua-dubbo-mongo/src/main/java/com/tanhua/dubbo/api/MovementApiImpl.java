@@ -6,6 +6,7 @@ import com.tanhua.dubbo.utils.IdWorker;
 import com.tanhua.dubbo.utils.TimeLineService;
 import com.tanhua.model.mongo.Movement;
 import com.tanhua.model.mongo.MovementTimeLine;
+import com.tanhua.model.vo.PageResult;
 import org.apache.dubbo.config.annotation.DubboService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -145,5 +146,29 @@ public class MovementApiImpl implements MovementApi {
     public Movement queryByMovementId(String movementId) {
 
         return mongoTemplate.findById(movementId, Movement.class);
+    }
+
+
+    @Override
+    public PageResult findByUserId(Integer page, Integer pageSize, Long uid, Integer state) {
+        Query query = new Query();
+        if (uid != null) {
+            query.addCriteria(Criteria.where("userId").is(uid));
+        }
+        if (state != null) {
+            query.addCriteria(Criteria.where("state").is(state));
+        }
+        long count = mongoTemplate.count(query, Movement.class);
+        query.with(Sort.by(Sort.Order.desc("created")))
+                .limit(pageSize)
+                .skip((long) (page - 1) * pageSize).limit(pageSize);
+        List<Movement> movements = mongoTemplate.find(query, Movement.class);
+
+        return new PageResult(page, pageSize, (int) count, movements);
+    }
+
+    @Override
+    public Movement findByMomentId(String commentId) {
+        return mongoTemplate.findById(new ObjectId(commentId), Movement.class);
     }
 }

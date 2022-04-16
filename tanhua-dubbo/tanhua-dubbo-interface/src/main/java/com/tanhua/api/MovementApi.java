@@ -20,4 +20,8 @@ public interface MovementApi {
     List<Movement> queryMovementsByPids(List<Long> pids);
 
     Movement queryByMovementId(String movementId);
+
+    PageResult findByUserId(Integer page, Integer pageSize, Long uid, Integer state);
+
+    Movement findByMomentId(String commentId);
 }
