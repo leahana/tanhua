@@ -169,7 +169,7 @@ public class MovementService {
      * @return 动态详情
      */
     public MovementsVo queryByMovementId(String movementId) {
-        mqMessageService.sendLogMessage(UserHolderUtil.getUserId(),"0202","user",movementId);
+        mqMessageService.sendLogMessage(UserHolderUtil.getUserId(),"0202","movement",movementId);
         // 1. 根据movementId查询动态详情
         Movement movement = movementApi.queryByMovementId(movementId);
         // 2. 根据userId查询用户详情

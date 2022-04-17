@@ -68,6 +68,9 @@ public class SmallVideosService {
     @DubboReference
     private VideoCommentApi videoCommentApi;
 
+    @Autowired
+    private MqMessageService mqMessageService;
+
     //上传视频
     public void saveVideos(MultipartFile videoThumbnail, MultipartFile videoFile) throws IOException {
         if (videoThumbnail.isEmpty() || videoFile.isEmpty()) {
@@ -96,6 +99,10 @@ public class SmallVideosService {
         if (StringUtils.isEmpty(videoId)) {
             throw new BusinessException(ErrorResult.error());
         }
+
+        //发送消息
+        mqMessageService.sendLogMessage(UserHolderUtil.getUserId(),"0301","video",videoId);
+
     }
 
     //获取视频列表

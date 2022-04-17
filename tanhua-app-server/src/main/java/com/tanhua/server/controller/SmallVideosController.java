@@ -6,6 +6,7 @@ package com.tanhua.server.controller;
  */
 
 import com.tanhua.model.vo.PageResult;
+import com.tanhua.server.service.MqMessageService;
 import com.tanhua.server.service.SmallVideosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
