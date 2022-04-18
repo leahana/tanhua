@@ -23,17 +23,22 @@ public class TokenInterceptor implements HandlerInterceptor {
     /**
      * 前置处理
      */
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request,
+                             HttpServletResponse response,
+                             Object handler) throws Exception {
         //1、获取头信息
         String token = request.getHeader("Authorization");
         token = token.replace("Bearer ", "");
 
         //2、调用service根据token查询用户
         Claims claims = JwtUtils.getClaims(token);
+
+        //3、构造Admin对象
         Admin admin = new Admin();
         admin.setId(claims.get("id",Long.class));
         admin.setUsername(claims.get("username",String.class));
-        //4、将对象存入Threadlocal
+
+        //4、将对象存入ThreadLocal
         AdminHolder.set(admin);
         return true;
     }

@@ -146,7 +146,7 @@ public class UserService {
 //            e.printStackTrace();
 //        }
 
-        messageService.sendLogMessage(user.getId(),type,"user",null);
+        messageService.sendLogMessage(user.getId(), type, "user", null);
 
         // 6.生成token
         Map tokenMap = new HashMap();
@@ -195,6 +195,7 @@ public class UserService {
         //获取用户id
         Long userId = UserHolderUtil.getUserId();
 
+        //调用api保存新手机号(手机号在token里面第一次登录已经保存在前端,暂时无法修改)
         userApi.updatePhone(mobile, userId);
     }
 
@@ -227,13 +228,12 @@ public class UserService {
      */
     public Map<String, Integer> queryCounts() {
         Long userId = UserHolderUtil.getUserId();
-        //1 从redis中获取用户
-        //redisTemplate.
-
+        //1 从redis中获取用户(暂无
 
         // 2.从mongodb中获取数据
         Map<String, Integer> map = userLikeApi.queryCounts(userId);
 
+        // 3.返回结果
         return map;
     }
 }

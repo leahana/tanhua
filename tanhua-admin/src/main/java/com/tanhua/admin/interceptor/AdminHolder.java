@@ -8,6 +8,7 @@ import com.tanhua.model.domain.Admin;
  */
 public class AdminHolder {
 
+    //静态创建局部线程对象
     private static ThreadLocal<Admin> admins = new ThreadLocal<>();
 
     //向当前线程存储数据
@@ -20,6 +21,7 @@ public class AdminHolder {
         return admins.get();
     }
 
+    //删除当前线程的数据
     public static void remove() {
         admins.remove();
     }

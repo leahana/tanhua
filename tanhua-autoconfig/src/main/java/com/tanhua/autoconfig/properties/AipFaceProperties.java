@@ -5,6 +5,9 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
+/**
+ * 百度人脸识别配置
+ */
 @Data
 @ConfigurationProperties("tanhua.aip")
 public class AipFaceProperties {

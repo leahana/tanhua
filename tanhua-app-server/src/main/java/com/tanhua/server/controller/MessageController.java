@@ -15,6 +15,7 @@ import java.util.Map;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/13 13:40
+ * @Desc: 环信消息
  */
 
 @RestController
@@ -25,7 +26,7 @@ public class MessageController {
     private MessageService messageService;
 
     /**
-     * 根据环信 用户id 查询用户详情
+     * 根据环信用户id 查询用户详情
      */
     @GetMapping("/userinfo")
     public ResponseEntity queryUserInfo(String huanxinId) {
@@ -35,11 +36,12 @@ public class MessageController {
 
 
     /**
-     * 添加好友
+     * 环信添加好友
      */
     @PostMapping("/contacts")
     public ResponseEntity addContact(@RequestBody Map map) {
 
+        // 获取好友用户id
         Long friendId = Long.valueOf(map.get("userId").toString());
         messageService.addContact(friendId);
 
@@ -47,6 +49,9 @@ public class MessageController {
     }
 
 
+    /**
+     * 查询好友消息
+     */
     @GetMapping("/contacts")
     public ResponseEntity queryFriends(@RequestParam(defaultValue = "1") Integer page,
                                        @RequestParam(defaultValue = "10") Integer pagesize,

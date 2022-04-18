@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/13 12:52
+ * @Desc: 环信
  */
 
 @RestController
@@ -24,14 +25,12 @@ public class ImController {
 
 
     /**
-     * 查询换新的账号密码
+     * 查询环信的账号密码
      */
     @GetMapping("/user")
     public ResponseEntity queryUser() {
         HuanXinUserVo vo = imService.queryUser();
-        System.err.println(vo);
         return ResponseEntity.ok(vo);
     }
-
 
 }

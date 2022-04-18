@@ -181,4 +181,5 @@ public class MovementApiImpl implements MovementApi {
         Update update =Update.update("state",state);
         mongoTemplate.updateFirst(query,update,Movement.class);
     }
+
 }

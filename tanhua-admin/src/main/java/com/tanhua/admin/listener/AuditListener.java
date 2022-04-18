@@ -19,6 +19,10 @@ import java.util.Map;
  * @Author: leah_ana
  * @Date: 2022/4/16 19:48
  */
+
+/**
+ * RabbitMq监听器
+ */
 @Component
 public class AuditListener {
 
@@ -26,8 +30,10 @@ public class AuditListener {
     @DubboReference
     private MovementApi movementApi;
 
-//    @Autowired
+//    @Autowired //这个阿里云审核的template暂时用不来 要开通 我没有钱!
 //    private AliyunGreenTemplate aliyunGreenTemplate;
+
+
     @Autowired
     private AlibabaGreenTemplate template;
 
@@ -52,7 +58,6 @@ public class AuditListener {
             if (movement != null && movement.getState() == 0) {
                 Map<String, String> txtScan = template.greenTextScan(movement.getTextContent());
                 Map imagScan = template.imageScan(movement.getMedias());
-
                 int state = 0;
                 if (txtScan != null && imagScan != null) {
                     String textSuggestion = txtScan.get("suggestion");

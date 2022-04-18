@@ -21,6 +21,7 @@ import java.util.Map;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/9 21:44
+ * @Desc: 用户资料验证
  */
 
 @RestController
@@ -83,7 +84,7 @@ public class UsersController {
      */
     @PostMapping("/header")
     public ResponseEntity updateHeader(MultipartFile headPhoto) throws IOException {
-        userInfoService.updateHeader(headPhoto, UserHolderUtil.getUserId());
+        userInfoService.updateHead(headPhoto, UserHolderUtil.getUserId());
         return ResponseEntity.ok(null);
     }
 
@@ -136,6 +137,11 @@ public class UsersController {
         return ResponseEntity.ok(null);
     }
 
+
+    /**
+     * 统计数据
+     * @return 单项喜欢 单项被喜欢 双向喜欢
+     */
     @GetMapping("/counts")
     public ResponseEntity queryCounts() {
         Map<String, Integer> map = userService.queryCounts();

@@ -57,11 +57,14 @@ public class MovementService {
      * @param imageContent 动态图片数组
      */
     public void publishMovement(Movement movement, MultipartFile[] imageContent) throws IOException {
+
         // 1.判断发布动态的内容是否存在
         if (StringUtils.isEmpty(movement.getTextContent()) && imageContent.length == 0)
             throw new BusinessException(ErrorResult.contentError());
+
         // 2.获取当前登录的用户id
         Long userId = UserHolderUtil.getUserId();
+
         // 3.将文件内容上传到阿里云Oss
         List<String> imageUrlList = new ArrayList<>();
         for (MultipartFile multipartFile : imageContent) {
@@ -73,9 +76,11 @@ public class MovementService {
         // 4.将对象封装到Movement中
         movement.setUserId(userId);
         movement.setMedias(imageUrlList);
-        // 5.调用api完成发布动态
 
+        // 5.调用api完成发布动态
         String momentId = movementApi.publishMovement(movement);
+
+        // 6.将动态id发送到RabbitMQ中
         mqMessageService.sendAudiMessage(momentId);
     }
 
@@ -119,11 +124,13 @@ public class MovementService {
      */
     public PageResult queryFriendsMovements(Integer page, Integer pageSize) {
 
-
         // 1.查询好友动态详情数据
         Long userId = UserHolderUtil.getUserId();
+
+        // 2.好友动态数据
         List<Movement> movements = movementApi.queryFriendsMovements(userId, page, pageSize);
 
+        // 3.返回结果
         return getPageResult(page, pageSize, movements);
     }
 
@@ -135,9 +142,9 @@ public class MovementService {
      * @return PageResult
      */
     public PageResult queryRecommendMovements(Integer page, Integer pageSize) {
+
         // 1.从redis中获取推荐数据
         String redisKey = Constants.MOVEMENTS_RECOMMEND + UserHolderUtil.getUserId();
-
         String redisValue = redisTemplate.opsForValue().get(redisKey);
         // 2.判断推荐数据是否存在
         //List<Movement> movementList = Collections.EMPTY_LIST;
@@ -153,12 +160,11 @@ public class MovementService {
             if ((page - 1) * pageSize < split.length) {
                 List<Long> pids = Arrays.stream(split).skip((long) (page - 1) * pageSize).limit(pageSize)
                         .map(Long::parseLong).collect(Collectors.toList());
+        // 5.根据pid数组查询用户数据
                 movementList = movementApi.queryMovementsByPids(pids);
             }
         }
-        // 5.根据pid数组查询用户数据
         // 6.构建返回值
-
         return getPageResult(page, pageSize, movementList);
     }
 
@@ -169,6 +175,8 @@ public class MovementService {
      * @return 动态详情
      */
     public MovementsVo queryByMovementId(String movementId) {
+        // 调用消息服务 发送日志信息到RabbitMQ
+
         mqMessageService.sendLogMessage(UserHolderUtil.getUserId(),"0202","movement",movementId);
         // 1. 根据movementId查询动态详情
         Movement movement = movementApi.queryByMovementId(movementId);
@@ -184,47 +192,9 @@ public class MovementService {
         }
     }
 
-    //封装PageResult 好友动态通用动态的公用方法
-    private PageResult getPageResult(Integer page, Integer pageSize, List<Movement> movements) {
-        if (CollUtil.isEmpty(movements)) return new PageResult();
-        //if (movements == null || movements.isEmpty()) return pageResult;
-        // 2. 提取动态发布人id
-        List<Long> ids = CollUtil.getFieldValues(movements, "userId", Long.class);
-
-        Map<Long, UserInfo> map = userInfoApi.findByIds(ids, null);
-
-        List<MovementsVo> list = new ArrayList<>();
-
-        // 2.查询好友动态发布人
-        movements.forEach(movement -> {
-            UserInfo userInfo = map.get(movement.getUserId());
-
-            // 3.构造vo对象
-            if (userInfo != null) {
-                MovementsVo movementsVo = MovementsVo.init(userInfo, movement);
-                //修复点赞状态bug
-
-                String key = Constants.MOVEMENTS_INTERACT_KEY + movement.getId().toHexString();
-
-                String hasKey = Constants.MOVEMENT_LIKE_HASHKEY + UserHolderUtil.getUserId();
-                if (redisTemplate.opsForHash().hasKey(key, hasKey)) {
-                    movementsVo.setHasLiked(1);
-                }
-
-                String lovHasKey = Constants.MOVEMENT_LOVE_HASHKEY + UserHolderUtil.getUserId();
-                if (redisTemplate.opsForHash().hasKey(key, lovHasKey)) {
-                    movementsVo.setHasLoved(1);
-                }
-
-
-                list.add(movementsVo);
-            }
-        });
-
-        return new PageResult(page, pageSize, 0, list);
-    }
-
-    //首页访客列表
+    /**
+     * 近日访客
+     * */
     public List<VisitorsVo> queryVisitorsList() {
         // 1. 查询访问时间
         String key = Constants.VISITORS_USER;
@@ -254,4 +224,46 @@ public class MovementService {
         }
         return vos;
     }
+
+    //封装PageResult 好友动态通用动态的公用方法
+    private PageResult getPageResult(Integer page, Integer pageSize, List<Movement> movements) {
+        if (CollUtil.isEmpty(movements)) return new PageResult();
+        //if (movements == null || movements.isEmpty()) return pageResult;
+        // 2. 提取动态发布人id
+        List<Long> ids = CollUtil.getFieldValues(movements, "userId", Long.class);
+
+        Map<Long, UserInfo> map = userInfoApi.findByIds(ids, null);
+
+        List<MovementsVo> list = new ArrayList<>();
+
+        // 2.查询好友动态发布人
+        movements.forEach(movement -> {
+            UserInfo userInfo = map.get(movement.getUserId());
+
+            // 3.构造vo对象
+            if (userInfo != null) {
+                MovementsVo movementsVo = MovementsVo.init(userInfo, movement);
+
+                String key = Constants.MOVEMENTS_INTERACT_KEY + movement.getId().toHexString();
+
+                //修复点赞状态bug(从redis中获取点赞状态)
+                String hasKey = Constants.MOVEMENT_LIKE_HASHKEY + UserHolderUtil.getUserId();
+                if (redisTemplate.opsForHash().hasKey(key, hasKey)) {
+                    movementsVo.setHasLiked(1);
+                }
+
+                //修复喜欢状态bug(从redis中获取喜欢状态)
+                String lovHasKey = Constants.MOVEMENT_LOVE_HASHKEY + UserHolderUtil.getUserId();
+                if (redisTemplate.opsForHash().hasKey(key, lovHasKey)) {
+                    movementsVo.setHasLoved(1);
+                }
+
+
+                list.add(movementsVo);
+            }
+        });
+
+        return new PageResult(page, pageSize, 0, list);
+    }
+
 }

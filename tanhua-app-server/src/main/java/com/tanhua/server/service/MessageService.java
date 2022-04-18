@@ -30,6 +30,7 @@ import java.util.Map;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/13 13:42
+ * @Desc: 消息
  */
 
 @Service
@@ -82,9 +83,13 @@ public class MessageService {
         return userInfoVo;
     }
 
+    /**
+     * 根据 添加环信好友方法
+     *
+     * @param friendId 好友id
+     */
     public void addContact(Long friendId) {
         // 1.将好友关系注册到环信
-
         Boolean aBoolean = imTemplate.addContact(
                 Constants.HX_USER_PREFIX + UserHolderUtil.getUserId(),
                 Constants.HX_USER_PREFIX + friendId);
@@ -97,7 +102,14 @@ public class MessageService {
 
     }
 
+    /**
+     * 分页查询好友列表
+     *
+     * @param keyword 关键字
+     * @return PageResult
+     */
     public PageResult queryFriends(Integer page, Integer pageSize, String keyword) {
+
         // 1.调用API查询当前用户的好友数据
         List<Friend> friendList = friendApi.queryFriends(UserHolderUtil.getUserId(), page, pageSize, keyword);
         if (CollUtil.isEmpty(friendList)) {
@@ -109,8 +121,10 @@ public class MessageService {
 
         UserInfo userInfo = new UserInfo();
         userInfo.setNickname(keyword);
+
         // 3.调用userInfoApi查询好友的详细信息
         Map<Long, UserInfo> map = userInfoApi.findByIds(ids, userInfo);
+
         // 4 构造vo对象
         List<ContactVo> voList = new ArrayList<>();
         friendList.forEach(friend -> {
@@ -127,16 +141,24 @@ public class MessageService {
     }
 
 
+    /**
+     * 分页查询消息列表
+     */
     public PageResult messageCommentList(CommentType type, Integer page, Integer pageSize) {
+
         // 1. 用户id查询互动的用户id
         List<Comment> comments = commentApi.queryCommentUserIds(UserHolderUtil.getUserId(), type, page, pageSize);
+        // 提取互动的用户id
         List<Long> ids = CollUtil.getFieldValues(comments, "userId", Long.class);
         if (CollUtil.isEmpty(ids)) {
             return new PageResult();
         }
+
         // 2. 根据用户的id查询用户信息
         Map<Long, UserInfo> map = userInfoApi.findByIds(ids, null);
         List<MessageLike> vos = new ArrayList<>();
+
+        // 3. 构造vo
         comments.forEach(comment -> {
             UserInfo userInfo = map.get(comment.getUserId());
             if (userInfo != null) {
@@ -149,20 +171,24 @@ public class MessageService {
             }
         });
 
-        System.err.println(vos);
-        // 3. 封装对象
-
+        // 4. 返回结果
         return new PageResult(page, pageSize, 0, vos);
     }
 
+    /**
+     * 分页查询公告列表
+     */
     public PageResult queryAnnouncements(Integer page, Integer pageSize) {
+        // 1. 查询公告列表(Mysql tb_announcement表)
         IPage<Announcement> iPage
                 = announcementApi.queryAnnouncements(page, pageSize);
         if (iPage == null) {
             return new PageResult();
         }
+
+        // 2. 构造vo
         List<Announcement> records = iPage.getRecords();
-       List<AnnouncementVo> vos =  new ArrayList<>();
+        List<AnnouncementVo> vos = new ArrayList<>();
         if (CollUtil.isNotEmpty(records)) {
             records.forEach(announcement -> {
                 AnnouncementVo vo = AnnouncementVo.init(announcement);
@@ -170,6 +196,7 @@ public class MessageService {
             });
         }
 
+        // 3. 返回结果
         return new PageResult(page, pageSize, 0, vos);
     }
 }

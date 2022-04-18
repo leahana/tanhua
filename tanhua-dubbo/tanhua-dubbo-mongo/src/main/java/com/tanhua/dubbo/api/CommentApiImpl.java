@@ -164,9 +164,9 @@ public class CommentApiImpl implements CommentApi {
     }
 
     @Override
-    public List<Comment>  queryCommentUserIds(Long publishId, CommentType type, Integer page, Integer pageSize) {
+    public List<Comment>  queryCommentUserIds(Long publishUserId, CommentType type, Integer page, Integer pageSize) {
 
-        Criteria criteria = Criteria.where("publishUserId").is(publishId);
+        Criteria criteria = Criteria.where("publishUserId").is(publishUserId);
         if (type == CommentType.LIKE) {
             //点赞
             criteria.and("commentType").is(CommentType.LIKE.getType());

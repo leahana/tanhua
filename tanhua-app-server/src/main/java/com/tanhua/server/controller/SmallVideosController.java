@@ -1,10 +1,5 @@
 package com.tanhua.server.controller;
 
-/**
- * @Author: leah_ana
- * @Date: 2022/4/14 20:42
- */
-
 import com.tanhua.model.vo.PageResult;
 import com.tanhua.server.service.MqMessageService;
 import com.tanhua.server.service.SmallVideosService;
@@ -15,6 +10,12 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Map;
+
+/**
+ * @Author: leah_ana
+ * @Date: 2022/4/14 20:42
+ * @Desc: 小视频
+ */
 
 @RestController
 @RequestMapping("/smallVideos")

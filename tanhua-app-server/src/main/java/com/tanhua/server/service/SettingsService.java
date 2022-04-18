@@ -17,6 +17,7 @@ import java.util.Map;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/10 10:47
+ * @Desc: 设置
  */
 
 @Service
@@ -31,7 +32,9 @@ public class SettingsService {
     @DubboReference
     private BlackListApi blackListApi;
 
-    //查询通用设置
+    /**
+     * 查询通用设置
+     */
     public SettingsVo querySettingsById() {
 
         SettingsVo vo = new SettingsVo();
@@ -55,7 +58,10 @@ public class SettingsService {
         return vo;
     }
 
-    //设置陌生人问题
+    /**
+     * 设置陌生人问题
+     * @param content 问题内容
+     */
     public void updateQuestion(String content) {
         // 1.获取用户id
         Long userId = UserHolderUtil.getUserId();
@@ -77,7 +83,10 @@ public class SettingsService {
         }
     }
 
-    //通知设置
+    /**
+     * 通知设置
+     * @param map (公告、评论、点赞)
+     */
     public void updateNotificationSetting(Map map) {
         // 1.获取用户id
         Long userId = UserHolderUtil.getUserId();
@@ -106,7 +115,9 @@ public class SettingsService {
         }
     }
 
-    //分页查询黑名单列表
+    /**
+     * 分页查询黑名单列表
+     */
     public PageResult queryBlackList(int page, int size) {
         // 1.获取当前用户id
         Long userId = UserHolderUtil.getUserId();
@@ -117,14 +128,19 @@ public class SettingsService {
         // 3.转换为PageResult
         PageResult pageResult =  new PageResult(page, size, (int) iPage.getTotal(), iPage.getRecords());
 
+        // 4.返回结果
         return pageResult;
     }
 
-    //取消黑名单
+    /**
+     * 取消黑名单
+     * @param blackUserId 黑名单用户id
+     */
     public void removeBlackList(Long blackUserId) {
         // 1.获取当前用户id
         Long userId = UserHolderUtil.getUserId();
 
+        // 2.调用api删除黑名单
         blackListApi.removeBlackListById(userId, blackUserId);
 
     }

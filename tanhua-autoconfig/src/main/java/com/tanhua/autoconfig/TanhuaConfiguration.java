@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/8 23:24
+ * @Desc: 第三方服务自动装配
  */
 @EnableConfigurationProperties({
         SmsProperties.class,

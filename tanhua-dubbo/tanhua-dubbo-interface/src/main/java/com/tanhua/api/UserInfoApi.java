@@ -14,8 +14,6 @@ public interface UserInfoApi {
 
     UserInfo findById(Long id);
 
-    void updateHeader(String imageUrl, Long userId);
-
     Map<Long,UserInfo> findByIds(List<Long> ids, UserInfo userInfo);
 
     //分页查询

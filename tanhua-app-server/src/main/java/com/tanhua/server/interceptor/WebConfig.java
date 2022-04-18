@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/9 22:28
+ * @Desc: 拦截器注册配置
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {

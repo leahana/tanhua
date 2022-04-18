@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * 拦截器的注册
- *  实现WebMvcConfigurer
+ * 实现WebMvcConfigurer
  */
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
@@ -18,6 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(tokenInterceptor)
                 .addPathPatterns("/**")  //拦截所有的请求
-                .excludePathPatterns("/system/users/login","/system/users/verification");
+                .excludePathPatterns("/system/users/login",
+                        "/system/users/verification");
     }
 }

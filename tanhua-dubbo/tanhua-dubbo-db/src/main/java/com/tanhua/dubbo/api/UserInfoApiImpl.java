@@ -44,11 +44,6 @@ public class UserInfoApiImpl implements UserInfoApi {
         return userInfoMapper.selectById(id);
     }
 
-    @Override
-    public void updateHeader(String imageUrl, Long userId) {
-        UpdateWrapper<UserInfo> updateWrapper = new UpdateWrapper<>();
-        updateWrapper.eq("id", userId).set("avatar", imageUrl);
-    }
 
     @Override
     public Map<Long, UserInfo> findByIds(List<Long> ids, UserInfo userInfo) {

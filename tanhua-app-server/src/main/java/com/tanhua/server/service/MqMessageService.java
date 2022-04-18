@@ -11,6 +11,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 发送消息队列消息工具类
+ */
 @Service
 public class MqMessageService {
 
@@ -20,12 +23,14 @@ public class MqMessageService {
     //发送日志消息
     public void sendLogMessage(Long userId,String type,String key,String busId) {
         try {
+            // 构建日志消息
             Map map = new HashMap();
             map.put("userId",userId.toString());
             map.put("type",type);
             map.put("logTime",new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
             map.put("busId",busId);
             String message = JSON.toJSONString(map);
+            // 发送消息到交换机
             amqpTemplate.convertAndSend("tanhua.log.exchange",
                     "log."+key,message);
         } catch (AmqpException e) {

@@ -16,6 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
+/**
+ * 管理员登录
+ */
 @RestController
 @RequestMapping("/system/users")
 public class SystemController {
@@ -67,6 +70,4 @@ public class SystemController {
         AdminVo vo = adminService.profile();
         return ResponseEntity.ok(vo);
     }
-
-
 }

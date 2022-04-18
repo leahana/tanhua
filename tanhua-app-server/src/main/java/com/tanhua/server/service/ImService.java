@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/13 12:55
+ * @Desc: 环信
  */
 
 @Service
@@ -31,7 +32,10 @@ public class ImService {
     private UserInfoApi userInfoApi;
 
 
-
+    /**
+     * 查询并构建环信用户Vo对象
+     * @return 环信用户
+     */
     public HuanXinUserVo queryUser() {
         Long userId = UserHolderUtil.getUserId();
         User user = userApi.queryById(userId);

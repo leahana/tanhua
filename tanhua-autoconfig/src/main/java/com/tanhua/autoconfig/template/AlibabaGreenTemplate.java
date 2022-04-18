@@ -17,6 +17,7 @@ import java.util.*;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/16 18:47
+ * @Desc: 阿里巴巴内容审核
  */
 @Slf4j
 public class AlibabaGreenTemplate {
@@ -59,10 +60,13 @@ public class AlibabaGreenTemplate {
                 }
             }
         }
-        //设置扫描场景
+        String[] scenesStr = scenesStr();
+        if (scenesStr == null) {
+            throw new Exception("scenesStr is null");
+        }
         ScanImageRequest scanImageRequest = new ScanImageRequest()
                 .setTask(list).setScene(java.util.Arrays.asList(
-                        "terrorism"));
+                        scenesStr));
         //  Results=[
         //  {DataId=97f2f209-958c-4688-9d78-c24569524186, TaskId=null, ImageURL=https://blob.keylol.com/forum/202204/16/170807aacpoxzo8i5ozhca.png?a=a,
         //  SubResults=[
@@ -112,24 +116,23 @@ public class AlibabaGreenTemplate {
         Map<String, String> resultMap = new HashMap();
         ScanTextRequest.ScanTextRequestTasks tasks = new ScanTextRequest.ScanTextRequestTasks()
                 .setContent(content);
-        ScanTextRequest.ScanTextRequestLabels labels0 = new ScanTextRequest.ScanTextRequestLabels()
-                .setLabel("terrorism");
-        ScanTextRequest.ScanTextRequestLabels labels1 = new ScanTextRequest.ScanTextRequestLabels()
-                .setLabel("ad");
-        ScanTextRequest.ScanTextRequestLabels labels2 = new ScanTextRequest.ScanTextRequestLabels()
-                .setLabel("porn");
+        String[] strings = scenesStr();
+        if (strings == null) throw new Exception("scenesStr is null");
+        List<ScanTextRequest.ScanTextRequestLabels> labelsList = new ArrayList<>();
+        for (String scene : strings) {
+            ScanTextRequest.ScanTextRequestLabels labels = new ScanTextRequest.ScanTextRequestLabels()
+                    .setLabel(scene);
+            labelsList.add(labels);
+        }
+
         ScanTextRequest scanTextRequest = new ScanTextRequest()
-                .setLabels(java.util.Arrays.asList(
-                        labels0,labels1,labels2
-                ))
-                .setTasks(java.util.Arrays.asList(
-                        tasks
-                ));
+                .setLabels(labelsList)
+                .setTasks(java.util.Arrays.asList(tasks));
         // 复制代码运行请自行打印 API 的返回值
         ScanTextResponse scanTextResponse = client.scanText(scanTextRequest);
         Map<String, Object> map = scanTextResponse.toMap();
         System.err.println(map);
-       // {headers={access-control-allow-origin=*, date=Sat, 16 Apr 2022 15:34:31 GMT, content-length=184,
+        // {headers={access-control-allow-origin=*, date=Sat, 16 Apr 2022 15:34:31 GMT, content-length=184,
         // access-control-max-age=172800, x-acs-request-id=86EB94F3-C6AC-51A5-8733-3A5132151E11, access-control-allow-headers=X-Requested-With, X-Sequence, _aop_secret, _aop_signature, x-acs-action, x-acs-version, x-acs-date, Content-Type, connection=keep-alive, content-type=application/json;charset=utf-8, access-control-allow-methods=POST, GET, OPTIONS, PUT, DELETE, x-acs-trace-id=1fbbab5544a08357df8a8071ae88befb},
         // body=
         // {RequestId=86EB94F3-C6AC-51A5-8733-3A5132151E11, Data={Elements=[{TaskId=txt37lTGA3240Y59OXpSeIq7U-1w3c2X, Results=[{Suggestion=pass, Details=null, Rate=99.91, Label=normal}]}]}}}
@@ -183,6 +186,15 @@ public class AlibabaGreenTemplate {
         resultMap.put("suggestion", "pass");
         resultMap.put("reson", "检测通过");
         return resultMap;
+    }
+
+
+    private String[] scenesStr() {
+        String scenes = greenProperties.getScenes();
+        if (scenes != null) {
+            return scenes.split(",");
+        }
+        return null;
     }
 }
 

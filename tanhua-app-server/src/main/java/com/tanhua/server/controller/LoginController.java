@@ -18,6 +18,7 @@ import java.util.Map;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/9 0:48
+ * @Desc: 用户登录
  */
 
 @RestController
@@ -35,8 +36,9 @@ public class LoginController {
      */
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody Map map) {
+        // 1.获取手机号
         String phone = (String) map.get("phone");
-
+        // 2.发送信息
         userService.sendMsg(phone);
         // return ResponseEntity.status(500).body("出错");
         return ResponseEntity.ok("发送成功");
@@ -55,7 +57,7 @@ public class LoginController {
         String phone = (String) map.get("phone");
         String code = (String) map.get("verificationCode");
         Map resMap = null;
-        // 2. 校验参数
+        // 2. 校验验证码参数
         if (phone == null || code == null) {
             result = false;
         } else {
@@ -63,8 +65,10 @@ public class LoginController {
             code = code.trim();
             resMap = userService.loginVerification(phone, code);
         }
+
         // 3.构造返回
         return result ? ResponseEntity.ok(resMap) : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("参数错误");
+
         /*try {
             boolean result = true;
             // 1. 获取参数

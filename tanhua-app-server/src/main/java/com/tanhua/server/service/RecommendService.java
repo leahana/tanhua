@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/10 19:28
+ * @Desc: 推荐
  */
 
 @Service
@@ -50,10 +51,8 @@ public class RecommendService {
     @DubboReference
     private UserLocationApi locationApi;
 
-
     @DubboReference
     private VisitorsApi visitorsApi;
-
 
     @Autowired
     private ImTemplate imTemplate;
@@ -68,14 +67,20 @@ public class RecommendService {
     private MessageService messageService;
 
 
-    //查询今日佳人
+    /**
+     * 查询今日佳人
+     *
+     * @return 今日佳人
+     */
     public TodayBest queryTodayBest() {
 
         // 1.获取用户id
         Long userId = UserHolderUtil.getUserId();
+
         // 2.调用api查询
         RecommendUser recommendUser = recommendUserApi.queryWithMaxScore(userId);
 
+        // 判断 如果没有推荐用户就构造一个默认用户
         if (recommendUser == null) {
             recommendUser = new RecommendUser();
             recommendUser.setUserId(1L);
@@ -84,21 +89,27 @@ public class RecommendService {
 
         // 2.1 根据 recommendUser 中的用户id 查询推荐用户的id
         UserInfo userInfo = userInfoApi.findById(recommendUser.getUserId());
-        // 3.分装成vo
+
+        // 3.封装成vo
         TodayBest todayBest = new TodayBest();
         TodayBest vo = TodayBest.init(userInfo, recommendUser);
-        // 4.返回
+
+        // 4.返回结果
         return vo;
     }
 
+    /**
+     * 查询推荐好友
+     * @param recommendUserDto 推荐好友参数
+     * @return 分页的  推荐好友
+     */
     public PageResult queryRecommendationFriends(RecommendUserDto recommendUserDto) {
-
 
         // 1.获取用户id
         Long userId = UserHolderUtil.getUserId();
-
         Integer page = recommendUserDto.getPage();
         Integer pageSize = recommendUserDto.getPageSize();
+
         // 2.获取分页中的RecommendUsers
         PageResult pageResult = recommendUserApi.queryRecommendUserList(userId, page, pageSize);
         List<RecommendUser> recommendUsers = (List<RecommendUser>) pageResult.getItems();
@@ -162,8 +173,11 @@ public class RecommendService {
     }
 
 
-
-    //查看佳人信息
+    /**
+     * 查看佳人信息
+     * @param userId 佳人用户id
+     * @return 佳人信息
+     */
     public TodayBest queryPersonalInfo(Long userId) {
 
         // 1.根据用户id查询用户详情
@@ -188,17 +202,28 @@ public class RecommendService {
         return TodayBest.init(userInfo, recommendUser);
     }
 
+    /**
+     * 查询用户默认问题
+     * @param userId 用户id
+     * @return 默认问题
+     */
     public String queryQuestions(Long userId) {
         Question question = questionApi.queryQuestionByUserId(userId);
+        //若果没有默认问题, 则构造默认问题为"你是?"
         return question == null ? "你是?" : question.getTxt();
     }
 
-    //回复陌生人问题
+    /**
+     * 回复陌生人问题
+     * @param userId 用户id
+     * @param reply 回复内容
+     */
     public void replyQuestions(Long userId, String reply) {
         // 1. 构造消息数据
         Long id = UserHolderUtil.getUserId();
         UserInfo userinfo = userInfoApi.findById(id);
 
+        // 2.构造消息详细信息
         Map map = new HashMap();
         map.put("userId", id);
         map.put("huanxinId", Constants.HX_USER_PREFIX + id);
@@ -206,24 +231,31 @@ public class RecommendService {
         map.put("strangerQuestion", queryQuestions(userId));
         map.put("reply", reply);
 
+        // 转换map对象为JSON字符串
         String messge = JSONObject.toJSONString(map);
 
         // 2.调用template对象.发送消息
         Boolean aBoolean = imTemplate.sendMsg(
                 Constants.HX_USER_PREFIX + userId, messge);
 
+        // 3.判断环信消息是否发送成功
         if (!aBoolean) {
             throw new BusinessException(ErrorResult.error());
         }
 
     }
 
-    // 探花 查询推荐用户
+    /**
+     * 查询探花推荐
+     * @return 今日佳人卡片集合
+     */
     public List<TodayBest> queryCardsList() {
-        // 1.调用 推荐api查询数据列表(排除喜欢/不喜欢, 数量限制
-        List<RecommendUser> userList = recommendUserApi.queryCardList(UserHolderUtil.getUserId(), 10);
-        // 2.判断数据是否存在,不存在默认构造
 
+        // 1.调用 推荐api查询数据列表(排除喜欢/不喜欢, 数量限制
+
+        List<RecommendUser> userList = recommendUserApi.queryCardList(UserHolderUtil.getUserId(), 10);
+
+        // 2.判断数据是否存在,不存在默认构造
         if (CollUtil.isEmpty(userList)) {
             userList = new ArrayList<>();
             String[] userIdS = recommendUser.split(",");
@@ -236,8 +268,11 @@ public class RecommendService {
             }
         }
         // 3.构造vo
+        //      3.1.提取用户id
         List<Long> ids = CollUtil.getFieldValues(userList, "userId", Long.class);
+        //      3.2.查询用户详情
         Map<Long, UserInfo> map = userInfoApi.findByIds(ids, null);
+        //      3.3.构造vo
         List<TodayBest> todayBestList = new ArrayList<>();
         userList.forEach(item -> {
             UserInfo userInfo = map.get(item.getUserId());
@@ -246,15 +281,22 @@ public class RecommendService {
                 todayBestList.add(vo);
             }
         });
+        // 4.返回结果
         return todayBestList;
     }
 
+    /**
+     * 查询探花卡片滑动喜欢
+     * @param likeUserId 喜欢的用户id
+     */
     public void likeUser(Long likeUserId) {
+
         // 1. 保存喜欢数据到MongoDB中
         Boolean save = userLikeApi.saveOrUpdate(UserHolderUtil.getUserId(), likeUserId, true);
         if (!save) {
             throw new BusinessException(ErrorResult.error());
         }
+
         // 2. 操作redis 写入喜欢的数据
         redisTemplate.opsForSet().remove(
                 Constants.USER_NOT_LIKE_KEY + UserHolderUtil.getUserId(),
@@ -270,8 +312,13 @@ public class RecommendService {
         }
     }
 
+    /**
+     * 查询探花卡片滑动不喜欢
+     * @param likeUserId  不喜欢的用户id
+     */
     public void dislikeUser(Long likeUserId) {
         // 1. 保存喜欢数据到MongoDB中
+
         Boolean save = userLikeApi.saveOrUpdate(UserHolderUtil.getUserId(), likeUserId, false);
         if (!save) {
             throw new BusinessException(ErrorResult.error());
@@ -286,13 +333,14 @@ public class RecommendService {
                 likeUserId.toString());
 
         // 3. 判断是否双向喜欢 如果喜欢 删除好友
+        if (isLike(likeUserId, UserHolderUtil.getUserId())) {
+            // 4. 删除好友
+            //      4.1.删除mongodb中的数据
 
+            //      4.2.删除redis中的数据
+            //      4.3.环信删除好友
+        }
 
-    }
-
-    public Boolean isLike(Long userId, Long likeUserId) {
-        String key = Constants.USER_LIKE_KEY + userId;
-        return redisTemplate.opsForSet().isMember(key, likeUserId.toString());
     }
 
     // 搜附近
@@ -321,5 +369,12 @@ public class RecommendService {
             }
         }
         return vos;
+    }
+
+
+    // 从redis中查询是否双向喜欢的方法
+    private Boolean isLike(Long userId, Long likeUserId) {
+        String key = Constants.USER_LIKE_KEY + userId;
+        return redisTemplate.opsForSet().isMember(key, likeUserId.toString());
     }
 }

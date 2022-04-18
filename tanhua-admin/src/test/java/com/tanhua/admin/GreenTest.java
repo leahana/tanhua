@@ -97,8 +97,7 @@ public class GreenTest {
     public void testScanImage2() throws Exception {
         List<String> list = new ArrayList<>();
 
-        list.add("https://blob.keylol.com/forum/202204/16/170807aacpoxzo8i5ozhca.png?a=a");
-        list.add("https://blob.keylol.com/forum/202204/16/170755tftpefdl4secedlf.png?a=a");
+        list.add("https://leahana-tanhua.oss-cn-hangzhou.aliyuncs.com/2022/04/09/1a559369-b0e2-49ea-98d9-8478ca9f04ff.png");
         //alibabaGreenTemplate.print(list);
     }
 

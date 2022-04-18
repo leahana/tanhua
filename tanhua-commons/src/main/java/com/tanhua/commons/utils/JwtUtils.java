@@ -8,6 +8,9 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.Date;
 import java.util.Map;
 
+/**
+ * token工具类
+ */
 public class JwtUtils {
 
     // TOKEN的有效期1小时（S）

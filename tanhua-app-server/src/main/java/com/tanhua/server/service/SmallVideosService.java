@@ -39,6 +39,7 @@ import java.util.stream.Collectors;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/14 20:43
+ * @Desc: 小视频
  */
 
 @Service
@@ -71,7 +72,13 @@ public class SmallVideosService {
     @Autowired
     private MqMessageService mqMessageService;
 
-    //上传视频
+    /**
+     * 上传视频
+     *
+     * @param videoThumbnail 视频缩略图
+     * @param videoFile      视频文件
+     * @throws IOException IO异常
+     */
     public void saveVideos(MultipartFile videoThumbnail, MultipartFile videoFile) throws IOException {
         if (videoThumbnail.isEmpty() || videoFile.isEmpty()) {
             throw new BusinessException(ErrorResult.error());
@@ -85,14 +92,17 @@ public class SmallVideosService {
                 videoFile.getSize(),
                 filename, null);
         String videoUrl = fdfsWebServer.getWebServerUrl() + storePath.getFullPath();
+
         // 2.将视频图片上传到阿里云oss
         String imageUrl = ossTemplate.upload(videoThumbnail.getOriginalFilename(), videoThumbnail.getInputStream());
+
         // 3.构建Videos对象
         Video video = new Video();
         video.setUserId(UserHolderUtil.getUserId());
         video.setPicUrl(imageUrl);
         video.setVideoUrl(videoUrl);
         video.setText("测试视频");
+
         // 4.调用API保存数据
         String videoId = videoApi.save(video);
 
@@ -100,18 +110,22 @@ public class SmallVideosService {
             throw new BusinessException(ErrorResult.error());
         }
 
-        //发送消息
-        mqMessageService.sendLogMessage(UserHolderUtil.getUserId(),"0301","video",videoId);
+        //发送日志消息到RabbitMQ
+        mqMessageService.sendLogMessage(UserHolderUtil.getUserId(), "0301", "video", videoId);
 
     }
 
-    //获取视频列表
+    /**
+     * 查询视频列表
+     * 加入了缓存注解 查询之后会将结果放入redis缓存中
+     */
     @Cacheable(value = "videos",
             key = " T(com.tanhua.server.interceptor.UserHolderUtil).getUserId()+'_'+#page+'_'+#pageSize")
     public PageResult queryVideoList(Integer page, Integer pageSize) {
         // 1.查询redis
         String redisKey = Constants.VIDEOS_RECOMMEND + UserHolderUtil.getUserId();
         String redisValue = redisTemplate.opsForValue().get(redisKey);
+
         // 2.判断redis数据是否存在 判断redis中的数据是否满足本次分页条件
         List<Video> list = new ArrayList<>();
         int redisPage = 0;
@@ -133,19 +147,19 @@ public class SmallVideosService {
 
             list = videoApi.queryVideos(page - redisPage, pageSize);
         }
+
         // 5.提取视频列表中所有的用户id
         List<Long> ids = CollUtil.getFieldValues(list, "userId", Long.class);
+
         // 6.查询用户信息
         Map<Long, UserInfo> map = userInfoApi.findByIds(ids, null);
-
-        //  查询用户是否关注
-
 
         // 7.构建返回值
         List<VideoVo> vos = new ArrayList<>();
         for (Video video : list) {
             UserInfo userInfo = map.get(video.getUserId());
             if (userInfo != null) {
+        //  查询用户是否关注
                 VideoVo vo = VideoVo.init(userInfo, video);
                 String FOCUS_USER_KEY = Constants.FOCUS_USER_KEY + UserHolderUtil.getUserId();
                 String hashKey = userInfo.getId().toString();
@@ -159,14 +173,21 @@ public class SmallVideosService {
             }
         }
 
+        // 8.返回
         return new PageResult(page, pageSize, 0, vos);
     }
 
-    //关注
+    /**
+     * 关注视频作者
+     * @param uid 视频作者id
+     */
     public void addUserFocus(Long uid) {
+        // 1.查询用户是否已关注
         String key = Constants.FOCUS_USER_KEY + UserHolderUtil.getUserId();
         String hashKey = uid.toString();
         Boolean isExist = FocusUserApi.checkUserFocus(UserHolderUtil.getUserId(), uid);
+
+        // 2.如果用户未关注 则添加关注
         if (isExist) {
             throw new BusinessException(ErrorResult.error());
         }
@@ -177,20 +198,33 @@ public class SmallVideosService {
         }
     }
 
-    //取消关注
+    /**
+     * 取消关注视频作者
+     * @param uid 视频作者id
+     */
     public void deleteUserFocus(Long uid) {
+
+        // 1.从redis中删除用户关注的视频作者
         String key = Constants.FOCUS_USER_KEY + UserHolderUtil.getUserId();
         String hashKey = uid.toString();
         redisTemplate.opsForHash().delete(key, hashKey);
+
+        // 2.mongoDB中 更新用户关注视频作者状态
         long delete = FocusUserApi.upsert(UserHolderUtil.getUserId(), uid, false);
     }
 
-    //点赞
+    /**
+     * 视频点赞
+     * @param videoId 视频id
+     */
     public void addLike(String videoId) {
-        // 查询用户是否点过赞
+
+        // 1.从redis中查询用户是否点过赞
         String key = Constants.VIDEO_LIKE + UserHolderUtil.getUserId();
         String hashKey = Constants.VIDEO_LIKE_HASHKEY + videoId;
         Boolean isExist = videoCommentApi.checkVideoLike(UserHolderUtil.getUserId(), videoId);
+
+        // 2.如果用户未点过赞 则添加点赞 并将数据保存在redis中
         if (isExist) {
             throw new BusinessException(ErrorResult.error());
         }
@@ -202,19 +236,30 @@ public class SmallVideosService {
 
     }
 
-    //取消点赞
+    /**
+     * 视频取消点赞
+     * @param videoId  视频id
+     */
     public void deleteLike(String videoId) {
+        // 1.从redis中删除用户点赞的视频
         String key = Constants.VIDEO_LIKE + UserHolderUtil.getUserId();
         String hashKey = Constants.VIDEO_LIKE_HASHKEY + videoId;
         redisTemplate.opsForHash().delete(key, hashKey);
+
+        // 2.mongoDB中 更新用户点赞视频状态
         long upsert = videoCommentApi.upsert(UserHolderUtil.getUserId(), videoId, false);
 
     }
 
-    //视频评论
+    /**
+     * 添加视频评论
+     * @param videoId 视频id
+     * @param content 评论内容
+     */
     public void addComments(String videoId, String content) {
         // 1.获取操作用户
         Long userId = UserHolderUtil.getUserId();
+
         // 2.封装VideoComment对象
         VideoComment videoComment = new VideoComment();
         videoComment.setUserId(userId);
@@ -225,17 +270,24 @@ public class SmallVideosService {
         videoCommentApi.save(videoComment);
     }
 
-    //视频评论点赞
+    /**
+     * 视频评论点赞
+     * @param videoId 视频id
+     */
     public void addCommentsLike(String videoId) {
 
         // 查询用户是否点过赞
         String key = "video_comment_like" + UserHolderUtil.getUserId();
         redisTemplate.opsForHash().put(key, videoId, "1");
 
+        // 更新点赞状态
         videoCommentApi.addLike(UserHolderUtil.getUserId(), videoId);
     }
 
-    //视频评论取消点赞
+    /**
+     * 视频评论取消点赞
+     * @param videoId 视频id
+     */
     public void deleteCommentsLike(String videoId) {
         String key = "video_comment_like" + UserHolderUtil.getUserId();
         if (!redisTemplate.opsForHash().hasKey(key, videoId)) {
@@ -243,26 +295,32 @@ public class SmallVideosService {
         }
         redisTemplate.opsForHash().delete(key, videoId, "1");
         videoCommentApi.deleteLike(UserHolderUtil.getUserId(), videoId);
-
     }
 
-    //获取视频评论
+    /**
+     * 查询视频评论
+     * @param videoId 视频id
+     */
     public PageResult queryComments(String videoId, Integer page, Integer pageSize) {
         // 1  查询 视频评论
         List<VideoComment> vcs = videoCommentApi.queryComments(videoId, page, pageSize);
         if (CollUtil.isEmpty(vcs)) {
             return new PageResult();
         }
+
         // 2. 提取评论的用户id
         List<Long> ids = CollUtil.getFieldValues(vcs, "userId", Long.class);
+
         // 3. 根据用户id 查询用户详细信息
         Map<Long, UserInfo> map = userInfoApi.findByIds(ids, null);
 
+        // 4. 封装vo数据
         List<VideoCommentVo> vos = new ArrayList<>();
         for (VideoComment vc : vcs) {
             UserInfo userInfo = map.get(vc.getUserId());
             if (userInfo != null) {
                 VideoCommentVo vo = VideoCommentVo.init(userInfo, vc);
+                // 从redis中查询用户是否点赞
                 String key = "video_comment_like" + UserHolderUtil.getUserId();
                 if (redisTemplate.opsForHash().hasKey(key, vc.getId().toString())) {
                     vo.setHasLiked(1);
@@ -270,6 +328,8 @@ public class SmallVideosService {
                 vos.add(vo);
             }
         }
+
+        // 5. 返回结果
         return new PageResult(page, pageSize, 0, vos);
     }
 }

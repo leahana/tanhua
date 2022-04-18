@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/9 22:23
+ * @Desc: 自定义拦截器 统一验证token(加入网关之后由网关统一验证)
  */
 
 public class TokenInterceptor implements HandlerInterceptor {

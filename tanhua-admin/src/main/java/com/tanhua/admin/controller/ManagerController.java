@@ -15,6 +15,9 @@ import java.util.Map;
  * @Date: 2022/4/15 23:46
  */
 
+/**
+ * 查询用户信息
+ */
 @RestController
 @RequestMapping("/manage")
 public class ManagerController {
@@ -22,6 +25,10 @@ public class ManagerController {
     @Autowired
     protected ManagerService managerService;
 
+
+    /**
+     * 分页查询用户信息
+     */
     @GetMapping("/users")
     public ResponseEntity users(@RequestParam(defaultValue = "1") Integer page,
                                 @RequestParam(defaultValue = "10") Integer pagesize) {
@@ -51,6 +58,14 @@ public class ManagerController {
         return ResponseEntity.ok(result);
     }
 
+    /**
+     * 查询指定用户发布的所有视频列表
+     * @param page
+     * @param pagesize
+     * @param uid
+     * @param state
+     * @return
+     */
     @GetMapping("/messages")
     public ResponseEntity messages(@RequestParam(defaultValue = "1") Integer page,
                                    @RequestParam(defaultValue = "10") Integer pagesize,
@@ -59,6 +74,11 @@ public class ManagerController {
         return ResponseEntity.ok(result);
     }
 
+    /**
+     * 根据冬天id查询用户动态详情
+     * @param commentId
+     * @return
+     */
     @GetMapping("/messages/{id}")
     public ResponseEntity queryMessage(@PathVariable("id") String commentId) {
         //  MovementsVo  vo = managerService.findMovementById(commentId);
@@ -68,6 +88,8 @@ public class ManagerController {
         return ResponseEntity.ok(map);
     }
 
+
+    // 没有收到这个请求
     @GetMapping("/messages/comments")
     public ResponseEntity comments(@RequestParam(defaultValue = "1") Integer page,
                                    @RequestParam(defaultValue = "10") Integer pagesize,
@@ -77,14 +99,18 @@ public class ManagerController {
         return ResponseEntity.ok(null);
     }
 
-    //用户冻结
+    /**
+     * 用户冻结
+     */
     @PostMapping("/users/freeze")
     public ResponseEntity freeze(@RequestBody Map params) {
         Map map =  managerService.userFreeze(params);
         return ResponseEntity.ok(map);
     }
 
-    //用户解冻
+    /**
+     * 用户解冻
+     */
     @PostMapping("/users/unfreeze")
     public ResponseEntity unfreeze(@RequestBody Map params) {
         Map map =  managerService.userUnfreeze(params);
