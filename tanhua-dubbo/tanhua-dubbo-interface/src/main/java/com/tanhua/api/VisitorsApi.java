@@ -8,4 +8,6 @@ public interface VisitorsApi {
     void save(Visitors visitors);
 
     List<Visitors> queryVisitors(Long date, Long userId);
+
+    List<Visitors> queryVisitorsWithPage(Long userId, Integer page, Integer pageSize);
 }

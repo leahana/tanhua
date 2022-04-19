@@ -51,4 +51,12 @@ public class VisitorsApiImpl implements VisitorsApi {
 
         return mongoTemplate.find(query, Visitors.class);
     }
+
+    @Override
+    public List<Visitors> queryVisitorsWithPage(Long userId,  Integer page, Integer pageSize) {
+        Criteria criteria = Criteria.where("visitorUserId").is(userId);
+        Query query = Query.query(criteria).skip((long) (page - 1) * pageSize).limit(pageSize)
+                .with(Sort.by(Sort.Order.desc("date")));
+        return mongoTemplate.find(query, Visitors.class);
+    }
 }

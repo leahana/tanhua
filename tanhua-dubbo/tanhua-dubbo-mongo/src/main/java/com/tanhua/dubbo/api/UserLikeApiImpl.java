@@ -88,7 +88,7 @@ public class UserLikeApiImpl implements UserLikeApi {
         List<Long> userLikeIds = CollUtil.getFieldValues(userLikes, "userId", Long.class);
 
         likeUserIds.retainAll(userLikeIds);
-        eachLoveCount= likeUserIds.size();
+        eachLoveCount = likeUserIds.size();
         HashMap<String, Integer> map = new HashMap<>();
 
         map.put("eachLoveCount", eachLoveCount);
@@ -96,4 +96,54 @@ public class UserLikeApiImpl implements UserLikeApi {
         map.put("fanCount", fanCount);
         return map;
     }
+
+
+    @Override//查询用户喜欢的人
+    public List<UserLike> findUserLikes(Long userId) {
+
+        Criteria criteria = Criteria.where("isLike").is(true).and("userId").is(userId);
+        Query query = Query.query(criteria).with(Sort.by(Sort.Order.desc("updated")));
+        return mongoTemplate.find(query, UserLike.class);
+    }
+
+    @Override
+    public List<UserLike> findUserLikes(Long userId, Integer page, Integer pageSize) {
+        Criteria criteria = Criteria.where("isLike").is(true).and("userId").is(userId);
+        Query query = Query.query(criteria).skip((long) (page - 1) * pageSize)
+                .limit(pageSize).with(Sort.by(Sort.Order.desc("updated")));
+
+        return mongoTemplate.find(query, UserLike.class);
+    }
+
+    @Override
+    public List<UserLike> findUserLikes(Integer page, Integer pageSize, Long likeUserId) {
+        Criteria criteria = Criteria.where("isLike").is(true).and("likeUserId").is(likeUserId);
+        Query query = Query.query(criteria).skip((long) (page - 1) * pageSize)
+                .limit(pageSize).with(Sort.by(Sort.Order.desc("updated")));
+        return mongoTemplate.find(query, UserLike.class);
+    }
+
+
+
+/*
+
+    @Override//2 我关注
+    public List<UserLike> findWithType2(String type, Integer page, Integer pageSize, Long userId) {
+
+        Criteria criteria = Criteria.where("isLike").is(true).and("userId").is(userId);
+        Query query = Query.query(criteria).skip((long) (page - 1) * pageSize)
+                .limit(pageSize).with(Sort.by(Sort.Order.desc("updated")));
+
+        return mongoTemplate.find(query, UserLike.class);
+    }
+
+    @Override//3 我的粉丝
+    public List<UserLike> findWithType3(String type, Integer page, Integer pageSize, Long userId) {
+        Criteria criteria = Criteria.where("isLike").is(true).and("likeUserId").is(userId);
+        Query query = Query.query(criteria).skip((long) (page - 1) * pageSize)
+                .limit(pageSize).with(Sort.by(Sort.Order.desc("updated")));
+        return mongoTemplate.find(query, UserLike.class);
+    }
+*/
+
 }

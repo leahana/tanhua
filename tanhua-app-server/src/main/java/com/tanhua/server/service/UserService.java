@@ -1,30 +1,36 @@
 package com.tanhua.server.service;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.PageUtil;
 import com.alibaba.fastjson.JSON;
-import com.tanhua.api.UserApi;
-import com.tanhua.api.UserLikeApi;
+import com.tanhua.api.*;
 import com.tanhua.autoconfig.template.ImTemplate;
 import com.tanhua.autoconfig.template.SmsTemplate;
 import com.tanhua.commons.utils.Constants;
 import com.tanhua.commons.utils.JwtUtils;
 import com.tanhua.model.domain.User;
+import com.tanhua.model.domain.UserInfo;
+import com.tanhua.model.mongo.Friend;
+import com.tanhua.model.mongo.UserLike;
 import com.tanhua.model.vo.ErrorResult;
+import com.tanhua.model.vo.PageResult;
+import com.tanhua.model.vo.UserLikeVo;
+import com.tanhua.model.vo.Visitors;
 import com.tanhua.server.exception.BusinessException;
 import com.tanhua.server.interceptor.UserHolderUtil;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.DubboReference;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @Author: leah_ana
@@ -61,6 +67,17 @@ public class UserService {
 
     @Autowired
     private MqMessageService messageService;
+
+
+    @DubboReference
+    private FriendApi friendApi;
+
+
+    @DubboReference
+    private VisitorsApi visitorsApi;
+
+    @DubboReference
+    private UserInfoApi userInfoApi;
 
     /**
      * 发送验证码
@@ -216,6 +233,7 @@ public class UserService {
 //            throw new RuntimeException("验证码错误");
             throw new BusinessException(ErrorResult.loginError());
         }
+
         // 3.删除redis中的验证码
         redisTemplate.delete(CHECK_CODE_KEY + phone);
     }
@@ -227,6 +245,7 @@ public class UserService {
      * 3.用户被单项喜欢数量 fanCount
      */
     public Map<String, Integer> queryCounts() {
+
         Long userId = UserHolderUtil.getUserId();
         //1 从redis中获取用户(暂无
 
@@ -236,4 +255,287 @@ public class UserService {
         // 3.返回结果
         return map;
     }
+
+    /**
+     * 查询用户信息
+     *
+     * @param type 1 互相关注 2 我关注 3 粉丝 4 谁看过我
+     */
+    public PageResult queryFriendsWithType(String type, Integer page, Integer pageSize) {
+        //  1 互相关注(查询friend表) 2 我关注(user_like表) 3 粉丝(user_like表) 4 谁看过我(查询visitor表)
+        // 1.先查询我关注的列表,获取我关注的用户id(并且存入redis,便于对AlreadyLove字段判断
+        List<UserLike> myLikeList = userLikeApi.findUserLikes(UserHolderUtil.getUserId());
+        if (CollUtil.isNotEmpty(myLikeList)) {
+            // 获取我关注的用户id 存入redis
+            String key = "user_like_" + UserHolderUtil.getUserId();
+            List<Long> baseIds = CollUtil.getFieldValues(myLikeList, "likeUserId", Long.class);
+            redisTemplate.opsForValue().set(key, baseIds.toString(), 60, TimeUnit.SECONDS);
+        }
+        // 2.根据type匹配筛选id
+        List<UserLikeVo> vos = new ArrayList<>();
+
+        Map<Long, UserInfo> map;
+        if (type == null || type.length() == 0) {
+            return new PageResult();
+        } else if ("1".equals(type)) {
+            //2.1 互相关注(查询friend表)
+            List<Friend> friends = friendApi.queryFriends(UserHolderUtil.getUserId(), page, pageSize, "");
+            if (CollUtil.isEmpty(friends)) return new PageResult();
+            List<Long> ids = CollUtil.getFieldValues(friends, "friendId", Long.class);
+            map = userInfoApi.findByIds(ids, null);
+            friends.forEach(friend -> {
+                UserInfo userInfo = map.get(friend.getFriendId());
+                if (userInfo != null) {
+                    UserLikeVo vo = UserLikeVo.init(userInfo);
+                    vo.setAlreadyLove(true);
+                    vos.add(vo);
+                }
+            });
+
+        } else if ("2".equals(type)) {
+            //2.2 我关注的
+            List<UserLike> userLikes = userLikeApi.findUserLikes(UserHolderUtil.getUserId(), page, pageSize);
+            if (CollUtil.isEmpty(userLikes)) return new PageResult();
+            List<Long> ids = CollUtil.getFieldValues(userLikes, "likeUserId", Long.class);
+            map = userInfoApi.findByIds(ids, null);
+            userLikes.forEach(userLike -> {
+                UserInfo userInfo = map.get(userLike.getLikeUserId());
+                if (userInfo != null) {
+                    UserLikeVo vo = UserLikeVo.init(userInfo);
+                    vo.setAlreadyLove(true);
+                    vos.add(vo);
+                }
+            });
+
+/*            String key = "user_like_" + UserHolderUtil.getUserId();
+            String redisValue = redisTemplate.opsForValue().get(key);
+            if (!org.springframework.util.StringUtils.isEmpty(redisValue)) {
+                // 3.如果redis数据存在,根据VID 查询数据
+                String[] split = redisValue.split(",");
+                // 判断当前页的起始条数是否小于数组总数
+                if ((page - 1) * pageSize < split.length) {
+                    List<Long> baseIds = Arrays.stream(split).skip((long) (page - 1) * pageSize).limit(pageSize)
+                            .map(Long::parseLong).collect(Collectors.toList());
+                        Map<Long, UserInfo> map = userInfoApi.findByIds(baseIds, null);
+                }
+            }
+            */
+
+        } else if ("3".equals(type)) {
+            //2.3 粉丝
+            List<UserLike> userLikes = userLikeApi.findUserLikes(page, pageSize, UserHolderUtil.getUserId());
+            if (CollUtil.isEmpty(userLikes)) return new PageResult();
+            List<Long> ids = CollUtil.getFieldValues(userLikes, "userId", Long.class);
+            map = userInfoApi.findByIds(ids, null);
+            List<String> redisUserIds = getRedisUserIds();
+            userLikes.forEach(userLike -> {
+                UserInfo userInfo = map.get(userLike.getUserId());
+                if (userInfo != null) {
+                    UserLikeVo vo = UserLikeVo.init(userInfo);
+                    if (redisUserIds.contains(userLike.getUserId().toString())) {
+                        vo.setAlreadyLove(true);
+                    } else {
+                        vo.setAlreadyLove(false);
+                    }
+                    vos.add(vo);
+                }
+            });
+        } else {
+            // 查询visitor
+            List<Visitors> visitorsList = visitorsApi.queryVisitorsWithPage(UserHolderUtil.getUserId(), page, pageSize);
+            if (CollUtil.isEmpty(visitorsList)) return new PageResult();
+            List<Long> ids = CollUtil.getFieldValues(visitorsList, "userId", Long.class);
+            map = userInfoApi.findByIds(ids, null);
+            List<String> redisUserIds = getRedisUserIds();
+            visitorsList.forEach(visitors -> {
+                UserInfo userInfo = map.get(visitors.getUserId());
+                if (userInfo != null) {
+                    UserLikeVo vo = UserLikeVo.init(userInfo);
+                    if (redisUserIds.contains(visitors.getUserId().toString())) {
+                        vo.setAlreadyLove(true);
+                    } else {
+                        vo.setAlreadyLove(false);
+                    }
+                    vos.add(vo);
+                }
+            });
+        }
+
+
+        // 3.封装vo对象
+
+
+        // 4.返回结果
+
+        return new PageResult(page, pageSize, 0, vos);
+    }
+
+
+    private List<String> getRedisUserIds() {
+        String key = "user_like_" + UserHolderUtil.getUserId();
+        String redisValue = redisTemplate.opsForValue().get(key);
+        List<String> strings = new ArrayList<>();
+        if (!org.springframework.util.StringUtils.isEmpty(redisValue)) {
+            // 3.如果redis数据存在,根据VID 查询数据
+
+
+            String[] split = redisValue.substring(1, redisValue.length() - 1).split(",");
+
+            strings.addAll(Arrays.asList(split));
+        }
+        return strings;
+    }
+
+
+    public void returnFans(Long likeUserId) {
+        //1.给user_like表添加数据
+        Boolean orUpdate = userLikeApi.saveOrUpdate(UserHolderUtil.getUserId(), likeUserId, true);
+        //2.添加环信好友并且给friend表添加数据
+
+        Boolean aBoolean = imTemplate.addContact("hx" + UserHolderUtil.getUserId(), "hx" + likeUserId);
+        Boolean aBoolean1 = friendApi.addFriend(UserHolderUtil.getUserId(), likeUserId);
+        if (!aBoolean || !orUpdate || !aBoolean1) {
+            throw new RuntimeException("添加好友失败");
+        }
+    }
+
+    public void removeFans(Long likeUserId) {
+        // 1.更新user_like表 为false
+        Boolean aBoolean = userLikeApi.saveOrUpdate(UserHolderUtil.getUserId(), likeUserId, false);
+        // 2.删除friend表
+        friendApi.removeFriend(UserHolderUtil.getUserId(), likeUserId);
+        // 3.删除环信好友
+        Boolean aBoolean1 = imTemplate.deleteContact("hx" + UserHolderUtil.getUserId(), "hx" + likeUserId);
+
+        if (!aBoolean || !aBoolean1) {
+            throw new RuntimeException("删除好友失败");
+        }
+
+
+    }
+
+
+
+  /*
+    public PageResult queryFriendsWithType_1(String type, String nickname, Integer page, Integer pageSize) {
+
+        //根据用户本人用户id查询自己喜欢的用户Id
+        List<UserLike> likes = userLikeApi.findWithType2(type, page, pageSize, UserHolderUtil.getUserId());
+
+        List<Long> ids = CollUtil.getFieldValues(likes, "likeUserId", Long.class);
+
+        String key = "userLike_" + UserHolderUtil.getUserId();
+
+        redisTemplate.opsForValue().set(key, ids.toString(), 60, TimeUnit.SECONDS);
+
+        if (StringUtils.isEmpty(type)) throw new BusinessException(ErrorResult.error());
+
+        List<UserLikeVo> vos;
+
+        if ("1".equals(type)) {
+            //互相关注
+            List<Friend> friendList = friendApi.queryFriends(UserHolderUtil.getUserId(), page, pageSize, "");
+            if (CollUtil.isEmpty(friendList)) return new PageResult();
+            vos = getVos1(friendList, nickname);
+
+        } else if ("2".equals(type)) {
+            List<UserLike> userLikeList = userLikeApi.findWithType2(type, page, pageSize, UserHolderUtil.getUserId());
+            if (CollUtil.isEmpty(userLikeList)) return new PageResult();
+            vos = getVos2(userLikeList, nickname);
+
+        } else if ("3".equals(type)) {
+            List<UserLike> userLikeList = userLikeApi.findWithType3(type, page, pageSize, UserHolderUtil.getUserId());
+            if (CollUtil.isEmpty(userLikeList)) return new PageResult();
+            vos = getVos3(userLikeList, nickname);
+
+        } else {
+            List<Visitors> visitorsList = visitorsApi.queryVisitorsWithPage(UserHolderUtil.getUserId(), page, pageSize);
+            if (CollUtil.isEmpty(visitorsList)) return new PageResult();
+            vos = getVos4(visitorsList, nickname);
+        }
+
+        return new PageResult(page, pageSize, 0, vos);
+    }
+
+    private List<UserLikeVo> getVos3(List<UserLike> userLikeList, String nickname) {
+        List<UserLikeVo> vos = new ArrayList<>();
+        String key = "userLike_" + UserHolderUtil.getUserId();
+        String value = redisTemplate.opsForValue().get(key);
+        List<Long> values = JSON.parseArray(value, Long.class);
+        List<Long> ids = CollUtil.getFieldValues(userLikeList, "userId", Long.class);
+        UserInfo userInfo = new UserInfo();
+        if (StringUtils.isNotEmpty(nickname)) userInfo.setNickname(nickname);
+        Map<Long, UserInfo> map = userInfoApi.findByIds(ids, userInfo);
+
+        userLikeList.forEach(temp -> {
+            UserInfo ufo = map.get(temp.getId());
+            if (ufo != null) {
+                UserLikeVo vo = UserLikeVo.init(ufo);
+                assert values != null;
+                if (values.contains(ufo.getId())) {
+                    vo.setAlreadyLove(true);
+                } else {
+                    vo.setAlreadyLove(false);
+                }
+                vos.add(vo);
+            }
+        });
+        return vos;
+    }
+
+
+    private List<UserLikeVo> getVos4(List<Visitors> visitorsList, String nickname) {
+        List<UserLikeVo> vos = new ArrayList<>();
+        List<Long> ids = CollUtil.getFieldValues(visitorsList, "userId", Long.class);
+        UserInfo userInfo = new UserInfo();
+        if (StringUtils.isNotEmpty(nickname)) userInfo.setNickname(nickname);
+        Map<Long, UserInfo> map = userInfoApi.findByIds(ids, userInfo);
+
+        visitorsList.forEach(visitors -> {
+            UserInfo ufo = map.get(visitors.getUserId());
+            if (ufo != null) {
+                UserLikeVo vo = UserLikeVo.init(ufo);
+                vos.add(vo);
+            }
+        });
+        return vos;
+    }
+
+    private List<UserLikeVo> getVos2(List<UserLike> userLikeList, String nickname) {
+        List<UserLikeVo> vos = new ArrayList<>();
+        List<Long> ids = CollUtil.getFieldValues(userLikeList, "userLikeId", Long.class);
+        UserInfo userInfo = new UserInfo();
+        if (StringUtils.isNotEmpty(nickname)) userInfo.setNickname(nickname);
+        Map<Long, UserInfo> map = userInfoApi.findByIds(ids, userInfo);
+
+        userLikeList.forEach(temp -> {
+            UserInfo ufo = map.get(temp.getLikeUserId());
+            if (ufo != null) {
+                UserLikeVo vo = UserLikeVo.init(ufo);
+                vo.setAlreadyLove(true);
+                vos.add(vo);
+            }
+        });
+        return vos;
+    }
+
+    private List<UserLikeVo> getVos1(List<Friend> friendList, String nickname) {
+        List<UserLikeVo> vos = new ArrayList<>();
+        List<Long> ids = CollUtil.getFieldValues(friendList, "userId", Long.class);
+        UserInfo userInfo = new UserInfo();
+        if (StringUtils.isNotEmpty(nickname)) userInfo.setNickname(nickname);
+        Map<Long, UserInfo> map = userInfoApi.findByIds(ids, userInfo);
+
+        friendList.forEach(temp -> {
+            UserInfo ufo = map.get(temp.getUserId());
+            if (ufo != null) {
+                UserLikeVo vo = UserLikeVo.init(ufo);
+                vo.setAlreadyLove(true);
+                vos.add(vo);
+            }
+        });
+        return vos;
+    }
+
+*/
 }

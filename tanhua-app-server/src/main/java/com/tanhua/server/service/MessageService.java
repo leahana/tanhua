@@ -56,6 +56,7 @@ public class MessageService {
     @DubboReference
     private CommentApi commentApi;
 
+
     @DubboReference
     private AnnouncementApi announcementApi;
 

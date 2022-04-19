@@ -10,4 +10,6 @@ public interface FriendApi {
     Boolean addFriend(Long userId, Long friendId);
 
     List<Friend> queryFriends(Long userId, Integer page, Integer pageSize, String keyword);
+
+    void removeFriend(Long userId, Long likeUserId);
 }

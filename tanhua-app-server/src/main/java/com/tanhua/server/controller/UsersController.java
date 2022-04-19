@@ -1,7 +1,9 @@
 package com.tanhua.server.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tanhua.commons.utils.JwtUtils;
 import com.tanhua.model.domain.UserInfo;
+import com.tanhua.model.vo.PageResult;
 import com.tanhua.model.vo.UserInfoVo;
 import com.tanhua.server.interceptor.UserHolderUtil;
 import com.tanhua.server.service.UserInfoService;
@@ -140,6 +142,7 @@ public class UsersController {
 
     /**
      * 统计数据
+     *
      * @return 单项喜欢 单项被喜欢 双向喜欢
      */
     @GetMapping("/counts")
@@ -147,4 +150,30 @@ public class UsersController {
         Map<String, Integer> map = userService.queryCounts();
         return ResponseEntity.ok(map);
     }
+
+    /**
+     * 互相喜欢,喜欢,粉丝 谁看过我 通用查询 (这个接口文档没有nickname这个参数)
+     */
+    @GetMapping("/friends/{type}")
+    public ResponseEntity queryFriendsWithType(@PathVariable("type") String type,
+                                               @RequestParam(value = "page", defaultValue = "1") Integer page,
+                                               @RequestParam(value = "pagesize", defaultValue = "10") Integer pageSize) {
+        String nickname = "";
+        System.err.println(nickname);
+        PageResult pr = userService.queryFriendsWithType(type, page, pageSize);
+        return ResponseEntity.ok(pr);
+    }
+
+    @PostMapping("/fans/{uid}")
+    public ResponseEntity returnFans(@PathVariable("uid") Long userId) {
+        userService.returnFans(userId);
+        return ResponseEntity.ok(null);
+    }
+
+    @DeleteMapping("/fans/{uid}")
+    public ResponseEntity removeFans(@PathVariable("uid") Long userId) {
+        userService.removeFans(userId);
+        return ResponseEntity.ok(null);
+    }
 }
+

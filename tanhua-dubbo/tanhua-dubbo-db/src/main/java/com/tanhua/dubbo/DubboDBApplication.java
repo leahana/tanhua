@@ -27,7 +27,6 @@ public class DubboDBApplication {
         SpringApplication.run(DubboDBApplication.class, args);
         log.info("DubboDBApplication start success ! ! !");
     }
-
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
