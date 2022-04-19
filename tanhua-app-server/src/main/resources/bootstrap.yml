@@ -2,18 +2,99 @@ server:
   port: 18080
 spring:
   application:
-    name: tanhua-app-service
-  redis:
-    port: 6379
-    host: 192.168.136.160
+    name: tanhua-app-server
   cloud:
     nacos:
       discovery:
         server-addr: 192.168.136.160:8848
-      config:
+      config: #不使用配置中心
         enabled: false
-dubbo:
+  redis:
+    port: 6379
+    host: 192.168.136.160
+
+  rabbitmq:
+    host: 192.168.136.160
+    port: 5672
+    username: guest
+    password: guest
+
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
+
+
+dubbo:    #dubbo配置
   registry:
     address: spring-cloud://localhost
   consumer:
     check: false
+    retries: 0
+  protocols:
+    dubbo:
+      port: -1
+
+fdfs: # 分布式文件系统FDFS配置
+  so-timeout: 1500
+  connect-timeout: 600
+  #缩略图生成参数
+  thumb-image:
+    width: 150
+    height: 150
+  #TrackerList参数,支持多个
+  tracker-list: 192.168.136.160:22122
+  web-server-url: http://192.168.136.160:8888/
+
+
+tanhua: #第三方服务相关配置
+  sms:
+    signName: 测试短信
+    templateCode: SMS_154950909
+    accessKey: LTAI5tJUV3eYXNLNe6DSq2q1
+    secret: 6vtlVoziC8X23TjM1GwrOUrhidFQ1s
+  oss:
+    accessKey: LTAI5tJUV3eYXNLNe6DSq2q1
+    secret: 6vtlVoziC8X23TjM1GwrOUrhidFQ1s
+    endpoint: oss-cn-hangzhou.aliyuncs.com
+    bucketName: leahana-tanhua
+    url: https://leahana-tanhua.oss-cn-hangzhou.aliyuncs.com/
+  aip:
+    appId: 25935069
+    apiKey: uhosxqPfpNLls8HmV9eXG6Eq
+    secretKey: E82t7GayGjRQUWITW6TqyLQvfHWeRVfI
+  im:
+    appKey: 1142220412113660#leahana-tanhua
+    clientId: YXA6a1OMOtVpTlioSBaldf-YqQ
+    clientSecret: YXA6_hRK5tw0afvL2hj-8CezeTtDbbM
+  green:
+    enable: true
+    accessKeyID: LTAI5tJUV3eYXNLNe6DSq2q1
+    accessKeySecret: 6vtlVoziC8X23TjM1GwrOUrhidFQ1s
+    scenes: porn,terrorism #色情，暴力
+    regionId: cn-shanghai
+    endpoint: imageaudit.cn-shanghai.aliyuncs.com
+
+  default:
+    recommend:
+      users: 2,3,8,10,18,20,24,29,27,32,36,37,56,64,75,88
+
+
+
+
+#配置注册中心
+
+#server:
+#  port: 18080
+#spring:
+#  profiles:
+#    active: prod
+#  application:
+#    name: tanhua-app-server
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 192.168.136.160:8848
+#      config:
+#        server-addr: 192.168.136.160:8848
+#        file-extension: yml

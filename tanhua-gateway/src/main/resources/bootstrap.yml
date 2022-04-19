@@ -1,0 +1,51 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: tanhua-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.136.160:8848
+      config:
+        enabled: false
+    gateway:
+      globalcors:
+        add-to-simple-url-handler-mapping: true
+        corsConfigurations:
+          '[/**]':
+            allowedHeaders: "*"
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+              - POST
+              - DELETE
+              - PUT
+              - OPTION
+      routes:
+        - id: tanhua-app-server
+          uri: lb://tanhua-app-server
+          predicates:
+            - Path=/app/**
+          filters:
+            - StripPrefix=1
+        - id: tanhua-admin
+          uri: lb://tanhua-admin
+          predicates:
+            - Path=/admin/**
+          filters:
+            - StripPrefix=1
+gateway:
+  excludedUrls: /admin/user/login,/admin/user/loginVerification,/admin/system/users/verification,/admin/system/users/login,/app/user/login,/app/user/loginVerification,/app/system/users/verification,/app/system/users/login
+
+
+
+#  application:
+#    name: tanhua-gateway
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 192.168.136.160:8848
+#      config:
+#        server-addr: 192.168.136.160:8848
+#        file-extension: yml
