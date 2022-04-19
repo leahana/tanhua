@@ -41,15 +41,3 @@ mybatis-plus:
       table-prefix: tb_    #数据库表前缀
       id-type: auto        #数据库表主键的策略
 
-tanhua: #第三方服务相关配置
-  green:
-    enable: true
-    accessKeyID: LTAI5tJUV3eYXNLNe6DSq2q1
-    accessKeySecret: 6vtlVoziC8X23TjM1GwrOUrhidFQ1s
-    scenes: porn,terrorism #色情，暴力
-    regionId: cn-shanghai
-    endpoint: imageaudit.cn-shanghai.aliyuncs.com
-  im:
-    appKey: 1142220412113660#leahana-tanhua
-    clientId: YXA6a1OMOtVpTlioSBaldf-YqQ
-    clientSecret: YXA6_hRK5tw0afvL2hj-8CezeTtDbbM

@@ -47,33 +47,7 @@ fdfs: # 分布式文件系统FDFS配置
   web-server-url: http://192.168.136.160:8888/
 
 
-tanhua: #第三方服务相关配置
-  sms:
-    signName: 测试短信
-    templateCode: SMS_154950909
-    accessKey: LTAI5tJUV3eYXNLNe6DSq2q1
-    secret: 6vtlVoziC8X23TjM1GwrOUrhidFQ1s
-  oss:
-    accessKey: LTAI5tJUV3eYXNLNe6DSq2q1
-    secret: 6vtlVoziC8X23TjM1GwrOUrhidFQ1s
-    endpoint: oss-cn-hangzhou.aliyuncs.com
-    bucketName: leahana-tanhua
-    url: https://leahana-tanhua.oss-cn-hangzhou.aliyuncs.com/
-  aip:
-    appId: 25935069
-    apiKey: uhosxqPfpNLls8HmV9eXG6Eq
-    secretKey: E82t7GayGjRQUWITW6TqyLQvfHWeRVfI
-  im:
-    appKey: 1142220412113660#leahana-tanhua
-    clientId: YXA6a1OMOtVpTlioSBaldf-YqQ
-    clientSecret: YXA6_hRK5tw0afvL2hj-8CezeTtDbbM
-  green:
-    enable: true
-    accessKeyID: LTAI5tJUV3eYXNLNe6DSq2q1
-    accessKeySecret: 6vtlVoziC8X23TjM1GwrOUrhidFQ1s
-    scenes: porn,terrorism #色情，暴力
-    regionId: cn-shanghai
-    endpoint: imageaudit.cn-shanghai.aliyuncs.com
+
 
   default:
     recommend:
