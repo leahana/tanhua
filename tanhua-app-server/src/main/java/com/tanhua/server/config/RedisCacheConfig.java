@@ -13,10 +13,14 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.Objects;
 
+
+
+
 /**
  * @Author: leah_ana
  * @Date: 2022/4/15 14:43
  */
+
 
 //@Configuration
 //public class RedisCacheConfig {
@@ -39,7 +43,6 @@ import java.util.Objects;
 //                        .entryTtl(Duration.ofHours(1));
 //
 //        // 够着一个redis缓存管理器
-//
 //        return RedisCacheManager.RedisCacheManagerBuilder
 //                // Redis 连接工厂
 //                .fromConnectionFactory(Objects.requireNonNull(template.getConnectionFactory()))
@@ -50,3 +53,4 @@ import java.util.Objects;
 //                .build();
 //    }
 //}
+//
