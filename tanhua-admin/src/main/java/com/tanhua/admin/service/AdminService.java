@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 
 import java.time.Duration;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 @Service
@@ -37,7 +38,9 @@ public class AdminService {
         String uuid = (String) map.get("uuid");
         // 2.校验验证码是否正确
         String key = Constants.CAP_CODE + uuid;
-        String value = redisTemplate.opsForValue().get(key);
+        String tempValue = redisTemplate.opsForValue().get(key);
+        assert tempValue != null;
+        String value = tempValue.toLowerCase();
         if (StringUtils.isEmpty(value) || !value.equals(verificationCode)) {
             throw new BusinessException("验证码错误");
         }

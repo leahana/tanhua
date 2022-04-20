@@ -48,7 +48,10 @@ public class SystemController {
         LineCaptcha captcha = CaptchaUtil.createLineCaptcha(299, 97);
         String code = captcha.getCode();  //1234
         //2、调用service，将验证码存入到redis
-        redisTemplate.opsForValue().set(Constants.CAP_CODE+uuid,code);
+
+        String code2 = code.toLowerCase();
+
+        redisTemplate.opsForValue().set(Constants.CAP_CODE+uuid,code2);
         //3、通过输出流输出验证码
         captcha.write(response.getOutputStream());
     }

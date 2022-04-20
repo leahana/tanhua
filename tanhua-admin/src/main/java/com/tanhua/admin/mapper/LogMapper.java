@@ -21,6 +21,16 @@ public interface LogMapper extends BaseMapper<Log> {
             " SELECT user_id FROM tb_log WHERE TYPE=\"0102\" AND log_time=#{yestoday} \n " +
             ")")
     Integer queryNumRetention1d(@Param("today") String today, @Param("yestoday") String yestoday); //查询次日留存
+
+    @Select("SELECT COUNT(DISTINCT user_id)  FROM tb_log")
+    Integer selectCountDis();
+
+
+    //查询次日留存
+    @Select("SELECT COUNT(DISTINCT user_id)  FROM tb_log WHERE log_time BETWEEN #{formerly} AND#{today}")
+    Integer queryNumRetention(@Param("today") String today, @Param("formerly") String formerly);
+
+
 }
 
 

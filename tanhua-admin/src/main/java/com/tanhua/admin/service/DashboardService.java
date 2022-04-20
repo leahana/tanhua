@@ -1,16 +1,21 @@
 package com.tanhua.admin.service;
 
+import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.Query;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tanhua.admin.mapper.AnalysisMapper;
+import com.tanhua.admin.mapper.LogMapper;
 import com.tanhua.model.domain.Analysis;
 import com.tanhua.model.domain.Log;
+import com.tanhua.model.domain.UserInfo;
 import com.tanhua.model.vo.DateVo;
+import com.tanhua.model.vo.SummaryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
@@ -24,6 +29,10 @@ public class DashboardService {
 
     @Autowired
     private AnalysisMapper analysisMapper;
+
+    @Autowired
+    private LogMapper logMapper;
+
 
     public Map getUsersCounts(Map map) {
         String type = (String) map.get("type");
@@ -66,6 +75,7 @@ public class DashboardService {
 
     }
 
+
     // 获取时间段VO数据
     private List<DateVo> getList(Calendar startCalendar, Date edTime, String type) {
         // 变化时间\\
@@ -86,7 +96,7 @@ public class DashboardService {
                 Long count = getCounts(start, end, type);
                 // 封装数据
                 DateVo dateVo = new DateVo();
-                dateVo.setTitle(startCalendar.getTime().getMonth() + 1+ "");
+                dateVo.setTitle(startCalendar.getTime().getMonth() + 1 + "");
                 dateVo.setAmount(count);
                 vo.add(dateVo);
                 // 设置开始时间为下个月的第一天
@@ -100,7 +110,7 @@ public class DashboardService {
                 Long count = getCounts(start, end, type);
                 // 封装数据
                 DateVo dateVo = new DateVo();
-                dateVo.setTitle(startCalendar.getTime().getMonth() + 1+"");
+                dateVo.setTitle(startCalendar.getTime().getMonth() + 1 + "");
                 dateVo.setAmount(count);
                 vo.add(dateVo);
                 break;
@@ -111,9 +121,7 @@ public class DashboardService {
 
     }
 
-    // 查询注册人数
-
-
+    // 统计数量
     private Long getCounts(long start, long end, String type) {
         // 根据type设置查询字段
         /**
@@ -177,12 +185,95 @@ public class DashboardService {
                 if (registerCounts == 0) {
                     return 0L;
                 }
-                System.err.println("activeCounts:" + activeCounts+"registerCounts:" + registerCounts);
+                System.err.println("activeCounts:" + activeCounts + "registerCounts:" + registerCounts);
                 return activeCounts / registerCounts;
             } else {
                 return 0L;
             }
         }
         return 0L;
+    }
+
+    // 获取摘要统计
+    public SummaryVo getSummary() {
+
+        //    /**
+        //     * 操作类型,
+        //     * 0101为登录，0102为注册，
+        //     * 0201为发动态，0202为浏览动态，0203为动态点赞，0204为动态喜欢，0205为评论，0206为动态取消点赞，0207为动态取消喜欢，
+        //     * 0301为发小视频，0302为小视频点赞，0303为小视频取消点赞，0304为小视频评论
+        //     */
+
+        //累计用户
+        SummaryVo vo = new SummaryVo();
+
+        Integer cumulativeUsers = logMapper.selectCountDis();
+        vo.setCumulativeUsers(cumulativeUsers);
+
+
+        LambdaQueryWrapper<Analysis> lqwAnalysisToday = new LambdaQueryWrapper<>();
+        lqwAnalysisToday.eq(Analysis::getRecordDate, new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        Analysis analysisToday = analysisMapper.selectOne(lqwAnalysisToday);
+
+        LambdaQueryWrapper<Analysis> lqwAnalysisYesterday = new LambdaQueryWrapper<>();
+
+        //获取昨天的日期
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DATE, -1);
+        Date yesterday = calendar.getTime();
+        lqwAnalysisYesterday.eq(Analysis::getRecordDate, new SimpleDateFormat("yyyy-MM-dd").format(yesterday));
+
+        Analysis analysisYesterday = analysisMapper.selectOne(lqwAnalysisYesterday);
+        Integer yesterdayNumActive = 0;
+        Integer yesterdayNumLogin = 0;
+        Integer yesterdayNumRegistered = 0;
+
+        if (analysisYesterday != null) {
+            yesterdayNumActive = analysisYesterday.getNumActive();
+            yesterdayNumLogin = analysisYesterday.getNumLogin();
+            yesterdayNumRegistered = analysisYesterday.getNumRegistered();
+        }
+        if (analysisToday != null) {
+            //今日登录次数
+            Integer loginTimesToday = analysisToday.getNumLogin();
+            vo.setLoginTimesToday(loginTimesToday);
+            //今日新增用户
+            Integer newUsersToday = analysisToday.getNumRegistered();
+            vo.setNewUsersToday(newUsersToday);
+            //今日活跃用户
+            Integer activeUsersToday = analysisToday.getNumActive();
+            vo.setActiveUsersToday(activeUsersToday);
+            //今日登录次数涨跌率，单位百分数，正数为涨，负数为跌
+            Integer loginTimesTodayRate =
+                    loginTimesToday == 0 ? loginTimesToday - yesterdayNumLogin
+                            : (loginTimesToday - yesterdayNumLogin) / loginTimesToday;
+            vo.setLoginTimesTodayRate(loginTimesTodayRate);
+            //今日新增用户涨跌率，单位百分数，正数为涨，负数为跌
+            Integer newUsersTodayRate =
+                    newUsersToday == 0 ? newUsersToday - yesterdayNumRegistered
+                            : (newUsersToday - yesterdayNumRegistered) / newUsersToday;
+            vo.setNewUsersTodayRate(newUsersTodayRate);
+            //今日活跃用户涨跌率，单位百分数，正数为涨，负数为跌(今日活跃用户/今日活跃用户)
+            Integer activeUsersTodayRate =
+                    activeUsersToday == 0 ? newUsersToday - yesterdayNumRegistered
+                            : (activeUsersToday - yesterdayNumActive) / activeUsersToday;
+            vo.setActiveUsersTodayRate(activeUsersTodayRate);
+        }
+        //过去7天活跃用户
+        //获取过去7天前的日期
+        calendar.setTime(new Date());
+        calendar.add(Calendar.DATE, -7);
+
+        String todayStr = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String todayStr7 = DateUtil.lastWeek().toString("yyyy-MM-dd");
+        String todayStr30 = DateUtil.lastMonth().toString("yyyy-MM-dd");
+        Integer activePassWeek = logMapper.queryNumRetention(todayStr, todayStr7);
+        //过去30天活跃用户
+        Integer activePassMonth = logMapper.queryNumRetention(todayStr, todayStr30);
+
+        vo.setActivePassWeek(activePassWeek);
+        vo.setActivePassMonth(activePassMonth);
+        return vo;
     }
 }

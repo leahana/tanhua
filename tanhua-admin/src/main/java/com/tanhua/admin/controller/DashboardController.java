@@ -1,7 +1,7 @@
 package com.tanhua.admin.controller;
 
 import com.tanhua.admin.service.DashboardService;
-import org.checkerframework.checker.units.qual.A;
+import com.tanhua.model.vo.SummaryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,12 @@ public class DashboardController {
     @GetMapping("/users")
     public ResponseEntity getUsersCounts(@RequestParam Map map) {
         Map reqMap = dashboardService.getUsersCounts(map);
-
         return ResponseEntity.ok(reqMap);
+    }
+
+    @GetMapping("/summary")
+    public ResponseEntity getSummary() {
+        SummaryVo vo = dashboardService.getSummary();
+        return ResponseEntity.ok(vo);
     }
 }
