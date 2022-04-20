@@ -336,9 +336,14 @@ public class RecommendService {
         if (isLike(likeUserId, UserHolderUtil.getUserId())) {
             // 4. 删除好友
             //      4.1.删除mongodb中的数据
-
+            userLikeApi.deleteFriend(UserHolderUtil.getUserId(), likeUserId);
             //      4.2.删除redis中的数据
             //      4.3.环信删除好友
+            Boolean aBoolean = imTemplate.deleteContact("hx" + UserHolderUtil.getUserId(), "hx" + likeUserId);
+            if (!aBoolean) {
+                throw  new RuntimeException("系统繁忙");
+            }
+
         }
 
     }

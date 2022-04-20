@@ -23,7 +23,7 @@ public class LogTest {
     @Autowired
     private LogMapper logMapper;
 
-    private String logTime = "2022-04-16";
+    private String logTime = "2022-04-20";
 
     //模拟登录数据
     public void testInsertLoginLog() {

@@ -123,9 +123,18 @@ public class UserLikeApiImpl implements UserLikeApi {
         return mongoTemplate.find(query, UserLike.class);
     }
 
+    @Override
+    public void deleteFriend(Long userId, Long likeUserId) {
+        Criteria criteria1 = Criteria.where("userId").is(userId).and("likeUserId").is(likeUserId);
+        Query query1 = Query.query(criteria1);
+        mongoTemplate.remove(query1, UserLike.class);
+        Criteria criteria2 = Criteria.where("userId").is(likeUserId).and("likeUserId").is(userId);
+        Query query2 = Query.query(criteria2);
+        mongoTemplate.remove(query2, UserLike.class);
 
+    }
 
-/*
+    /*
 
     @Override//2 我关注
     public List<UserLike> findWithType2(String type, Integer page, Integer pageSize, Long userId) {

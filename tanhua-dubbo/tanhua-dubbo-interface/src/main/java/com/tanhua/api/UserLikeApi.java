@@ -24,4 +24,5 @@ public interface UserLikeApi {
     //分页查找关注我的
     List<UserLike> findUserLikes(Integer page, Integer pageSize, Long likeUserId);
 
+    void deleteFriend(Long userId, Long likeUserId);
 }
