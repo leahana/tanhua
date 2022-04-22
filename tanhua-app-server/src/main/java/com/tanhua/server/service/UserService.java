@@ -264,13 +264,7 @@ public class UserService {
     public PageResult queryFriendsWithType(String type, Integer page, Integer pageSize) {
         //  1 互相关注(查询friend表) 2 我关注(user_like表) 3 粉丝(user_like表) 4 谁看过我(查询visitor表)
         // 1.先查询我关注的列表,获取我关注的用户id(并且存入redis,便于对AlreadyLove字段判断
-        List<UserLike> myLikeList = userLikeApi.findUserLikes(UserHolderUtil.getUserId());
-        if (CollUtil.isNotEmpty(myLikeList)) {
-            // 获取我关注的用户id 存入redis
-            String key = "user_like_" + UserHolderUtil.getUserId();
-            List<Long> baseIds = CollUtil.getFieldValues(myLikeList, "likeUserId", Long.class);
-            redisTemplate.opsForValue().set(key, baseIds.toString(), 60, TimeUnit.SECONDS);
-        }
+        updateRedis();
         // 2.根据type匹配筛选id
         List<UserLikeVo> vos = new ArrayList<>();
 
@@ -323,6 +317,7 @@ public class UserService {
 
         } else if ("3".equals(type)) {
             //2.3 粉丝
+            updateRedis();
             List<UserLike> userLikes = userLikeApi.findUserLikes(page, pageSize, UserHolderUtil.getUserId());
             if (CollUtil.isEmpty(userLikes)) return new PageResult();
             List<Long> ids = CollUtil.getFieldValues(userLikes, "userId", Long.class);
@@ -368,6 +363,16 @@ public class UserService {
         // 4.返回结果
 
         return new PageResult(page, pageSize, 0, vos);
+    }
+
+    private void updateRedis() {
+        List<UserLike> myLikeList = userLikeApi.findUserLikes(UserHolderUtil.getUserId());
+        if (CollUtil.isNotEmpty(myLikeList)) {
+            // 获取我关注的用户id 存入redis
+            String key = "user_like_" + UserHolderUtil.getUserId();
+            List<Long> baseIds = CollUtil.getFieldValues(myLikeList, "likeUserId", Long.class);
+            redisTemplate.opsForValue().set(key, baseIds.toString(), 60, TimeUnit.SECONDS);
+        }
     }
 
 
