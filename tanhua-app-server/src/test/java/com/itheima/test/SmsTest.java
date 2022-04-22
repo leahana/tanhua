@@ -21,6 +21,6 @@ public class SmsTest {
 
     @Test
     public void testSendSms() {
-        smsTemplate.sendSms("18751909677", "验证码是：123456");
+        smsTemplate.sendSms("138001380000", "验证码是：123456");
     }
 }

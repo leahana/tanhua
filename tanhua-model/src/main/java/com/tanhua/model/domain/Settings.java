@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Settings extends BasePojo {
-
     private Long id;
     private Long userId;
     private Boolean likeNotification;
