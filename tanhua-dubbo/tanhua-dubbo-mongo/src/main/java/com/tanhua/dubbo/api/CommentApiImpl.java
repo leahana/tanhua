@@ -22,6 +22,7 @@ import java.util.List;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/12 13:27
+ * @Desc: 评论接口实现
  */
 
 @DubboService
@@ -35,7 +36,7 @@ public class CommentApiImpl implements CommentApi {
     private IdWorker idWorker;
 
     @Override
-    public Integer save(Comment comment) {
+    public Integer saveComment(Comment comment) {
         // 1. 查询动态
         Movement movement = mongoTemplate.findById(comment.getPublishId(), Movement.class);
 
@@ -74,7 +75,7 @@ public class CommentApiImpl implements CommentApi {
     }
 
     @Override
-    public List<Comment> queryComments(String publishId, Integer page, Integer pageSize, CommentType comment) {
+    public List<Comment> pageComments(String publishId, Integer page, Integer pageSize, CommentType comment) {
 
         Query query = Query.query(
                         Criteria.where("publishId")
@@ -97,7 +98,7 @@ public class CommentApiImpl implements CommentApi {
     }
 
     @Override
-    public Integer delete(Comment comment) {
+    public Integer deleteComment(Comment comment) {
         // 1.删除 Comment表数据
         Criteria criteria = Criteria.where("userid").is(comment.getUserId())
                 .and("publishId").is(comment.getPublishId())
@@ -150,7 +151,7 @@ public class CommentApiImpl implements CommentApi {
                 .and("commentId").is(new ObjectId(commentId)));
 
         mongoTemplate.remove(query, CommentOfEvaluate.class);
-        return evalueCount(commentId, -1);
+        return countEvalue(commentId, -1);
     }
 
     @Override
@@ -160,11 +161,11 @@ public class CommentApiImpl implements CommentApi {
         commentOfEvaluate.setCommentId(new ObjectId(commentId));
         mongoTemplate.save(new CommentOfEvaluate(idWorker.getNextId(""),
                 new ObjectId(commentId), userId));
-        return evalueCount(commentId, 1);
+        return countEvalue(commentId, 1);
     }
 
     @Override
-    public List<Comment>  queryCommentUserIds(Long publishUserId, CommentType type, Integer page, Integer pageSize) {
+    public List<Comment> queryCommentUserIds(Long publishUserId, CommentType type, Integer page, Integer pageSize) {
 
         Criteria criteria = Criteria.where("publishUserId").is(publishUserId);
         if (type == CommentType.LIKE) {
@@ -173,7 +174,7 @@ public class CommentApiImpl implements CommentApi {
         } else if (type == CommentType.COMMENT) {
             //评论
             criteria.and("commentType").is(CommentType.COMMENT.getType());
-        }else {
+        } else {
             //喜欢
             criteria.and("commentType").is(CommentType.LOVE.getType());
         }
@@ -185,7 +186,9 @@ public class CommentApiImpl implements CommentApi {
         return mongoTemplate.find(query, Comment.class);
     }
 
-    private Integer evalueCount(String commentId, int type) {
+
+    //根据评论id查询评论表中的数据
+    private Integer countEvalue(String commentId, int type) {
 
         //根据评论id查询评论表中的数据
 

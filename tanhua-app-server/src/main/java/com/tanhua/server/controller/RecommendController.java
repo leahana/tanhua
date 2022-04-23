@@ -25,20 +25,21 @@ import java.util.Map;
 @RequestMapping("/tanhua")
 public class RecommendController {
 
+
     @Autowired
     private RecommendService recommendService;
 
     @GetMapping("/todayBest")
-    public ResponseEntity queryTodayBest() {
-        TodayBest todayBest = recommendService.queryTodayBest();
+    public ResponseEntity getTodayBest() {
+        TodayBest todayBest = recommendService.getTodayBest();
 
         return ResponseEntity.ok(todayBest);
     }
 
     @GetMapping("/recommendation")
-    public ResponseEntity<PageResult> queryRecommendationFriends(RecommendUserDto recommendUserDto) {
+    public ResponseEntity<PageResult> listRecommendationFriends(RecommendUserDto recommendUserDto) {
 
-        PageResult pageResult = recommendService.queryRecommendationFriends(recommendUserDto);
+        PageResult pageResult = recommendService.listRecommendationFriends(recommendUserDto);
 
         return ResponseEntity.ok(pageResult);
     }
@@ -47,8 +48,8 @@ public class RecommendController {
      * 查看佳人信息
      */
     @GetMapping("/{id}/personalInfo")
-    public ResponseEntity queryPersonalInfo(@PathVariable("id") Long userId) {
-        TodayBest todayBest = recommendService.queryPersonalInfo(userId);
+    public ResponseEntity getPersonalInfo(@PathVariable("id") Long userId) {
+        TodayBest todayBest = recommendService.getPersonalInfo(userId);
         return ResponseEntity.ok(todayBest);
     }
 
@@ -59,20 +60,24 @@ public class RecommendController {
      * @return 问题列表
      */
     @GetMapping("/strangerQuestions")
-    public ResponseEntity queryQuestions(Long userId) {
+    public ResponseEntity listQuestions(Long userId) {
 
-        String questions = recommendService.queryQuestions(userId);
+        String questions = recommendService.listQuestions(userId);
 
         return ResponseEntity.ok(questions);
     }
 
+    /**
+     * 回复陌生人问题
+     *
+     * @param map userId:用户id ,reply:回答
+     */
     @PostMapping("/strangerQuestions")
     public ResponseEntity replyQuestions(@RequestBody Map map) {
 
         String _userId = map.get("userId").toString();
         Long userId = Long.parseLong(_userId);
         String reply = map.get("reply").toString();
-
 
         recommendService.replyQuestions(userId, reply);
 
@@ -81,11 +86,11 @@ public class RecommendController {
 
 
     /**
-     * 探花-推荐用户列表
+     * 探花-推荐用户列表(小卡片
      */
     @GetMapping("/cards")
-    public ResponseEntity queryCardsList() {
-        List<TodayBest> list = recommendService.queryCardsList();
+    public ResponseEntity listRecommends() {
+        List<TodayBest> list = recommendService.listRecommends();
         return ResponseEntity.ok(list);
     }
 

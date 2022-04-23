@@ -92,10 +92,10 @@ public class MovementService {
      * @param pageSize 每页数量
      * @return pageResult
      */
-    public PageResult queryMovementsByUserId(Long userId, Integer page, Integer pageSize) {
+    public PageResult pageMovements(Long userId, Integer page, Integer pageSize) {
 
         // 1.根据 用户id查询 个人动态 mongoDB (movement)
-        List<Movement> movements = movementApi.queryMovementsByUserId(userId, page, pageSize);
+        List<Movement> movements = movementApi.listMovements(userId, page, pageSize);
 
         // 3.判断
         if (movements == null || movements.size() == 0) {
@@ -122,13 +122,13 @@ public class MovementService {
      * @param pageSize 分页大小
      * @return PageResult
      */
-    public PageResult queryFriendsMovements(Integer page, Integer pageSize) {
+    public PageResult pageFriendsMovement(Integer page, Integer pageSize) {
 
         // 1.查询好友动态详情数据
         Long userId = UserHolderUtil.getUserId();
 
         // 2.好友动态数据
-        List<Movement> movements = movementApi.queryFriendsMovements(userId, page, pageSize);
+        List<Movement> movements = movementApi.listFriendsMovements(userId, page, pageSize);
 
         // 3.返回结果
         return getPageResult(page, pageSize, movements);
@@ -141,7 +141,7 @@ public class MovementService {
      * @param pageSize 分页大小
      * @return PageResult
      */
-    public PageResult queryRecommendMovements(Integer page, Integer pageSize) {
+    public PageResult pageRecommendMovements(Integer page, Integer pageSize) {
 
         // 1.从redis中获取推荐数据
         String redisKey = Constants.MOVEMENTS_RECOMMEND + UserHolderUtil.getUserId();
@@ -161,7 +161,7 @@ public class MovementService {
                 List<Long> pids = Arrays.stream(split).skip((long) (page - 1) * pageSize).limit(pageSize)
                         .map(Long::parseLong).collect(Collectors.toList());
         // 5.根据pid数组查询用户数据
-                movementList = movementApi.queryMovementsByPids(pids);
+                movementList = movementApi.listMovementsByPids(pids);
             }
         }
         // 6.构建返回值
@@ -174,12 +174,12 @@ public class MovementService {
      * @param movementId 动态id
      * @return 动态详情
      */
-    public MovementsVo queryByMovementId(String movementId) {
+    public MovementsVo getMovement(String movementId) {
         // 调用消息服务 发送日志信息到RabbitMQ
 
         mqMessageService.sendLogMessage(UserHolderUtil.getUserId(),"0202","movement",movementId);
         // 1. 根据movementId查询动态详情
-        Movement movement = movementApi.queryByMovementId(movementId);
+        Movement movement = movementApi.getMovement(movementId);
         // 2. 根据userId查询用户详情
         if (movement != null) {
             Long userId = movement.getUserId();
@@ -195,7 +195,7 @@ public class MovementService {
     /**
      * 近日访客
      * */
-    public List<VisitorsVo> queryVisitorsList() {
+    public List<VisitorsVo> listVisitors() {
         // 1. 查询访问时间
         String key = Constants.VISITORS_USER;
         String hashKey = String.valueOf(UserHolderUtil.getUserId());
@@ -204,7 +204,7 @@ public class MovementService {
         Long date = StringUtils.isEmpty(value) ? null : Long.parseLong(value);
 
         // 2.查询访客列表
-        List<Visitors> list = visitorsApi.queryVisitors(date, UserHolderUtil.getUserId());
+        List<Visitors> list = visitorsApi.listVisitors(date, UserHolderUtil.getUserId());
         if (CollUtil.isEmpty(list)) {
             return new ArrayList<>();
         }

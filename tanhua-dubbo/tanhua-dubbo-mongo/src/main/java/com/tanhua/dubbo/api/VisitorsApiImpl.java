@@ -28,7 +28,7 @@ public class VisitorsApiImpl implements VisitorsApi {
      * @param visitors 访客
      */
     @Override
-    public void save(Visitors visitors) {
+    public void saveVisitors(Visitors visitors) {
         // 1.构建查询
         Query query = Query.query(Criteria.where("userId").is(visitors.getUserId())
                 .and("visitorUserId").is(visitors.getVisitorUserId())
@@ -42,7 +42,7 @@ public class VisitorsApiImpl implements VisitorsApi {
 
     //查询首页访客
     @Override
-    public List<Visitors> queryVisitors(Long date, Long userId) {
+    public List<Visitors> listVisitors(Long date, Long userId) {
         Criteria criteria = Criteria.where("userId").is(userId);
         if (date != null) {
             criteria.and("date").gt(date);
@@ -53,7 +53,7 @@ public class VisitorsApiImpl implements VisitorsApi {
     }
 
     @Override
-    public List<Visitors> queryVisitorsWithPage(Long userId,  Integer page, Integer pageSize) {
+    public List<Visitors> pageVisitors(Long userId,  Integer page, Integer pageSize) {
         Criteria criteria = Criteria.where("visitorUserId").is(userId);
         Query query = Query.query(criteria).skip((long) (page - 1) * pageSize).limit(pageSize)
                 .with(Sort.by(Sort.Order.desc("date")));

@@ -33,8 +33,8 @@ public class SmallVideosController {
      * videoFile：视频文件
      */
     @PostMapping
-    public ResponseEntity saveVideos(MultipartFile videoThumbnail, MultipartFile videoFile) throws IOException {
-        videosService.saveVideos(videoThumbnail, videoFile);
+    public ResponseEntity saveVideo(MultipartFile videoThumbnail, MultipartFile videoFile) throws IOException {
+        videosService.saveVideo(videoThumbnail, videoFile);
         return ResponseEntity.ok(null);
     }
 
@@ -42,9 +42,9 @@ public class SmallVideosController {
      * 视频列表
      */
     @GetMapping
-    public ResponseEntity queryVideoList(@RequestParam(defaultValue = "1") Integer page,
+    public ResponseEntity pageVideo(@RequestParam(defaultValue = "1") Integer page,
                                          @RequestParam(defaultValue = "10") Integer pagesize) {
-        PageResult result = videosService.queryVideoList(page, pagesize);
+        PageResult result = videosService.pageVideo(page, pagesize);
         return ResponseEntity.ok(result);
     }
 
@@ -52,8 +52,8 @@ public class SmallVideosController {
      * 视频用户关注
      */
     @PostMapping("/{uid}/userFocus")
-    public ResponseEntity addUserFocus(@PathVariable("uid") Long uid) {
-        videosService.addUserFocus(uid);
+    public ResponseEntity saveUserFocus(@PathVariable("uid") Long uid) {
+        videosService.saveUserFocus(uid);
         return ResponseEntity.ok(null);
     }
 
@@ -71,9 +71,9 @@ public class SmallVideosController {
      * 视频点赞
      */
     @PostMapping("/{id}/like")
-    public ResponseEntity addLike(@PathVariable("id") String id) {
+    public ResponseEntity saveLike(@PathVariable("id") String id) {
 
-        videosService.addLike(id);
+        videosService.saveLike(id);
 
         return ResponseEntity.ok(null);
     }
@@ -93,11 +93,11 @@ public class SmallVideosController {
      * 视频评论发布
      */
     @PostMapping("/{id}/comments")
-    public ResponseEntity addVideoComments(@PathVariable("id") String videoId, @RequestBody Map map) {
+    public ResponseEntity saveComment(@PathVariable("id") String videoId, @RequestBody Map map) {
         System.err.println(videoId);
         System.err.println(map);
         String content =(String) map.get("comment");
-        videosService.addComments(videoId, content);
+        videosService.saveComment(videoId, content);
         return ResponseEntity.ok(null);
     }
 
@@ -106,8 +106,8 @@ public class SmallVideosController {
      * 视频评论点赞
      */
     @PostMapping("/comments/{id}/like")
-    public ResponseEntity addCommentsLike(@PathVariable("id") String videoId) {
-        videosService.addCommentsLike(videoId);
+    public ResponseEntity saveCommentsLike(@PathVariable("id") String videoId) {
+        videosService.saveCommentsLike(videoId);
         return ResponseEntity.ok(null);
     }
 
@@ -126,10 +126,10 @@ public class SmallVideosController {
      * 视频评论查询
      */
     @GetMapping("/{id}/comments")
-    public ResponseEntity queryComments(@PathVariable("id") String videoId,
+    public ResponseEntity listComments(@PathVariable("id") String videoId,
                                         @RequestParam(defaultValue = "1") Integer page,
                                         @RequestParam(defaultValue = "10") Integer pagesize) {
-        PageResult result = videosService.queryComments(videoId,page, pagesize);
+        PageResult result = videosService.listComments(videoId,page, pagesize);
         return ResponseEntity.ok(result);
     }
 

@@ -48,7 +48,7 @@ public class CommentsService {
      * @param movementId 动态id
      * @param content    评论内容
      */
-    public void save(String movementId, String content) {
+    public void saveComment(String movementId, String content) {
         // 1.获取操作用户id
         Long userId = UserHolderUtil.getUserId();
 
@@ -61,7 +61,7 @@ public class CommentsService {
         comment.setCreated(System.currentTimeMillis());
 
         // 3.调用 api 保存数据
-        Integer commentCount = commentApi.save(comment);
+        Integer commentCount = commentApi.saveComment(comment);
 
         //日志记录
         log.info("commentCount:{}", commentCount);
@@ -75,9 +75,9 @@ public class CommentsService {
      * @param publishId 动态id
      * @return 分页结果
      */
-    public PageResult queryComments(Integer page, Integer pageSize, String publishId) {
+    public PageResult pageComments(Integer page, Integer pageSize, String publishId) {
         //  1. 根据id查询动态(publishId 查询 Comment集合
-        List<Comment> commentList = commentApi.queryComments(publishId, page, pageSize, CommentType.COMMENT);
+        List<Comment> commentList = commentApi.pageComments(publishId, page, pageSize, CommentType.COMMENT);
 
         //  2. 判断返回结果
         if (commentList == null || commentList.size() == 0) {
@@ -130,7 +130,7 @@ public class CommentsService {
         comment.setUserId(UserHolderUtil.getUserId());
         comment.setCreated(System.currentTimeMillis());
         //     3.2 调用api 保存数据
-        Integer count = commentApi.save(comment);
+        Integer count = commentApi.saveComment(comment);
 
         // 4.将点赞状态存入redis 将用户点赞状态存入redis
         String key = Constants.MOVEMENTS_INTERACT_KEY + movementId;
@@ -143,6 +143,7 @@ public class CommentsService {
 
     /**
      * 动态取消点赞
+     *
      * @param movementId 动态id
      * @return 更新点赞结果之后的最新数量
      */
@@ -164,7 +165,7 @@ public class CommentsService {
         comment.setCommentType(CommentType.LIKE.getType());
         comment.setUserId(UserHolderUtil.getUserId());
         //      3.2 调用api删除数据
-        Integer count = commentApi.delete(comment);
+        Integer count = commentApi.deleteComment(comment);
 
         // 4.删除 redis中的点赞状态
         String key = Constants.MOVEMENTS_INTERACT_KEY + movementId;
@@ -177,7 +178,8 @@ public class CommentsService {
 
     /**
      * 动态喜欢
-     * @param movementId  动态id
+     *
+     * @param movementId 动态id
      * @return 更新喜欢结果之后的最新数量
      */
     public Integer loveMovement(String movementId) {
@@ -199,7 +201,7 @@ public class CommentsService {
         comment.setUserId(UserHolderUtil.getUserId());
         comment.setCreated(System.currentTimeMillis());
         //      3.2 调用api 保存数据
-        Integer count = commentApi.save(comment);
+        Integer count = commentApi.saveComment(comment);
 
         // 4.将点赞状态存入redis 将用户点赞状态存入redis
         String key = Constants.MOVEMENTS_INTERACT_KEY + movementId;
@@ -213,6 +215,7 @@ public class CommentsService {
 
     /**
      * 动态取消喜欢
+     *
      * @param movementId 动态id
      * @return 更新喜欢结果之后的最新数量
      */
@@ -234,7 +237,7 @@ public class CommentsService {
         comment.setCommentType(CommentType.LOVE.getType());
         comment.setUserId(UserHolderUtil.getUserId());
         //   3.2 调用api删除数据
-        Integer count = commentApi.delete(comment);
+        Integer count = commentApi.deleteComment(comment);
 
         // 4.删除 redis中的点赞状态
         String key = Constants.MOVEMENTS_INTERACT_KEY + movementId;
@@ -247,6 +250,7 @@ public class CommentsService {
 
     /**
      * 动态评论 点赞
+     *
      * @param commentId 评论id
      * @return 更新点赞结果之后的最新数量
      */
@@ -272,6 +276,7 @@ public class CommentsService {
 
     /**
      * 动态评论 取消点赞
+     *
      * @param commentId 评论id
      * @return 更新取消点赞结果之后的最新数量
      */

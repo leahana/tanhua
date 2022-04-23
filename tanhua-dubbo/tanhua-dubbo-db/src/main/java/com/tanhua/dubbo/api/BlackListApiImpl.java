@@ -16,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/10 10:40
- * @Desc: 黑名单服务实现类
+ * @Desc: 黑名单服务实现
  */
 
 @DubboService
@@ -29,7 +29,7 @@ public class BlackListApiImpl implements BlackListApi {
     private UserInfoMapper userInfoMapper;
 
     @Override
-    public IPage<UserInfo> queryBlackListByUserId(Long userId, int page, int size) {
+    public IPage<UserInfo> listBlackList(Long userId, int page, int size) {
 
         Page pageParam = new Page(page, size);
 
@@ -37,7 +37,7 @@ public class BlackListApiImpl implements BlackListApi {
     }
 
     @Override
-    public void removeBlackListById(Long userId, Long blackUserId) {
+    public void deleteBlackList(Long userId, Long blackUserId) {
         QueryWrapper<BlackList> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId).eq("black_user_id", blackUserId);
         blackListMapper.delete(queryWrapper);

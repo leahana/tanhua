@@ -19,6 +19,7 @@ import java.util.Objects;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/15 14:43
+ * @Desc: redis缓存配置
  */
 
 

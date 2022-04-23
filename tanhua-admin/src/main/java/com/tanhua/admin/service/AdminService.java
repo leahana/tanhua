@@ -21,6 +21,10 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * @author leah_ana
+ * @Desc: 管理员业务层
+ */
 @Service
 public class AdminService {
 
@@ -30,17 +34,34 @@ public class AdminService {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
+    /**
+     * 管理员登录验证码校验
+     *
+     * @param map
+     * @return
+     */
     public Map login(Map map) {
         // 1.获取请求参数
         String username = (String) map.get("username");
         String password = (String) map.get("password");
         String verificationCode = (String) map.get("verificationCode");
+
+        //用户输入的验证码转换成全小写
+        if (!StringUtils.isEmpty(verificationCode)) {
+            verificationCode = verificationCode.toLowerCase();
+        }
+
         String uuid = (String) map.get("uuid");
+
         // 2.校验验证码是否正确
         String key = Constants.CAP_CODE + uuid;
-        String tempValue = redisTemplate.opsForValue().get(key);
-        assert tempValue != null;
-        String value = tempValue.toLowerCase();
+        String value = redisTemplate.opsForValue().get(key);
+
+        //转换redis中的验证码为全小写
+        if (!StringUtils.isEmpty(value)) {
+            value = value.toLowerCase();
+        }
+
         if (StringUtils.isEmpty(value) || !value.equals(verificationCode)) {
             throw new BusinessException("验证码错误");
         }
@@ -65,11 +86,14 @@ public class AdminService {
         return retMap;
     }
 
-    public AdminVo profile() {
+    /**
+     * 管理员其他信息
+     */
+    public AdminVo getProfile() {
         Long userId = AdminHolder.getUserId();
         Admin admin = adminMapper.selectById(userId);
 
-         return AdminVo.init(admin);
+        return AdminVo.init(admin);
 
     }
 }

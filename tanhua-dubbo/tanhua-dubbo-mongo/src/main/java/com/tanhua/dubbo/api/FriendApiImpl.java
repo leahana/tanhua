@@ -22,7 +22,6 @@ public class FriendApiImpl implements FriendApi {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-
     @Override
     public Boolean addFriend(Long userId, Long friendId) {
 
@@ -57,7 +56,7 @@ public class FriendApiImpl implements FriendApi {
     }
 
     @Override
-    public List<Friend> queryFriends(Long userId, Integer page, Integer pageSize, String keyword) {
+    public List<Friend> listFriends(Long userId, Integer page, Integer pageSize, String keyword) {
         Criteria criteria = Criteria.where("userId").is(userId);
         Query query = Query.query(criteria)
                 .skip((long) (page - 1) * pageSize)

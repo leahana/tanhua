@@ -72,13 +72,13 @@ public class RecommendService {
      *
      * @return 今日佳人
      */
-    public TodayBest queryTodayBest() {
+    public TodayBest getTodayBest() {
 
         // 1.获取用户id
         Long userId = UserHolderUtil.getUserId();
 
         // 2.调用api查询
-        RecommendUser recommendUser = recommendUserApi.queryWithMaxScore(userId);
+        RecommendUser recommendUser = recommendUserApi.getWithMaxScore(userId);
 
         // 判断 如果没有推荐用户就构造一个默认用户
         if (recommendUser == null) {
@@ -92,10 +92,9 @@ public class RecommendService {
 
         // 3.封装成vo
         TodayBest todayBest = new TodayBest();
-        TodayBest vo = TodayBest.init(userInfo, recommendUser);
 
         // 4.返回结果
-        return vo;
+        return TodayBest.init(userInfo, recommendUser);
     }
 
     /**
@@ -103,7 +102,7 @@ public class RecommendService {
      * @param recommendUserDto 推荐好友参数
      * @return 分页的  推荐好友
      */
-    public PageResult queryRecommendationFriends(RecommendUserDto recommendUserDto) {
+    public PageResult listRecommendationFriends(RecommendUserDto recommendUserDto) {
 
         // 1.获取用户id
         Long userId = UserHolderUtil.getUserId();
@@ -111,7 +110,7 @@ public class RecommendService {
         Integer pageSize = recommendUserDto.getPageSize();
 
         // 2.获取分页中的RecommendUsers
-        PageResult pageResult = recommendUserApi.queryRecommendUserList(userId, page, pageSize);
+        PageResult pageResult = recommendUserApi.pageRecommendUsers(userId, page, pageSize);
         List<RecommendUser> recommendUsers = (List<RecommendUser>) pageResult.getItems();
 
         // 3.判断分页列表似乎否为空
@@ -178,13 +177,13 @@ public class RecommendService {
      * @param userId 佳人用户id
      * @return 佳人信息
      */
-    public TodayBest queryPersonalInfo(Long userId) {
+    public TodayBest getPersonalInfo(Long userId) {
 
         // 1.根据用户id查询用户详情
         UserInfo userInfo = userInfoApi.findById(userId);
 
         // 2.根据操作人id和查看用户的id查询缘分值
-        RecommendUser recommendUser = recommendUserApi.queryByUserId(userId, UserHolderUtil.getUserId());
+        RecommendUser recommendUser = recommendUserApi.getRecommendUser(userId, UserHolderUtil.getUserId());
 
 
         //访客数据
@@ -195,7 +194,7 @@ public class RecommendService {
         visitors.setDate(System.currentTimeMillis());
         visitors.setVisitDate(new SimpleDateFormat("yyyyMMdd").format(new Date()));
         visitors.setScore(recommendUser.getScore());
-        visitorsApi.save(visitors);
+        visitorsApi.saveVisitors(visitors);
 
         // 3.构造返回值
 
@@ -207,8 +206,8 @@ public class RecommendService {
      * @param userId 用户id
      * @return 默认问题
      */
-    public String queryQuestions(Long userId) {
-        Question question = questionApi.queryQuestionByUserId(userId);
+    public String listQuestions(Long userId) {
+        Question question = questionApi.getQuestion(userId);
         //若果没有默认问题, 则构造默认问题为"你是?"
         return question == null ? "你是?" : question.getTxt();
     }
@@ -228,7 +227,7 @@ public class RecommendService {
         map.put("userId", id);
         map.put("huanxinId", Constants.HX_USER_PREFIX + id);
         map.put("nickname", userinfo.getNickname());
-        map.put("strangerQuestion", queryQuestions(userId));
+        map.put("strangerQuestion", listQuestions(userId));
         map.put("reply", reply);
 
         // 转换map对象为JSON字符串
@@ -249,11 +248,11 @@ public class RecommendService {
      * 查询探花推荐
      * @return 今日佳人卡片集合
      */
-    public List<TodayBest> queryCardsList() {
+    public List<TodayBest> listRecommends() {
 
         // 1.调用 推荐api查询数据列表(排除喜欢/不喜欢, 数量限制
 
-        List<RecommendUser> userList = recommendUserApi.queryCardList(UserHolderUtil.getUserId(), 10);
+        List<RecommendUser> userList = recommendUserApi.listRecommendUser(UserHolderUtil.getUserId(), 10);
 
         // 2.判断数据是否存在,不存在默认构造
         if (CollUtil.isEmpty(userList)) {
@@ -352,7 +351,7 @@ public class RecommendService {
     public List<NearUserVo> queryNearby(String gender, String distance) {
         // 1.调用api 查询附近的用户(返回的是附近的人的所有用户的id
         Long id = UserHolderUtil.getUserId();
-        List<Long> userIds = locationApi.queryNearbyUser(id, Double.valueOf(distance));
+        List<Long> userIds = locationApi.listUsersNearby(id, Double.valueOf(distance));
         // 2.判断集合是否为空
         if (CollUtil.isEmpty(userIds)) {
             return new ArrayList<>();
@@ -366,7 +365,7 @@ public class RecommendService {
         List<NearUserVo> vos = new ArrayList<>();
 
         for (Long userId : userIds) {
-            if (userId == id) continue;
+            if (Objects.equals(userId, id)) continue;
             UserInfo info = map.get(userId);
             if (info != null) {
                 NearUserVo vo = NearUserVo.init(info);

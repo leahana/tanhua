@@ -49,7 +49,7 @@ public class VideoCommentApiImpl implements VideoCommentApi {
     }
 
     @Override
-    public void save(VideoComment videoComment) {
+    public void saveVideoComment(VideoComment videoComment) {
         videoComment.setLikeCount(0);
         videoComment.setCommentType(1);
         videoComment.setCreated(System.currentTimeMillis());
@@ -58,7 +58,7 @@ public class VideoCommentApiImpl implements VideoCommentApi {
     }
 
     @Override
-    public List<VideoComment> queryComments(String videoId, Integer page, Integer pageSize) {
+    public List<VideoComment> listComments(String videoId, Integer page, Integer pageSize) {
 
         Query query = Query.query(Criteria
                 .where("videoId").is(new ObjectId(videoId))

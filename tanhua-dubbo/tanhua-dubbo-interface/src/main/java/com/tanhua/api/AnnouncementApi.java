@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface AnnouncementApi {
 
-    IPage<Announcement> queryAnnouncements(Integer page, Integer pageSize);
+    //分页查询公告
+    IPage<Announcement> pageAnnouncements(Integer page, Integer pageSize);
 
 }

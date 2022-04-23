@@ -8,19 +8,23 @@ public interface UserApi {
 
 
     //根据手机号码查询用户
-    User findByMobile(String mobile);
+    User getUserByMobile(String mobile);
 
     //保存用户 返回用户id
-    Long save(User user);
+    Long saveUser(User user);
 
     //更新用户手机号
     void updatePhone(String phone,Long id);
 
-    void update(User user);
+    //更新用户
+    void updateUser(User user);
 
-    User queryById(Long userId);
+    //根据用户获取用户基本信息
+    User getUser(Long userId);
 
-    User queryByImId(String imId);
+    //根据环信id获取用户id
+    User getUserByIm(String imId);
 
-    List<User> findAll();
+    //获取用户列表
+    List<User> listUsers();
 }

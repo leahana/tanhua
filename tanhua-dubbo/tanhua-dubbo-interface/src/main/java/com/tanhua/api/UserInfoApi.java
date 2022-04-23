@@ -17,5 +17,5 @@ public interface UserInfoApi {
     Map<Long,UserInfo> findByIds(List<Long> ids, UserInfo userInfo);
 
     //分页查询
-    IPage findAll(Integer page,Integer pageSize);
+    IPage<UserInfo> pageUserInfos(Integer page,Integer pageSize);
 }

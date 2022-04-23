@@ -24,14 +24,14 @@ public class UserApiImpl implements UserApi {
     private UserMapper userMapper;
 
     @Override
-    public User findByMobile(String mobile) {
+    public User getUserByMobile(String mobile) {
         QueryWrapper<User> qw = new QueryWrapper<>();
         qw.eq("mobile", mobile);
         return userMapper.selectOne(qw);
     }
 
     @Override
-    public Long save(User user) {
+    public Long saveUser(User user) {
         userMapper.insert(user);
         return user.getId();
     }
@@ -40,22 +40,24 @@ public class UserApiImpl implements UserApi {
     public void updatePhone(String phone, Long id) {
 
         UpdateWrapper<User> updateWrapper = new UpdateWrapper<>();
+
         updateWrapper.eq("id", id).set("mobile", phone);
+
         userMapper.update(null, updateWrapper);
+
     }
 
     @Override
-    public void update(User user) {
-        userMapper.updateById(user);
-    }
+    public void updateUser(User user) {userMapper.updateById(user);}
 
     @Override
-    public User queryById(Long userId) {
+    public User getUser(Long userId) {
         return userMapper.selectById(userId);
     }
 
     @Override
-    public User queryByImId(String imId) {
+    public User getUserByIm(String imId) {
+
         QueryWrapper<User> qw = new QueryWrapper<User>()
                 .eq("hx_user", imId);
 
@@ -63,7 +65,7 @@ public class UserApiImpl implements UserApi {
     }
 
     @Override
-    public List<User> findAll() {
+    public List<User> listUsers() {
         return userMapper.selectList(null);
     }
 }

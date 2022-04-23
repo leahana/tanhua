@@ -30,7 +30,7 @@ public class SoundApiImpl implements SoundApi {
     private MongoTemplate mongoTemplate;
 
     @Override
-    public String addSound(String soundUrl, Long userId) {
+    public String saveSound(String soundUrl, Long userId) {
         if (soundUrl != null && userId != null) {
             Sound sound = new Sound();
             sound.setSoundUrl(soundUrl);

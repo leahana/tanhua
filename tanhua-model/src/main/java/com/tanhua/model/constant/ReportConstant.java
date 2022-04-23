@@ -4,7 +4,7 @@ package com.tanhua.model.constant;
  * @Author: leah_ana
  * @Date: 2022/4/22 15:30
  */
-
+@Deprecated
 public class ReportConstant {
     //conclusion//本来想偷懒直接用枚举的,算了 还是整个数据库吧
     public static final String CONCLUSION_TYPE_1 = "猫头鹰：他们的共同特质为重计划、条理、细节精准。" +

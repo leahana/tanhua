@@ -18,6 +18,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Random;
 
+/**
+ * 用户数据随机生成test
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class LogTest {

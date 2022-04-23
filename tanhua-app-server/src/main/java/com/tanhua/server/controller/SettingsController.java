@@ -24,21 +24,24 @@ public class SettingsController {
     @Autowired
     private SettingsService settingsService;
 
+
     /**
      * 获取用户通用设置
      *
      * @return 返回用户通用设置
      */
     @GetMapping("/settings")
-    public ResponseEntity<SettingsVo> querySettings() {
+    public ResponseEntity<SettingsVo> listSettings() {
 
-        SettingsVo vo = settingsService.querySettingsById();
+        SettingsVo vo = settingsService.listSettings();
 
         return ResponseEntity.ok(vo);
     }
 
+
     /**
      * 更新用户陌生人问题设置
+     *
      * @param map 问题
      * @return 返回更新结果
      */
@@ -52,13 +55,15 @@ public class SettingsController {
         return ResponseEntity.ok(null);
     }
 
+
     /**
      * 通知设置
+     *
      * @param map 通知设置
      * @return 返回更新结果
      */
     @PostMapping("/notifications/setting")
-    public  ResponseEntity updateNotification(@RequestBody Map map) {
+    public ResponseEntity updateNotification(@RequestBody Map map) {
 
         settingsService.updateNotificationSetting(map);
         return ResponseEntity.ok(null);
@@ -67,18 +72,18 @@ public class SettingsController {
 
     /**
      * 分页查询黑名单列表
+     *
      * @param page,size 分页参数
      */
 
     @GetMapping("/blacklist")
-    public ResponseEntity queryBlackList(@RequestParam(defaultValue = "1") int page,
-                                         @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity pageBlackList(@RequestParam(defaultValue = "1") int page,
+                                        @RequestParam(defaultValue = "10") int size) {
         // 1.调用service 进行查询
-        PageResult pageResult=settingsService.queryBlackList(page,size);
+        PageResult pageResult = settingsService.pageBlackList(page, size);
         // 2.构造放回
         return ResponseEntity.ok(pageResult);
     }
-
 
     /**
      * 取消黑名单
@@ -86,7 +91,7 @@ public class SettingsController {
     @DeleteMapping("/blacklist/{uid}")
     public ResponseEntity deleteBlackList(@PathVariable("uid") Long uid) {
 
-        settingsService.removeBlackList(uid);
+        settingsService.deleteBlackList(uid);
 
         return ResponseEntity.ok(null);
     }

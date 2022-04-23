@@ -23,12 +23,13 @@ import java.io.IOException;
 @RestController
 @RequestMapping("/peachblossom")
 public class PeachblossomController {
+
     @Autowired
     private PeachblossomService peachblossomService;
 
     @PostMapping
-    public ResponseEntity addSound(MultipartFile soundFile) throws IOException {
-        peachblossomService.addSound(soundFile);
+    public ResponseEntity saveSound(MultipartFile soundFile) throws IOException {
+        peachblossomService.saveSound(soundFile);
         return ResponseEntity.ok(null);
     }
 

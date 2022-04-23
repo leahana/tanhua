@@ -22,21 +22,25 @@ import org.springframework.context.annotation.Configuration;
 })
 public class TanhuaConfiguration {
 
+    //阿里云短信
     @Bean
     public SmsTemplate smsTemplate(SmsProperties properties) {
         return new SmsTemplate(properties);
     }
 
+    //阿里云OSS
     @Bean
     public OssTemplate ossTemplate(OssProperties properties) {
         return new OssTemplate(properties);
     }
 
+    //百度人脸识别
     @Bean
     public ApiFaceTemplate apiFaceTemplate() {
         return new ApiFaceTemplate();
     }
 
+    //环信IM
     @Bean
     public ImTemplate imTemplate(ImProperties properties) {
         return new ImTemplate(properties);
@@ -46,12 +50,15 @@ public class TanhuaConfiguration {
      * 检测文件中是否有tanhua.green开头的配置
      * 同事enable属性为true
      */
+    //阿里云云盾安全审核
     @Bean
-    @ConditionalOnProperty(prefix = "tanhua.green",value = "enable", havingValue = "true")
+    @Deprecated//暂时不用
+    @ConditionalOnProperty(prefix = "tanhua.green", value = "enable", havingValue = "true")
     public AliyunGreenTemplate aliyunGreenTemplate(GreenProperties properties) {
         return new AliyunGreenTemplate(properties);
     }
 
+    //阿里云审核
     @Bean
     public AlibabaGreenTemplate alibabaGreenTemplate(GreenProperties properties) {
         return new AlibabaGreenTemplate(properties);

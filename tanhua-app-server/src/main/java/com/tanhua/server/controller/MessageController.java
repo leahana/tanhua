@@ -29,8 +29,8 @@ public class MessageController {
      * 根据环信用户id 查询用户详情
      */
     @GetMapping("/userinfo")
-    public ResponseEntity queryUserInfo(String huanxinId) {
-        UserInfoVo vo = messageService.queryUserInfoByIm(huanxinId);
+    public ResponseEntity getUserInfo(String huanxinId) {
+        UserInfoVo vo = messageService.getUserInfoByIm(huanxinId);
         return ResponseEntity.ok(vo);
     }
 
@@ -53,10 +53,10 @@ public class MessageController {
      * 查询好友消息
      */
     @GetMapping("/contacts")
-    public ResponseEntity queryFriends(@RequestParam(defaultValue = "1") Integer page,
+    public ResponseEntity pageFriends(@RequestParam(defaultValue = "1") Integer page,
                                        @RequestParam(defaultValue = "10") Integer pagesize,
                                        String keyword) {
-        PageResult pageResult = messageService.queryFriends(page, pagesize, keyword);
+        PageResult pageResult = messageService.pageFriends(page, pagesize, keyword);
 
         return ResponseEntity.ok(pageResult);
 
@@ -66,9 +66,9 @@ public class MessageController {
      * 公告分页查询
      */
     @GetMapping("/announcements")
-    public ResponseEntity queryAnnouncements(@RequestParam(defaultValue = "1") Integer page,
+    public ResponseEntity pageAnnouncements(@RequestParam(defaultValue = "1") Integer page,
                                              @RequestParam(defaultValue = "10") Integer pagesize) {
-        PageResult pageResult = messageService.queryAnnouncements(page, pagesize);
+        PageResult pageResult = messageService.pageAnnouncements(page, pagesize);
 
         return ResponseEntity.ok(pageResult);
     }
@@ -77,10 +77,10 @@ public class MessageController {
      * 查询喜欢列表
      */
     @GetMapping("loves")
-    public ResponseEntity queryLoves(@RequestParam(defaultValue = "1") Integer page,
+    public ResponseEntity pageLoves(@RequestParam(defaultValue = "1") Integer page,
                                      @RequestParam(defaultValue = "10") Integer pagesize) {
         // PageResult pageResult = messageService.queryLoves(page, pagesize);
-        PageResult pageResult = messageService.messageCommentList(CommentType.LOVE, page, pagesize);
+        PageResult pageResult = messageService.pageMessageCommentWithType(CommentType.LOVE, page, pagesize);
         return ResponseEntity.ok(pageResult);
     }
 
@@ -90,7 +90,7 @@ public class MessageController {
     @GetMapping("/likes")
     public ResponseEntity queryLikes(@RequestParam(defaultValue = "1") Integer page,
                                      @RequestParam(defaultValue = "10") Integer pagesize) {
-        PageResult pageResult = messageService.messageCommentList(CommentType.LIKE, page, pagesize);
+        PageResult pageResult = messageService.pageMessageCommentWithType(CommentType.LIKE, page, pagesize);
         return ResponseEntity.ok(pageResult);
 
     }
@@ -101,7 +101,7 @@ public class MessageController {
     @GetMapping("/comments")
     public ResponseEntity queryComments(@RequestParam(defaultValue = "1") Integer page,
                                         @RequestParam(defaultValue = "10") Integer pagesize) {
-        PageResult pageResult = messageService.messageCommentList(CommentType.COMMENT, page, pagesize);
+        PageResult pageResult = messageService.pageMessageCommentWithType(CommentType.COMMENT, page, pagesize);
 
         return ResponseEntity.ok(pageResult);
     }

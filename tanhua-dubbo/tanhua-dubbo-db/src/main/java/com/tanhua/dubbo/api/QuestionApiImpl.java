@@ -20,14 +20,14 @@ public class QuestionApiImpl implements QuestionApi {
     private QuestionMapper questionMapper;
 
     @Override
-    public Question queryQuestionByUserId(Long userId) {
+    public Question getQuestion(Long userId) {
         QueryWrapper<Question> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("user_id", userId);
         return questionMapper.selectOne(queryWrapper);
     }
 
     @Override
-    public void addQuestion(Question question) {
+    public void saveQuestion(Question question) {
         questionMapper.insert(question);
     }
 

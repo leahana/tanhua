@@ -18,6 +18,7 @@ import java.util.Map;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/16 15:16
+ * @Desc: 日志监听器 用户操作日志记录
  */
 
 @Component
@@ -48,7 +49,6 @@ public class LogListener {
             Long userId = Long.valueOf(map.get("userId").toString());
             String type = (String) map.get("type");
             String logTime=(String) map.get("logTime");
-
             Log log = new Log(userId, logTime, type);
             // 2. 构造log对象存入数据库
             logMapper.insert(log);

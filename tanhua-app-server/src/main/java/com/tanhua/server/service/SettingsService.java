@@ -35,7 +35,7 @@ public class SettingsService {
     /**
      * 查询通用设置
      */
-    public SettingsVo querySettingsById() {
+    public SettingsVo listSettings() {
 
         SettingsVo vo = new SettingsVo();
 
@@ -44,11 +44,11 @@ public class SettingsService {
         String mobile = UserHolderUtil.getMobile();
         vo.setPhone(mobile);
 
-        Question question = questionApi.queryQuestionByUserId(userId);
+        Question question = questionApi.getQuestion(userId);
         String questionTxt = question == null ? "" : question.getTxt();
         vo.setStrangerQuestion(questionTxt);
 
-        Settings settings = settingsApi.querySettingsByUserId(userId);
+        Settings settings = settingsApi.getSettings(userId);
         if (settings != null) {
             //BeanUtils.copyProperties(settings ,vo);
             vo.setGonggaoNotification(settings.getGonggaoNotification());
@@ -60,6 +60,7 @@ public class SettingsService {
 
     /**
      * 设置陌生人问题
+     *
      * @param content 问题内容
      */
     public void updateQuestion(String content) {
@@ -67,7 +68,7 @@ public class SettingsService {
         Long userId = UserHolderUtil.getUserId();
 
         // 2.调用api查询当前用户的陌生人问题
-        Question question = questionApi.queryQuestionByUserId(userId);
+        Question question = questionApi.getQuestion(userId);
 
         // 3.判断用户是否有陌生人问题
         if (question == null) {
@@ -75,7 +76,7 @@ public class SettingsService {
             question = new Question();
             question.setUserId(userId);
             question.setTxt(content);
-            questionApi.addQuestion(question);
+            questionApi.saveQuestion(question);
         } else {
             //3.2 如果有，则修改
             question.setTxt(content);
@@ -85,6 +86,7 @@ public class SettingsService {
 
     /**
      * 通知设置
+     *
      * @param map (公告、评论、点赞)
      */
     public void updateNotificationSetting(Map map) {
@@ -95,7 +97,7 @@ public class SettingsService {
         Boolean likeNotification = (Boolean) map.get("likeNotification");
 
         // 2.调用api查询当前用户的通知设置
-        Settings settings = settingsApi.querySettingsByUserId(userId);
+        Settings settings = settingsApi.getSettings(userId);
 
         // 3.判断用户是否有通知设置
         if (settings == null) {
@@ -105,7 +107,7 @@ public class SettingsService {
             settings.setGonggaoNotification(gonggaoNotification);
             settings.setPinglunNotification(pinglunNotification);
             settings.setLikeNotification(likeNotification);
-            settingsApi.addSettings(settings);
+            settingsApi.saveSettings(settings);
         } else {
             //3.2 如果有，则修改
             settings.setGonggaoNotification(gonggaoNotification);
@@ -118,15 +120,15 @@ public class SettingsService {
     /**
      * 分页查询黑名单列表
      */
-    public PageResult queryBlackList(int page, int size) {
+    public PageResult pageBlackList(int page, int size) {
         // 1.获取当前用户id
         Long userId = UserHolderUtil.getUserId();
 
         // 2.调用api查询用户黑名单分页列表 Mybatis-plus分页对象 IPage<T>
-        IPage<UserInfo> iPage = blackListApi.queryBlackListByUserId(userId, page, size);
+        IPage<UserInfo> iPage = blackListApi.listBlackList(userId, page, size);
 
         // 3.转换为PageResult
-        PageResult pageResult =  new PageResult(page, size, (int) iPage.getTotal(), iPage.getRecords());
+        PageResult pageResult = new PageResult(page, size, (int) iPage.getTotal(), iPage.getRecords());
 
         // 4.返回结果
         return pageResult;
@@ -134,14 +136,15 @@ public class SettingsService {
 
     /**
      * 取消黑名单
+     *
      * @param blackUserId 黑名单用户id
      */
-    public void removeBlackList(Long blackUserId) {
+    public void deleteBlackList(Long blackUserId) {
         // 1.获取当前用户id
         Long userId = UserHolderUtil.getUserId();
 
         // 2.调用api删除黑名单
-        blackListApi.removeBlackListById(userId, blackUserId);
+        blackListApi.deleteBlackList(userId, blackUserId);
 
     }
 }

@@ -60,7 +60,7 @@ public class UserLikeApiImpl implements UserLikeApi {
     }
 
     @Override
-    public Map<String, Integer> queryCounts(Long userId) {
+    public Map<String, Integer> countUserLike(Long userId) {
         int eachLoveCount = 0;
         int loveCount = 0;
         int fanCount;
@@ -99,7 +99,7 @@ public class UserLikeApiImpl implements UserLikeApi {
 
 
     @Override//查询用户喜欢的人
-    public List<UserLike> findUserLikes(Long userId) {
+    public List<UserLike> listUserLikes(Long userId) {
 
         Criteria criteria = Criteria.where("isLike").is(true).and("userId").is(userId);
         Query query = Query.query(criteria).with(Sort.by(Sort.Order.desc("updated")));
@@ -107,7 +107,7 @@ public class UserLikeApiImpl implements UserLikeApi {
     }
 
     @Override
-    public List<UserLike> findUserLikes(Long userId, Integer page, Integer pageSize) {
+    public List<UserLike> listUserLikes(Long userId, Integer page, Integer pageSize) {
         Criteria criteria = Criteria.where("isLike").is(true).and("userId").is(userId);
         Query query = Query.query(criteria).skip((long) (page - 1) * pageSize)
                 .limit(pageSize).with(Sort.by(Sort.Order.desc("updated")));
@@ -116,7 +116,7 @@ public class UserLikeApiImpl implements UserLikeApi {
     }
 
     @Override
-    public List<UserLike> findUserLikes(Integer page, Integer pageSize, Long likeUserId) {
+    public List<UserLike> listUserLikes(Integer page, Integer pageSize, Long likeUserId) {
         Criteria criteria = Criteria.where("isLike").is(true).and("likeUserId").is(likeUserId);
         Query query = Query.query(criteria).skip((long) (page - 1) * pageSize)
                 .limit(pageSize).with(Sort.by(Sort.Order.desc("updated")));
@@ -133,6 +133,7 @@ public class UserLikeApiImpl implements UserLikeApi {
         mongoTemplate.remove(query2, UserLike.class);
 
     }
+
 
     /*
 

@@ -52,8 +52,10 @@ public class AuditListener {
     )
     public void audit(String movementId) {
         try {
+
             // 1.根据id查询动态
             Movement movement = movementApi.findByMomentId(movementId);
+
             // 2.审核文本,审核图片
             if (movement != null && movement.getState() == 0) {
                 Map<String, String> txtScan = template.greenTextScan(movement.getTextContent());
@@ -70,11 +72,12 @@ public class AuditListener {
 
                 }
                 // 3.判断审核结果
+//                state==1 pass
+//                state==2 block
 
-            movementApi.updateState(movementId, state);
-
-            }
             // 4.更新动态状态
+                movementApi.updateState(movementId, state);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

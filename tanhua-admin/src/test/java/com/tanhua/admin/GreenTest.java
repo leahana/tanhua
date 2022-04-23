@@ -28,6 +28,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
 
+/**
+ * 内容审核test
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class GreenTest {

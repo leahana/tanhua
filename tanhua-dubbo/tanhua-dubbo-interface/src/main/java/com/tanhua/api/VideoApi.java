@@ -6,12 +6,16 @@ import com.tanhua.model.vo.PageResult;
 import java.util.List;
 
 public interface VideoApi {
-    String save(Video video);
 
-    List<Video> queryMovementsByVids(List<Long> vids);
+    //保存视频
+    String saveVideo(Video video);
 
-    List<Video> queryVideos(int i, Integer pageSize);
+    //根据vid查询视频
+    List<Video> listMovementsByVids(List<Long> vids);
 
+    //查询视频
+    List<Video> listVideos(int i, Integer pageSize);
 
-    PageResult findByUserId(Integer page, Integer pageSize, Long userId);
+    //分页查询视频
+    PageResult pageVideos(Integer page, Integer pageSize, Long userId);
 }

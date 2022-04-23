@@ -53,11 +53,11 @@ public class TestSoulController {
     }
 
     @PostMapping
-    public ResponseEntity answer(@RequestBody Map map) {
+    public ResponseEntity saveAnswers(@RequestBody Map map) {
 
         System.err.println("提交试卷!!!!!!!!!!!!!!!!!!");
         map.forEach((k, v) -> System.err.println(k + ":" + v));
-        testSoulService.saveAnswer(map);
+        testSoulService.saveAnswers(map);
         return ResponseEntity.ok("");
     }
     @GetMapping("/report/{id}")

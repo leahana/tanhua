@@ -32,7 +32,7 @@ public class VideoApiImpl implements VideoApi {
     private IdWorker idWorker;
 
     @Override
-    public String save(Video video) {
+    public String saveVideo(Video video) {
         // 1.设置属性
         video.setVid(idWorker.getNextId("video"));
         video.setCreated(System.currentTimeMillis());
@@ -43,13 +43,13 @@ public class VideoApiImpl implements VideoApi {
     }
 
     @Override
-    public List<Video> queryMovementsByVids(List<Long> vids) {
+    public List<Video> listMovementsByVids(List<Long> vids) {
         Query query = Query.query(Criteria.where("vid").in(vids));
         return mongoTemplate.find(query, Video.class);
     }
 
     @Override
-    public List<Video> queryVideos(int page, Integer pageSize) {
+    public List<Video> listVideos(int page, Integer pageSize) {
 
         Query query = Query.query(new Criteria()).limit(pageSize)
                 .skip((long) pageSize * (page - 1))
@@ -58,7 +58,7 @@ public class VideoApiImpl implements VideoApi {
     }
 
     @Override
-    public PageResult findByUserId(Integer page, Integer pageSize, Long userId) {
+    public PageResult pageVideos(Integer page, Integer pageSize, Long userId) {
         Query query = Query.query(Criteria.where("userId").is(userId));
         long count = mongoTemplate.count(query, Video.class);
 

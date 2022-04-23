@@ -79,7 +79,7 @@ public class SmallVideosService {
      * @param videoFile      视频文件
      * @throws IOException IO异常
      */
-    public void saveVideos(MultipartFile videoThumbnail, MultipartFile videoFile) throws IOException {
+    public void saveVideo(MultipartFile videoThumbnail, MultipartFile videoFile) throws IOException {
         if (videoThumbnail.isEmpty() || videoFile.isEmpty()) {
             throw new BusinessException(ErrorResult.error());
         }
@@ -104,7 +104,7 @@ public class SmallVideosService {
         video.setText("测试视频");
 
         // 4.调用API保存数据
-        String videoId = videoApi.save(video);
+        String videoId = videoApi.saveVideo(video);
 
         if (StringUtils.isEmpty(videoId)) {
             throw new BusinessException(ErrorResult.error());
@@ -121,7 +121,7 @@ public class SmallVideosService {
      */
     @Cacheable(value = "videos",
             key = " T(com.tanhua.server.interceptor.UserHolderUtil).getUserId()+'_'+#page+'_'+#pageSize")
-    public PageResult queryVideoList(Integer page, Integer pageSize) {
+    public PageResult pageVideo(Integer page, Integer pageSize) {
         // 1.查询redis
         String redisKey = Constants.VIDEOS_RECOMMEND + UserHolderUtil.getUserId();
         String redisValue = redisTemplate.opsForValue().get(redisKey);
@@ -136,7 +136,7 @@ public class SmallVideosService {
             if ((page - 1) * pageSize < split.length) {
                 List<Long> vids = Arrays.stream(split).skip((long) (page - 1) * pageSize).limit(pageSize)
                         .map(Long::parseLong).collect(Collectors.toList());
-                list = videoApi.queryMovementsByVids(vids);
+                list = videoApi.listMovementsByVids(vids);
             }
             redisPage = PageUtil.totalPage(split.length, pageSize);
         }
@@ -145,7 +145,7 @@ public class SmallVideosService {
         if (CollUtil.isEmpty(list)) {
             //page计算  传入的页码 -redis中查询的总页数
 
-            list = videoApi.queryVideos(page - redisPage, pageSize);
+            list = videoApi.listVideos(page - redisPage, pageSize);
         }
 
         // 5.提取视频列表中所有的用户id
@@ -181,7 +181,7 @@ public class SmallVideosService {
      * 关注视频作者
      * @param uid 视频作者id
      */
-    public void addUserFocus(Long uid) {
+    public void saveUserFocus(Long uid) {
         // 1.查询用户是否已关注
         String key = Constants.FOCUS_USER_KEY + UserHolderUtil.getUserId();
         String hashKey = uid.toString();
@@ -217,7 +217,7 @@ public class SmallVideosService {
      * 视频点赞
      * @param videoId 视频id
      */
-    public void addLike(String videoId) {
+    public void saveLike(String videoId) {
 
         // 1.从redis中查询用户是否点过赞
         String key = Constants.VIDEO_LIKE + UserHolderUtil.getUserId();
@@ -256,7 +256,7 @@ public class SmallVideosService {
      * @param videoId 视频id
      * @param content 评论内容
      */
-    public void addComments(String videoId, String content) {
+    public void saveComment(String videoId, String content) {
         // 1.获取操作用户
         Long userId = UserHolderUtil.getUserId();
 
@@ -267,14 +267,14 @@ public class SmallVideosService {
         videoComment.setContent(content);
 
         // 3.保存评论
-        videoCommentApi.save(videoComment);
+        videoCommentApi.saveVideoComment(videoComment);
     }
 
     /**
      * 视频评论点赞
      * @param videoId 视频id
      */
-    public void addCommentsLike(String videoId) {
+    public void saveCommentsLike(String videoId) {
 
         // 查询用户是否点过赞
         String key = "video_comment_like" + UserHolderUtil.getUserId();
@@ -301,9 +301,9 @@ public class SmallVideosService {
      * 查询视频评论
      * @param videoId 视频id
      */
-    public PageResult queryComments(String videoId, Integer page, Integer pageSize) {
+    public PageResult listComments(String videoId, Integer page, Integer pageSize) {
         // 1  查询 视频评论
-        List<VideoComment> vcs = videoCommentApi.queryComments(videoId, page, pageSize);
+        List<VideoComment> vcs = videoCommentApi.listComments(videoId, page, pageSize);
         if (CollUtil.isEmpty(vcs)) {
             return new PageResult();
         }

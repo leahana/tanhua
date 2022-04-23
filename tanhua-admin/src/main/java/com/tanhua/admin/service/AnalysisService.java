@@ -16,6 +16,7 @@ import java.util.Date;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/16 16:13
+ * @Desc: 日志分析
  */
 @Service
 public class AnalysisService {
@@ -43,6 +44,7 @@ public class AnalysisService {
      * 2. 构造Analysis对象
      * 3. 保存或者更新tb_analysis表中的数据
      */
+    //方便后台统计数据, 定时更新当日信息
     public void analysis() throws ParseException {
         // 1.定义查询日期
         String todayStr = new SimpleDateFormat("yyyy-MM-dd").format(new Date());

@@ -38,7 +38,7 @@ public class MovementController {
      * 发布动态
      */
     @PostMapping
-    public ResponseEntity addMovement(Movement movement,
+    public ResponseEntity saveMovement(Movement movement,
                                       MultipartFile[] imageContent) throws IOException {
 
         System.err.println("发动态了发动态了");
@@ -51,11 +51,11 @@ public class MovementController {
      * 查看我的动态
      */
     @GetMapping("/all")
-    public ResponseEntity queryMovementsByUserId(Long userId,
+    public ResponseEntity pageMovements(Long userId,
                                                  @RequestParam(defaultValue = "1") Integer page,
                                                  @RequestParam(defaultValue = "10") Integer pagesize) {
 
-        PageResult pageResult = movementService.queryMovementsByUserId(userId, page, pagesize);
+        PageResult pageResult = movementService.pageMovements(userId, page, pagesize);
 
         return ResponseEntity.ok(pageResult);
     }
@@ -64,10 +64,10 @@ public class MovementController {
      * 查询好友动态
      */
     @GetMapping
-    public ResponseEntity queryFriendsMovement(@RequestParam(defaultValue = "1") Integer page,
+    public ResponseEntity pageFriendsMovement(@RequestParam(defaultValue = "1") Integer page,
                                                @RequestParam(defaultValue = "10") Integer pagesize) {
 
-        PageResult pageResult = movementService.queryFriendsMovements(page, pagesize);
+        PageResult pageResult = movementService.pageFriendsMovement(page, pagesize);
 
         return ResponseEntity.ok(pageResult);
 
@@ -78,10 +78,10 @@ public class MovementController {
      * 查询推荐动态
      */
     @GetMapping("/recommend")
-    public ResponseEntity queryRecommendMovements(@RequestParam(defaultValue = "1") Integer page,
+    public ResponseEntity pageRecommendMovements(@RequestParam(defaultValue = "1") Integer page,
                                                   @RequestParam(defaultValue = "10") Integer pagesize) {
 
-        PageResult pageResult = movementService.queryRecommendMovements(page, pagesize);
+        PageResult pageResult = movementService.pageRecommendMovements(page, pagesize);
 
         return ResponseEntity.ok(pageResult);
 
@@ -92,9 +92,9 @@ public class MovementController {
      * 查询动态详情
      */
     @GetMapping("/{id}")
-    public ResponseEntity queryMovementById(@PathVariable("id") String movementId) {
+    public ResponseEntity getMovement(@PathVariable("id") String movementId) {
 
-        MovementsVo movementsVo = movementService.queryByMovementId(movementId);
+        MovementsVo movementsVo = movementService.getMovement(movementId);
 
         return ResponseEntity.ok(movementsVo);
 
@@ -148,8 +148,8 @@ public class MovementController {
      * 谁看过我
      */
     @GetMapping("visitors")
-    public ResponseEntity queryVisitorsList(){
-        List<VisitorsVo> list = movementService.queryVisitorsList();
+    public ResponseEntity listVisitors(){
+        List<VisitorsVo> list = movementService.listVisitors();
         return ResponseEntity.ok(list);
     }
 }

@@ -23,6 +23,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/20 15:20
+ * @Desc: 控制台数据统计
  */
 @Service
 public class DashboardService {
@@ -34,7 +35,12 @@ public class DashboardService {
     private LogMapper logMapper;
 
 
-    public Map getUsersCounts(Map map) {
+    /**
+     * 获取统计数据
+     * @param map 包括开始时间和结束时间 以及查询的类型
+     * @return 今年和去年的数据
+     */
+    public Map getStatistics(Map map) {
         String type = (String) map.get("type");
         //101 新增 102 活跃用户 103 次日留存率
         Long sd = Long.parseLong(map.get("sd").toString());
@@ -56,6 +62,7 @@ public class DashboardService {
         endCalendar.setTime(edd);
         Date edTime = endCalendar.getTime();
         System.err.println("今年结束时间" + edTime);
+
         // 今年统计数据
         List<DateVo> thisYear = getList(startCalendar, edTime, type);
 
@@ -63,6 +70,7 @@ public class DashboardService {
         startCalendar.add(Calendar.YEAR, -1);
         endCalendar.add(Calendar.YEAR, -1);
         edTime = endCalendar.getTime();
+
         // 去年统计数据
         List<DateVo> lastYear = getList(startCalendar, edTime, type);
 
@@ -76,7 +84,8 @@ public class DashboardService {
     }
 
 
-    // 获取时间段VO数据
+
+    // 获取时间段内统计的通用方法
     private List<DateVo> getList(Calendar startCalendar, Date edTime, String type) {
         // 变化时间\\
         List<DateVo> vo = new ArrayList<>();

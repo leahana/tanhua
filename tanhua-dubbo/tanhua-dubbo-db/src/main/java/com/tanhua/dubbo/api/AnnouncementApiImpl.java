@@ -17,6 +17,7 @@ import java.util.List;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/13 19:30
+ * @Desc: 公告接口实现
  */
 
 @DubboService
@@ -25,13 +26,14 @@ public class AnnouncementApiImpl implements AnnouncementApi {
     @Autowired
     private AnnouncementMapper announcementMapper;
 
+    /**
+     * 分页查询客户端公告
+     * @return IPage<Announcement>
+     */
     @Override
-    public IPage<Announcement> queryAnnouncements(Integer page, Integer pageSize) {
-
-
+    public IPage<Announcement> pageAnnouncements(Integer page, Integer pageSize) {
         LambdaQueryWrapper<Announcement> lqw = new LambdaQueryWrapper<>();
         lqw.orderByDesc(BasePojo::getUpdated);
-
         return announcementMapper.selectPage(new Page<>(page, pageSize), lqw);
     }
 }

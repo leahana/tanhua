@@ -35,7 +35,7 @@ public class CommentApiTest {
         comment.setCreated(System.currentTimeMillis());
         comment.setContent("这是一条评论");
         comment.setPublishId(new ObjectId("5e82dc3e6401952928c211a3"));
-        commentApi.save(comment);
+        commentApi.saveComment(comment);
 
 
     }

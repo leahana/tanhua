@@ -23,19 +23,21 @@ import java.util.Map;
 @RequestMapping("/system/users")
 public class SystemController {
 
+
     @Autowired
     private AdminService adminService;
 
+
     @Autowired
-    private RedisTemplate<String,String> redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
 
     /**
      * 生成图片验证码
      */
     @GetMapping("/verification")
-    public void verification(String uuid, HttpServletResponse response) throws IOException {
-        //设置响应参数
+    public void saveVerification(String uuid, HttpServletResponse response) throws IOException {
+        // 设置响应参数
         response.setDateHeader("Expires", 0);
         // Set standard HTTP/1.1 no-cache headers.
         response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
@@ -44,15 +46,14 @@ public class SystemController {
         // Set standard HTTP/1.0 no-cache header.
         response.setHeader("Pragma", "no-cache");
         response.setContentType("image/jpeg");
-        //1、通过工具类生成验证码对象（图片数据和验证码信息）
+        // 1、通过工具类生成验证码对象（图片数据和验证码信息）
         LineCaptcha captcha = CaptchaUtil.createLineCaptcha(299, 97);
         String code = captcha.getCode();  //1234
-        //2、调用service，将验证码存入到redis
 
-        String code2 = code.toLowerCase();
+        // 2、将验证码存入到redis
+        redisTemplate.opsForValue().set(Constants.CAP_CODE + uuid, code);
 
-        redisTemplate.opsForValue().set(Constants.CAP_CODE+uuid,code2);
-        //3、通过输出流输出验证码
+        // 3、通过输出流输出验证码
         captcha.write(response.getOutputStream());
     }
 
@@ -69,8 +70,8 @@ public class SystemController {
      * 获取用户的信息
      */
     @PostMapping("/profile")
-    public ResponseEntity profile() {
-        AdminVo vo = adminService.profile();
+    public ResponseEntity getProfile() {
+        AdminVo vo = adminService.getProfile();
         return ResponseEntity.ok(vo);
     }
 }

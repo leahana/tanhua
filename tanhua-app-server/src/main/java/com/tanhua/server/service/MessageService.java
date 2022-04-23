@@ -36,30 +36,23 @@ import java.util.Map;
 @Service
 public class MessageService {
 
-
     @DubboReference
     private UserApi userApi;
-
 
     @DubboReference
     private UserInfoApi userInfoApi;
 
-
     @DubboReference
     private FriendApi friendApi;
-
 
     @Autowired
     private ImTemplate imTemplate;
 
-
     @DubboReference
     private CommentApi commentApi;
 
-
     @DubboReference
     private AnnouncementApi announcementApi;
-
 
     /**
      * 根据 环信id  获取用户信息
@@ -67,9 +60,9 @@ public class MessageService {
      * @param imId 环信id
      * @return userInfoVo
      */
-    public UserInfoVo queryUserInfoByIm(String imId) {
+    public UserInfoVo getUserInfoByIm(String imId) {
         // 1.根据环信 id  获取用户基本信息
-        User user = userApi.queryByImId(imId);
+        User user = userApi.getUserByIm(imId);
 
         // 2.根据用户id  获取用户详细信息
         UserInfo userInfo = userInfoApi.findById(user.getId());
@@ -109,10 +102,10 @@ public class MessageService {
      * @param keyword 关键字
      * @return PageResult
      */
-    public PageResult queryFriends(Integer page, Integer pageSize, String keyword) {
+    public PageResult pageFriends(Integer page, Integer pageSize, String keyword) {
 
         // 1.调用API查询当前用户的好友数据
-        List<Friend> friendList = friendApi.queryFriends(UserHolderUtil.getUserId(), page, pageSize, keyword);
+        List<Friend> friendList = friendApi.listFriends(UserHolderUtil.getUserId(), page, pageSize, keyword);
         if (CollUtil.isEmpty(friendList)) {
             return new PageResult();
         }
@@ -141,11 +134,10 @@ public class MessageService {
 
     }
 
-
     /**
      * 分页查询消息列表
      */
-    public PageResult messageCommentList(CommentType type, Integer page, Integer pageSize) {
+    public PageResult pageMessageCommentWithType(CommentType type, Integer page, Integer pageSize) {
 
         // 1. 用户id查询互动的用户id
         List<Comment> comments = commentApi.queryCommentUserIds(UserHolderUtil.getUserId(), type, page, pageSize);
@@ -179,10 +171,10 @@ public class MessageService {
     /**
      * 分页查询公告列表
      */
-    public PageResult queryAnnouncements(Integer page, Integer pageSize) {
+    public PageResult pageAnnouncements(Integer page, Integer pageSize) {
         // 1. 查询公告列表(Mysql tb_announcement表)
         IPage<Announcement> iPage
-                = announcementApi.queryAnnouncements(page, pageSize);
+                = announcementApi.pageAnnouncements(page, pageSize);
         if (iPage == null) {
             return new PageResult();
         }

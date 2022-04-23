@@ -23,7 +23,6 @@ public class ReportApiImpl implements ReportApi {
     @Autowired
     private ReportMapper reportMapper;
 
-
     @Override
     public Long selectReport(String id, Long userId) {
         LambdaQueryWrapper<Report> wrapper = new LambdaQueryWrapper<>();
@@ -31,7 +30,6 @@ public class ReportApiImpl implements ReportApi {
         Report report = reportMapper.selectOne(wrapper);
         return report == null ? null : report.getId();
     }
-
 
     @Override
     public Long saveReport(Long testPaperId, Long userId, Integer isLock) {
@@ -63,7 +61,7 @@ public class ReportApiImpl implements ReportApi {
     }
 
     @Override
-    public Report findReportById(String reportId, Long userId) {
+    public Report getReport(String reportId, Long userId) {
         LambdaUpdateWrapper<Report> wrapper = new LambdaUpdateWrapper<>();
         wrapper.eq(Report::getId, reportId).eq(Report::getUserId, userId);
         return reportMapper.selectOne(wrapper);

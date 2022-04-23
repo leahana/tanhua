@@ -25,7 +25,7 @@ public class RecommendUserApiTest {
 
     @Test
     public  void testQuery(){
-        RecommendUser recommendUser = recommendUserApi.queryWithMaxScore(106L);
+        RecommendUser recommendUser = recommendUserApi.getWithMaxScore(106L);
         System.out.println(recommendUser);
     }
 }

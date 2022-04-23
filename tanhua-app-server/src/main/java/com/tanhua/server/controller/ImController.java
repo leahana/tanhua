@@ -28,8 +28,8 @@ public class ImController {
      * 查询环信的账号密码
      */
     @GetMapping("/user")
-    public ResponseEntity queryUser() {
-        HuanXinUserVo vo = imService.queryUser();
+    public ResponseEntity getUser() {
+        HuanXinUserVo vo = imService.getUser();
         return ResponseEntity.ok(vo);
     }
 

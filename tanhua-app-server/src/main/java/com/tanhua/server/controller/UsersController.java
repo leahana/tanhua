@@ -25,7 +25,6 @@ import java.util.Map;
  * @Date: 2022/4/9 21:44
  * @Desc: 用户资料验证
  */
-
 @RestController
 @RequestMapping("/users")
 public class UsersController {
@@ -42,7 +41,7 @@ public class UsersController {
      * 2.请求参数:userID
      */
     @GetMapping
-    public ResponseEntity users(@RequestHeader("Authorization") String token, Long userID) {
+    public ResponseEntity getUsers(@RequestHeader("Authorization") String token, Long userID) {
 //        // 1.判断token是否合法
 //        boolean verifyToken = JwtUtils.verifyToken(token);
 //        if (!verifyToken) {
@@ -146,8 +145,8 @@ public class UsersController {
      * @return 单项喜欢 单项被喜欢 双向喜欢
      */
     @GetMapping("/counts")
-    public ResponseEntity queryCounts() {
-        Map<String, Integer> map = userService.queryCounts();
+    public ResponseEntity listCounts() {
+        Map<String, Integer> map = userService.listCounts();
         return ResponseEntity.ok(map);
     }
 
@@ -155,24 +154,32 @@ public class UsersController {
      * 互相喜欢,喜欢,粉丝 谁看过我 通用查询 (这个接口文档没有nickname这个参数)
      */
     @GetMapping("/friends/{type}")
-    public ResponseEntity queryFriendsWithType(@PathVariable("type") String type,
+    public ResponseEntity pageFriendsWithType(@PathVariable("type") String type,
                                                @RequestParam(value = "page", defaultValue = "1") Integer page,
                                                @RequestParam(value = "pagesize", defaultValue = "10") Integer pageSize) {
         String nickname = "";
         System.err.println(nickname);
-        PageResult pr = userService.queryFriendsWithType(type, page, pageSize);
+        PageResult pr = userService.pageFriendsWithType(type, page, pageSize);
         return ResponseEntity.ok(pr);
     }
 
+    /**
+     * 回关
+     * @param userId 对方用户id
+     */
     @PostMapping("/fans/{uid}")
-    public ResponseEntity returnFans(@PathVariable("uid") Long userId) {
-        userService.returnFans(userId);
+    public ResponseEntity saveFans(@PathVariable("uid") Long userId) {
+        userService.saveFans(userId);
         return ResponseEntity.ok(null);
     }
 
+    /**
+     * 取消回关
+     * @param userId 对方用户id
+     */
     @DeleteMapping("/fans/{uid}")
-    public ResponseEntity removeFans(@PathVariable("uid") Long userId) {
-        userService.removeFans(userId);
+    public ResponseEntity deleteFans(@PathVariable("uid") Long userId) {
+        userService.deleteFans(userId);
         return ResponseEntity.ok(null);
     }
 }

@@ -36,9 +36,9 @@ public class ImService {
      * 查询并构建环信用户Vo对象
      * @return 环信用户
      */
-    public HuanXinUserVo queryUser() {
+    public HuanXinUserVo getUser() {
         Long userId = UserHolderUtil.getUserId();
-        User user = userApi.queryById(userId);
+        User user = userApi.getUser(userId);
         if (user == null) {
             return null;
         }

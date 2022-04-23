@@ -41,7 +41,7 @@ public class PeachblossomService {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
-    public void addSound(MultipartFile soundFile) throws IOException {
+    public void saveSound(MultipartFile soundFile) throws IOException {
         if (!soundFile.isEmpty()) {
             String filename = soundFile.getOriginalFilename();
             assert filename != null;
@@ -49,7 +49,7 @@ public class PeachblossomService {
             StorePath storePath = fastFileStorageClient.uploadFile(soundFile.getInputStream()
                     , soundFile.getSize(), filename, null);
             String soundUrl = fdfsWebServer.getWebServerUrl() + storePath.getFullPath();
-            String s = soundApi.addSound(soundUrl, UserHolderUtil.getUserId());
+            String s = soundApi.saveSound(soundUrl, UserHolderUtil.getUserId());
 
             System.err.println(s);
             System.err.println("上传成功" + soundUrl);
@@ -60,7 +60,7 @@ public class PeachblossomService {
         // 1.从redis中判断是否有今日桃花传音数据
         String key = "sound_count" + UserHolderUtil.getUserId();
         //  如果今日没有使用桃花传音,则初始化redis中的数据 (每天清空一次)
-        if (!redisTemplate.hasKey(key)) {
+        if (Boolean.FALSE.equals(redisTemplate.hasKey(key))) {
             redisTemplate.opsForValue().set(key, "0", 1, TimeUnit.DAYS);
         }
         int redisValue = Integer.parseInt(Objects.requireNonNull(redisTemplate.opsForValue().get(key)));

@@ -82,7 +82,7 @@ public class MovementApiImpl implements MovementApi {
 
     //查询个人动态
     @Override
-    public List<Movement> queryMovementsByUserId(Long userId, Integer page, Integer pageSize) {
+    public List<Movement> listMovements(Long userId, Integer page, Integer pageSize) {
         // 1.构建Criteria
         Criteria criteria = Criteria.where("userId").is(userId).and("status").is(1);
 
@@ -99,7 +99,7 @@ public class MovementApiImpl implements MovementApi {
      * @param friendId : 当前用户id
      */
     @Override
-    public List<Movement> queryFriendsMovements(Long friendId, Integer page, Integer pageSize) {
+    public List<Movement> listFriendsMovements(Long friendId, Integer page, Integer pageSize) {
 
         // 1.根据用户id查询好友发布动态
         Criteria criteria = Criteria.where("friendId").is(friendId);
@@ -136,7 +136,7 @@ public class MovementApiImpl implements MovementApi {
     }
 
     @Override
-    public List<Movement> queryMovementsByPids(List<Long> pids) {
+    public List<Movement> listMovementsByPids(List<Long> pids) {
         //构建query对象
 
         Query query = Query.query(Criteria.where("pid").in(pids));
@@ -145,14 +145,14 @@ public class MovementApiImpl implements MovementApi {
     }
 
     @Override
-    public Movement queryByMovementId(String movementId) {
+    public Movement getMovement(String movementId) {
 
         return mongoTemplate.findById(movementId, Movement.class);
     }
 
 
     @Override
-    public PageResult findByUserId(Integer page, Integer pageSize, Long uid, Integer state) {
+    public PageResult pageMovements(Integer page, Integer pageSize, Long uid, Integer state) {
         Query query = new Query();
         if (uid != null) {
             query.addCriteria(Criteria.where("userId").is(uid));
@@ -171,7 +171,7 @@ public class MovementApiImpl implements MovementApi {
     }
 
     @Override
-    public Movement findByMomentId(String commentId) {
+    public Movement getMovementByCommentId(String commentId) {
         return mongoTemplate.findById(new ObjectId(commentId), Movement.class);
     }
 

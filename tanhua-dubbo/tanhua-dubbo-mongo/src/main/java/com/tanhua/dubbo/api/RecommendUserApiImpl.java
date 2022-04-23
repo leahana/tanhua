@@ -31,7 +31,7 @@ public class RecommendUserApiImpl implements RecommendUserApi {
     private MongoTemplate mongoTemplate;
 
     @Override
-    public RecommendUser queryWithMaxScore(Long toUserId) {
+    public RecommendUser getWithMaxScore(Long toUserId) {
         // 1.根据toUserId查询RecommendUser
         //1.1 构建Criteria
         Criteria criteria = Criteria.where("toUserId").is(toUserId);
@@ -43,7 +43,7 @@ public class RecommendUserApiImpl implements RecommendUserApi {
     }
 
     @Override
-    public PageResult queryRecommendUserList(Long toUserId, Integer page, Integer pageSize) {
+    public PageResult pageRecommendUsers(Long toUserId, Integer page, Integer pageSize) {
 
         Criteria criteria = Criteria.where("toUserId").is(toUserId);
 
@@ -61,7 +61,7 @@ public class RecommendUserApiImpl implements RecommendUserApi {
     }
 
     @Override
-    public RecommendUser queryByUserId(Long userId, Long toUserId) {
+    public RecommendUser getRecommendUser(Long userId, Long toUserId) {
         Criteria criteria = Criteria.where("toUserId").is(toUserId).and("userId").is(userId);
 
         Query query = Query.query(criteria);
@@ -76,14 +76,13 @@ public class RecommendUserApiImpl implements RecommendUserApi {
         return user;
     }
 
-
     /**
      * 排除喜欢,不喜欢的用户
      * 随机展示
      * 指定数量
      */
     @Override
-    public List<RecommendUser> queryCardList(Long userId, int counts) {
+    public List<RecommendUser> listRecommendUser(Long userId, int counts) {
         // 1. 查询 喜欢和不喜欢的用户
         List<UserLike> userLikes = mongoTemplate.find(
                 Query.query(Criteria.where("userId").is(userId)), UserLike.class);

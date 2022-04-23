@@ -11,7 +11,9 @@ import java.util.List;
 
 public interface TestPaperApi {
 
+    //获取测试试卷
     List<TestPaper> getTestPaper();
 
+    //获取测试试卷id
     Long getTestPaperId(Long valueOf);
 }

@@ -22,6 +22,7 @@ import java.util.Map;
 /**
  * @Author: leah_ana
  * @Date: 2022/4/15 20:06
+ * @Desc: 网关过滤器 统一token验证
  */
 
 @Component
@@ -33,6 +34,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
     //过滤器核心业务代码
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+
         excludedUrls.forEach(System.out::println);
         // 1.  排除不需要权限校验的链接
         String path = exchange.getRequest().getURI().getPath();
@@ -44,6 +46,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
         String token = exchange.getRequest().getHeaders().getFirst("Authorization");
         System.err.println(token);
         if (!StringUtils.isEmpty(token)) {
+            //获取token
             token = token.replaceAll("Bearer ", "");
         }
         System.err.println(token);

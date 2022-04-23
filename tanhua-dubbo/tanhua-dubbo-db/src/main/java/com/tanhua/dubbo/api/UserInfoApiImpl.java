@@ -44,7 +44,6 @@ public class UserInfoApiImpl implements UserInfoApi {
         return userInfoMapper.selectById(id);
     }
 
-
     @Override
     public Map<Long, UserInfo> findByIds(List<Long> ids, UserInfo userInfo) {
         QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
@@ -75,7 +74,7 @@ public class UserInfoApiImpl implements UserInfoApi {
     }
 
     @Override
-    public IPage findAll(Integer page, Integer pageSize) {
-        return  userInfoMapper.selectPage(new Page<UserInfo>(page, pageSize), null);
+    public IPage<UserInfo> pageUserInfos(Integer page, Integer pageSize) {
+        return  userInfoMapper.selectPage(new Page<>(page, pageSize), null);
     }
 }

@@ -9,7 +9,9 @@ public interface FriendApi {
     // 添加好友
     Boolean addFriend(Long userId, Long friendId);
 
-    List<Friend> queryFriends(Long userId, Integer page, Integer pageSize, String keyword);
+    // 获取好友列表
+    List<Friend> listFriends(Long userId, Integer page, Integer pageSize, String keyword);
 
+    // 删除好友
     void removeFriend(Long userId, Long likeUserId);
 }

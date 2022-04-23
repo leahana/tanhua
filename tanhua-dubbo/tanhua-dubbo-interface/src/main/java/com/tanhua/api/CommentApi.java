@@ -10,13 +10,13 @@ public interface CommentApi {
 
 
     // 动态互动,并且获取评论数量(根据类型不同 可判断是保存评论还是点赞)
-    Integer save(Comment comment);
+    Integer saveComment(Comment comment);
 
     // 取消动态点赞/喜欢
-    Integer delete(Comment comment);
+    Integer deleteComment(Comment comment);
 
     // 分页查询动态评论
-    List<Comment> queryComments(String publishId, Integer page, Integer pageSize, CommentType comment);
+    List<Comment> pageComments(String publishId, Integer page, Integer pageSize, CommentType comment);
 
     // 判断动态互动数据是否存在
     Boolean hasComment(String movementId, Long userId, CommentType like);

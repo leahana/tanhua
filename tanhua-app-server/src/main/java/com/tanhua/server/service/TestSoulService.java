@@ -87,7 +87,7 @@ public class TestSoulService {
         return testPaperVos;
     }
 
-    public void saveAnswer(Map map) {
+    public void saveAnswers(Map map) {
 
         if (map != null) {
 
@@ -132,7 +132,7 @@ public class TestSoulService {
     public ReportVo getReport(String reportId) {
 
         // 1.查询Mysql中的report 获取分数
-        Report reportById = reportApi.findReportById(reportId, UserHolderUtil.getUserId());
+        Report reportById = reportApi.getReport(reportId, UserHolderUtil.getUserId());
         Integer score = null;
         if (reportById != null) {
             score = reportById.getScore();

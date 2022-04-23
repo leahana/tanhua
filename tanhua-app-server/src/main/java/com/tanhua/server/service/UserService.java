@@ -60,18 +60,14 @@ public class UserService {
     @Autowired
     private UserFreezeService userFreezeService;
 
-
     @Autowired
     private AmqpTemplate amqpTemplate;
-
 
     @Autowired
     private MqMessageService messageService;
 
-
     @DubboReference
     private FriendApi friendApi;
-
 
     @DubboReference
     private VisitorsApi visitorsApi;
@@ -87,7 +83,7 @@ public class UserService {
     public void sendMsg(String phone) {
         // 1.生成验证码
         //String code = RandomStringUtils.randomNumeric(6);
-        User user = userApi.findByMobile(phone);
+        User user = userApi.getUserByMobile(phone);
         if (user != null) {
             userFreezeService.checkUserFreeze("1", user.getId());
         }
@@ -115,7 +111,7 @@ public class UserService {
         checkCode(phone, code);
 
         // 4.通过手机号查询用户信息
-        User user = userApi.findByMobile(phone);
+        User user = userApi.getUserByMobile(phone);
         boolean isNew = false;
         // 5.如果用户不存在，则创建用户
         String type = "0101";
@@ -136,7 +132,7 @@ public class UserService {
 
             //import org.apache.commons.codec.digest.DigestUtils;方便
             user.setPassword(DigestUtils.md5Hex("123456"));
-            Long userId = userApi.save(user);
+            Long userId = userApi.saveUser(user);
             user.setId(userId);
             isNew = true;
 
@@ -146,7 +142,7 @@ public class UserService {
             if (isCreated) {
                 user.setHxUser(hxUser);
                 user.setHxPassword(Constants.INIT_PASSWORD);
-                userApi.update(user);
+                userApi.updateUser(user);
             }
         }
 //        try {
@@ -244,16 +240,15 @@ public class UserService {
      * 2.用户单项喜欢数量  loveCount
      * 3.用户被单项喜欢数量 fanCount
      */
-    public Map<String, Integer> queryCounts() {
+    public Map<String, Integer> listCounts() {
 
         Long userId = UserHolderUtil.getUserId();
         //1 从redis中获取用户(暂无
 
         // 2.从mongodb中获取数据
-        Map<String, Integer> map = userLikeApi.queryCounts(userId);
 
         // 3.返回结果
-        return map;
+        return userLikeApi.countUserLike(userId);
     }
 
     /**
@@ -261,7 +256,7 @@ public class UserService {
      *
      * @param type 1 互相关注 2 我关注 3 粉丝 4 谁看过我
      */
-    public PageResult queryFriendsWithType(String type, Integer page, Integer pageSize) {
+    public PageResult pageFriendsWithType(String type, Integer page, Integer pageSize) {
         //  1 互相关注(查询friend表) 2 我关注(user_like表) 3 粉丝(user_like表) 4 谁看过我(查询visitor表)
         // 1.先查询我关注的列表,获取我关注的用户id(并且存入redis,便于对AlreadyLove字段判断
         updateRedis();
@@ -273,7 +268,7 @@ public class UserService {
             return new PageResult();
         } else if ("1".equals(type)) {
             //2.1 互相关注(查询friend表)
-            List<Friend> friends = friendApi.queryFriends(UserHolderUtil.getUserId(), page, pageSize, "");
+            List<Friend> friends = friendApi.listFriends(UserHolderUtil.getUserId(), page, pageSize, "");
             if (CollUtil.isEmpty(friends)) return new PageResult();
             List<Long> ids = CollUtil.getFieldValues(friends, "friendId", Long.class);
             map = userInfoApi.findByIds(ids, null);
@@ -288,7 +283,7 @@ public class UserService {
 
         } else if ("2".equals(type)) {
             //2.2 我关注的
-            List<UserLike> userLikes = userLikeApi.findUserLikes(UserHolderUtil.getUserId(), page, pageSize);
+            List<UserLike> userLikes = userLikeApi.listUserLikes(UserHolderUtil.getUserId(), page, pageSize);
             if (CollUtil.isEmpty(userLikes)) return new PageResult();
             List<Long> ids = CollUtil.getFieldValues(userLikes, "likeUserId", Long.class);
             map = userInfoApi.findByIds(ids, null);
@@ -318,7 +313,7 @@ public class UserService {
         } else if ("3".equals(type)) {
             //2.3 粉丝
             updateRedis();
-            List<UserLike> userLikes = userLikeApi.findUserLikes(page, pageSize, UserHolderUtil.getUserId());
+            List<UserLike> userLikes = userLikeApi.listUserLikes(page, pageSize, UserHolderUtil.getUserId());
             if (CollUtil.isEmpty(userLikes)) return new PageResult();
             List<Long> ids = CollUtil.getFieldValues(userLikes, "userId", Long.class);
             map = userInfoApi.findByIds(ids, null);
@@ -337,7 +332,7 @@ public class UserService {
             });
         } else {
             // 查询visitor
-            List<Visitors> visitorsList = visitorsApi.queryVisitorsWithPage(UserHolderUtil.getUserId(), page, pageSize);
+            List<Visitors> visitorsList = visitorsApi.pageVisitors(UserHolderUtil.getUserId(), page, pageSize);
             if (CollUtil.isEmpty(visitorsList)) return new PageResult();
             List<Long> ids = CollUtil.getFieldValues(visitorsList, "userId", Long.class);
             map = userInfoApi.findByIds(ids, null);
@@ -365,8 +360,11 @@ public class UserService {
         return new PageResult(page, pageSize, 0, vos);
     }
 
+    /**
+     * 更新redis中的数据
+     */
     private void updateRedis() {
-        List<UserLike> myLikeList = userLikeApi.findUserLikes(UserHolderUtil.getUserId());
+        List<UserLike> myLikeList = userLikeApi.listUserLikes(UserHolderUtil.getUserId());
         if (CollUtil.isNotEmpty(myLikeList)) {
             // 获取我关注的用户id 存入redis
             String key = "user_like_" + UserHolderUtil.getUserId();
@@ -375,7 +373,9 @@ public class UserService {
         }
     }
 
-
+    /**
+     * 获取redis中的用户id
+     */
     private List<String> getRedisUserIds() {
         String key = "user_like_" + UserHolderUtil.getUserId();
         String redisValue = redisTemplate.opsForValue().get(key);
@@ -391,8 +391,12 @@ public class UserService {
         return strings;
     }
 
-
-    public void returnFans(Long likeUserId) {
+    /**
+     * 回关
+     *
+     * @param likeUserId 粉丝id
+     */
+    public void saveFans(Long likeUserId) {
         //1.给user_like表添加数据
         Boolean orUpdate = userLikeApi.saveOrUpdate(UserHolderUtil.getUserId(), likeUserId, true);
         //2.添加环信好友并且给friend表添加数据
@@ -404,7 +408,12 @@ public class UserService {
         }
     }
 
-    public void removeFans(Long likeUserId) {
+    /**
+     * 取消回关
+     *
+     * @param likeUserId 粉丝id
+     */
+    public void deleteFans(Long likeUserId) {
         // 1.更新user_like表 为false
         Boolean aBoolean = userLikeApi.saveOrUpdate(UserHolderUtil.getUserId(), likeUserId, false);
         // 2.删除friend表
@@ -418,6 +427,7 @@ public class UserService {
 
 
     }
+
 
 
 

@@ -62,7 +62,7 @@ public class UserLocationApiImpl implements UserLocationApi {
     }
 
     @Override
-    public List<Long> queryNearbyUser(Long userId, Double metre) {
+    public List<Long> listUsersNearby(Long userId, Double metre) {
         // 1.根据用户id查询用户位置信息
 
         Query query = Query.query(Criteria.where("userId").is(userId));

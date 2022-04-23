@@ -25,13 +25,13 @@ public class CommentsController {
      * 发布评论
      */
     @PostMapping
-    public ResponseEntity save(@RequestBody Map map) {
+    public ResponseEntity saveComment(@RequestBody Map map) {
         //获取动态id
         String movementId = (String) map.get("movementId");
         //获取评论内容
         String comment = (String) map.get("comment");
 
-        commentsService.save(movementId, comment);
+        commentsService.saveComment(movementId, comment);
 
         return ResponseEntity.ok(null);
     }
@@ -41,10 +41,10 @@ public class CommentsController {
      * 分页查询评论列表
      */
     @GetMapping
-    public ResponseEntity queryComments(@RequestParam(defaultValue = "1") Integer page,
+    public ResponseEntity pageComments(@RequestParam(defaultValue = "1") Integer page,
                                         @RequestParam(defaultValue = "10") Integer pagesize,
                                         @RequestParam String movementId) {
-        PageResult pageResult = commentsService.queryComments(page, pagesize, movementId);
+        PageResult pageResult = commentsService.pageComments(page, pagesize, movementId);
         return ResponseEntity.ok(pageResult);
     }
 

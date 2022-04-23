@@ -13,12 +13,14 @@ import java.util.List;
 public interface RecommendUserApi {
 
     //查询今日佳人
-    RecommendUser queryWithMaxScore(Long toUserId);
+    RecommendUser getWithMaxScore(Long toUserId);
 
     //查询好友推荐列表
-    PageResult queryRecommendUserList(Long toUserId, Integer page, Integer pageSize);
+    PageResult pageRecommendUsers(Long toUserId, Integer page, Integer pageSize);
 
-    RecommendUser queryByUserId(Long userId, Long toUserId);
+    //获取推荐用户
+    RecommendUser getRecommendUser(Long userId, Long toUserId);
 
-    List<RecommendUser> queryCardList(Long userId, int i);
+    //获取推荐 小卡片列表
+    List<RecommendUser> listRecommendUser(Long userId, int i);
 }

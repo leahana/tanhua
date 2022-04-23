@@ -45,34 +45,46 @@ public class ManagerService {
     @Autowired
     private RedisTemplate<String,String> redisTemplate;
 
-    public PageResult findAllUsers(Integer page, Integer pageSize) {
+    /**
+     * 分页获取用户列表
+     */
+    public PageResult pageUsers(Integer page, Integer pageSize) {
 
-
-        IPage<UserInfo> iPage = userInfoApi.findAll(page, pageSize);
+        // 1.调用api 查询数据:userInfo对象
+        IPage<UserInfo> iPage = userInfoApi.pageUserInfos(page, pageSize);
         iPage.getRecords().forEach(userInfo -> {
             String key = Constants.USER_FREEZE + userInfo.getId();
-                if (redisTemplate.hasKey(key)) {
+            //判断redis中是否有用户被冻结的标识
+                if (Boolean.TRUE.equals(redisTemplate.hasKey(key))) {
                     userInfo.setUserStatus("2");
                 }
         });
         return new PageResult(page, pageSize, (int) iPage.getTotal(), iPage.getRecords());
     }
 
-    public UserInfo findUserById(Long userId) {
+    /**
+     * 根据用户id查询用户信息
+     * @param userId 用户ID
+     * @return UserInfo
+     */
+    public UserInfo getUser(Long userId) {
 
         String key = Constants.USER_FREEZE + userId;
         UserInfo userInfo= userInfoApi.findById(userId);
-        if (redisTemplate.hasKey(key)) {
+        //判断redis中是否有用户被冻结的标识
+        if (Boolean.TRUE.equals(redisTemplate.hasKey(key))) {
             userInfo.setUserStatus("2");
         }
 
         return userInfo;
     }
 
-    //分页查询用户动态
-    public PageResult findAllMovements(Integer page, Integer pageSize, Long uid, Integer state) {
+    /**
+     * 分页查询用户动态
+     */
+    public PageResult pageMovements(Integer page, Integer pageSize, Long uid, Integer state) {
         // 1.调用api 查询数据:movement对象
-        PageResult pageResult = movementApi.findByUserId(page, pageSize, uid, state);
+        PageResult pageResult = movementApi.pageMovements(page, pageSize, uid, state);
         // 2.解析PageResult  获取movement对象
         List<Movement> items = (List<Movement>) pageResult.getItems();
         // 3.一个Movement对象转化为一个vo
@@ -96,13 +108,26 @@ public class ManagerService {
         return pageResult;
     }
 
-    public PageResult findAllVideos(Integer page, Integer pageSize, Long uid) {
+    /**
+     * 分页获取用户视频
+     * @param uid 用户id
+     * @return 自定义分页结果
+     */
+    public PageResult pageVideos(Integer page, Integer pageSize, Long uid) {
         return videoApi.findByUserId(page, pageSize, uid);
     }
 
-    public MovementsVo findMovementById(String commentId) {
+
+    /**
+     * 根据动态id 查询动态详情
+     * @param commentId 动态id
+     * @return 返回动态Vo对象 包括用户部分信息
+     * v1.0 已弃用
+     */
+    @Deprecated
+    public MovementsVo getMovement(String commentId) {
         // 根据动态id查询 动态详情
-        Movement movement = movementApi.findByMomentId(commentId);
+        Movement movement = movementApi.getMovement(commentId);
         // 根据动态详情查询用户信息
         Map map = new HashMap<>();
         if (movement != null) {
@@ -134,9 +159,15 @@ public class ManagerService {
         return new MovementsVo();
     }
 
-    public Map findMovementById2(String commentId) {
+
+    /**
+     * 根据动态id 查询动态详情
+     * @param commentId 动态id
+     * @return 返回动态Vo对象 包括用户部分信息
+     */
+    public Map getMovement2(String commentId) {
         // 根据动态id查询 动态详情
-        Movement movement = movementApi.findByMomentId(commentId);
+        Movement movement = movementApi.getMovement(commentId);
         // 根据动态详情查询用户信息
         Map map = new HashMap<>();
         if (movement != null) {
@@ -159,13 +190,20 @@ public class ManagerService {
         return map;
     }
 
-    public Map userFreeze(Map map) {
+
+    /**
+     * 用户冻结
+     * @param map 用户id 冻结时间
+     * @return 是否成功
+     */
+    public Map updateFreeze(Map map) {
         // 1. 构造key
         String userId = map.get("userId").toString();
         String key = Constants.USER_FREEZE + userId;
         // 2. 构造失效时间
         Integer freezingTime = Integer.valueOf( map.get("freezingTime").toString());
 
+        // 2.1 匹配冻结时间
         int days = 0;
         if (freezingTime == 1) {
             days = 3;
@@ -185,8 +223,10 @@ public class ManagerService {
     }
 
 
-    //用户解冻
-    public Map userUnfreeze(Map map) {
+    /**
+     * 用户解冻
+     */
+    public Map updateUnfreeze(Map map) {
         String userId = map.get("userId").toString();
         String key = Constants.USER_FREEZE + userId;
         //删除redis中的数据

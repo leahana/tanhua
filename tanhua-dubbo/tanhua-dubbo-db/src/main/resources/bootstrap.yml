@@ -1,13 +1,14 @@
 server:
   port: 18081
+
 spring:
   application:
     name: tanhua-dubbo-db
   cloud:
     nacos:
-      config:
+      config: #不使用nacos配置中心
         enabled: false
-      discovery:
+      discovery: #注册中心配置
         server-addr: 192.168.136.160:8848
   datasource:
     driver-class-name: com.mysql.jdbc.Driver

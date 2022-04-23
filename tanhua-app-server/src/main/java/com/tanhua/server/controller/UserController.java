@@ -21,8 +21,8 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("/user")
-
 public class UserController {
+
     @Autowired
     private UserInfoService userInfoService;
 
