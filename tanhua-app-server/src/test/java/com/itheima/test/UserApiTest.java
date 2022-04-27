@@ -24,7 +24,7 @@ public class UserApiTest {
 
     @Test
     public  void testFindByMobile(){
-        User user = userApi.findByMobile("13800138000");
+        User user = userApi.getUserByMobile("13800138000");
         System.out.println(user);
     }
 }

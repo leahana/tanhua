@@ -46,6 +46,7 @@ public class SystemController {
         // Set standard HTTP/1.0 no-cache header.
         response.setHeader("Pragma", "no-cache");
         response.setContentType("image/jpeg");
+
         // 1、通过工具类生成验证码对象（图片数据和验证码信息）
         LineCaptcha captcha = CaptchaUtil.createLineCaptcha(299, 97);
         String code = captcha.getCode();  //1234

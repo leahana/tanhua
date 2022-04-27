@@ -27,7 +27,6 @@ public class OssTemplate {
 
     /**
      * 文件上传
-     *
      * @param fileName    文件名
      * @param inputStream 输入流
      */

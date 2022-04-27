@@ -114,7 +114,7 @@ public class ManagerService {
      * @return 自定义分页结果
      */
     public PageResult pageVideos(Integer page, Integer pageSize, Long uid) {
-        return videoApi.findByUserId(page, pageSize, uid);
+        return videoApi.pageVideos(page, pageSize, uid);
     }
 
 

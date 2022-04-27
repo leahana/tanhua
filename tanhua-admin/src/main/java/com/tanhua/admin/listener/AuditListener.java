@@ -54,7 +54,7 @@ public class AuditListener {
         try {
 
             // 1.根据id查询动态
-            Movement movement = movementApi.findByMomentId(movementId);
+            Movement movement = movementApi.getMovementByCommentId(movementId);
 
             // 2.审核文本,审核图片
             if (movement != null && movement.getState() == 0) {

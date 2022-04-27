@@ -80,13 +80,13 @@ public class HuanxinTest {
     //批量注册
     @Test
     public void register() {
-        List<User> users = userApi.findAll();
+        List<User> users = userApi.listUsers();
         for (User user : users) {
             Boolean create = imTemplate.createUser("hx" + user.getId(), "123456");
             if (create){
                 user.setHxUser("hx" + user.getId());
                 user.setHxPassword(Constants.INIT_PASSWORD);
-                userApi.update(user);
+                userApi.updateUser(user);
             }
         }
     }

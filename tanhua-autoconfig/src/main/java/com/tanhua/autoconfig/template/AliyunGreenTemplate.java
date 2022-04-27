@@ -27,6 +27,7 @@ import java.util.*;
  * @create: 2021-05-31 00:46
  */
 @Slf4j
+@Deprecated
 public class AliyunGreenTemplate {
 
     private IAcsClient client;
@@ -178,7 +179,7 @@ public class AliyunGreenTemplate {
          * porn: porn表示色情场景检测
          */
 
-        httpBody.put("scenes", Arrays.asList(greenProperties.getScenes().split(",")));
+        httpBody.put("scenes", Arrays.asList(greenProperties.getImageScanScenes().split(",")));
 
         /**
          * 如果您要检测的文件存于本地服务器上，可以通过下述代码片生成url

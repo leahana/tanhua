@@ -32,7 +32,7 @@ public class UserLikeApiTest {
     @Test
     public void test() {
 
-        userLikeApi.queryCounts(106L);
+        userLikeApi.countUserLike(106L);
     }
 
 

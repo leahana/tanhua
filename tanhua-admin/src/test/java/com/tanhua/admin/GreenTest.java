@@ -99,15 +99,15 @@ public class GreenTest {
     @Test
     public void testScanImage2() throws Exception {
         List<String> list = new ArrayList<>();
-
         list.add("https://leahana-tanhua.oss-cn-hangzhou.aliyuncs.com/2022/04/09/1a559369-b0e2-49ea-98d9-8478ca9f04ff.png");
-        //alibabaGreenTemplate.print(list);
+        Map<String, String> map = alibabaGreenTemplate.imageScan(list);
+        System.err.println(map);
     }
 
     @Test
-    public void test() throws Exception {
+    public void testGreenTextScan() throws Exception {
         Map<String, String> map = alibabaGreenTemplate.greenTextScan(
-                "本校小额贷款，安全、快捷、方便、无抵押，随机随贷，当天放款，上门服务。联系weixin 123456");
+                "本校小额贷款，安全、快捷、方便、无抵押，随机随贷，当天放款，上门服务。联系weixin123456");
         map.forEach((k, v) -> System.out.println(k + "==" + v));
     }
 

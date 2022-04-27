@@ -33,7 +33,7 @@ public class UserLikeApiImpl implements UserLikeApi {
     private MongoTemplate mongoTemplate;
 
     @Override
-    public Boolean saveOrUpdate(Long userId, Long likeUserId, boolean isLike) {
+    public Boolean saveOrUpdate(Long userId, Long likeUserId, Boolean isLike) {
         try {
             // 1.查询数据
             Query query = Query.query(Criteria.where("userId").is(userId).and("likeUserId").is(likeUserId));

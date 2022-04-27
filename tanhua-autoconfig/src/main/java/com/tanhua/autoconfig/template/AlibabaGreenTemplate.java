@@ -1,12 +1,14 @@
 package com.tanhua.autoconfig.template;
 
 
+import cn.hutool.core.collection.CollUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.aliyun.imageaudit20191230.Client;
 import com.aliyun.imageaudit20191230.models.*;
 import com.tanhua.autoconfig.properties.GreenProperties;
+import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
 
 import com.aliyun.teaopenapi.models.*;
@@ -34,8 +36,7 @@ public class AlibabaGreenTemplate {
                     // 您的AccessKey ID
                     .setAccessKeyId(properties.getAccessKeyID())
                     // 您的AccessKey Secret
-                    .setAccessKeySecret(properties.getAccessKeySecret())
-                    .setRegionId(properties.getRegionId());
+                    .setAccessKeySecret(properties.getAccessKeySecret());
             // 访问的域名
             config.endpoint = greenProperties.getEndpoint();
 
@@ -49,7 +50,7 @@ public class AlibabaGreenTemplate {
     public Map<String, String> imageScan(List<String> imageUrls) throws Exception {
 
         List<ScanImageRequest.ScanImageRequestTask> list = new ArrayList();
-        if (imageUrls != null || imageUrls.size() != 0) {
+        if (imageUrls != null && imageUrls.size() != 0) {
             for (int i = 0; i < imageUrls.size(); i++) {
                 if (imageUrls.get(i) != null) {
                     ScanImageRequest.ScanImageRequestTask task =
@@ -60,8 +61,9 @@ public class AlibabaGreenTemplate {
                 }
             }
         }
-        String[] scenesStr = scenesStr();
-        if (scenesStr == null) {
+        String imageScanScenes = greenProperties.getImageScanScenes();
+        String[] scenesStr = scenesStr(imageScanScenes);
+        if (scenesStr.length == 0) {
             throw new Exception("scenesStr is null");
         }
         ScanImageRequest scanImageRequest = new ScanImageRequest()
@@ -91,6 +93,7 @@ public class AlibabaGreenTemplate {
                 && scanImageResponse.getBody().getData().getResults() != null) {
             List<ScanImageResponseBody.ScanImageResponseBodyDataResults> results = scanImageResponse.getBody().getData().getResults();
             //results每张图片的校验结果
+            loop:
             for (ScanImageResponseBody.ScanImageResponseBodyDataResults result : results) {
                 //本张图片 每个校验标准的结果
                 if (result.getSubResults() != null) {
@@ -99,12 +102,12 @@ public class AlibabaGreenTemplate {
                         if (subResult.getSuggestion() != null) {
                             System.out.println("图片校验结果：" + subResult.getSuggestion());
                             if (!"pass".equals(subResult.getSuggestion())) {
-                                System.out.println("校验结果" + subResult.getSuggestion() + "图片校验未通过");
-                                return null;
+                                System.out.println("场景" + subResult.scene + "校验结果" + subResult.getSuggestion() + "图片校验未通过");
+                                map.put("suggestion", subResult.getSuggestion());
+                                break loop;
                             }
                         }
                     }
-
                 }
             }
         }
@@ -116,10 +119,14 @@ public class AlibabaGreenTemplate {
         Map<String, String> resultMap = new HashMap();
         ScanTextRequest.ScanTextRequestTasks tasks = new ScanTextRequest.ScanTextRequestTasks()
                 .setContent(content);
-        String[] strings = scenesStr();
-        if (strings == null) throw new Exception("scenesStr is null");
+        String txtScanScenes = greenProperties.getTxtScanScenes();
+        String[] scenesStr = scenesStr(txtScanScenes);
+        System.err.println("scenesStr:" + Arrays.toString(scenesStr));
+        if (scenesStr.length == 0) {
+            throw new Exception("scenesStr is null");
+        }
         List<ScanTextRequest.ScanTextRequestLabels> labelsList = new ArrayList<>();
-        for (String scene : strings) {
+        for (String scene : scenesStr) {
             ScanTextRequest.ScanTextRequestLabels labels = new ScanTextRequest.ScanTextRequestLabels()
                     .setLabel(scene);
             labelsList.add(labels);
@@ -130,13 +137,13 @@ public class AlibabaGreenTemplate {
                 .setTasks(java.util.Arrays.asList(tasks));
         // 复制代码运行请自行打印 API 的返回值
         ScanTextResponse scanTextResponse = client.scanText(scanTextRequest);
-        Map<String, Object> map = scanTextResponse.toMap();
-        System.err.println(map);
+
         // {headers={access-control-allow-origin=*, date=Sat, 16 Apr 2022 15:34:31 GMT, content-length=184,
         // access-control-max-age=172800, x-acs-request-id=86EB94F3-C6AC-51A5-8733-3A5132151E11, access-control-allow-headers=X-Requested-With, X-Sequence, _aop_secret, _aop_signature, x-acs-action, x-acs-version, x-acs-date, Content-Type, connection=keep-alive, content-type=application/json;charset=utf-8, access-control-allow-methods=POST, GET, OPTIONS, PUT, DELETE, x-acs-trace-id=1fbbab5544a08357df8a8071ae88befb},
         // body=
         // {RequestId=86EB94F3-C6AC-51A5-8733-3A5132151E11, Data={Elements=[{TaskId=txt37lTGA3240Y59OXpSeIq7U-1w3c2X, Results=[{Suggestion=pass, Details=null, Rate=99.91, Label=normal}]}]}}}
-
+//        Map<String, Object> map = scanTextResponse.toMap();
+//        System.err.println(map);
         if (scanTextResponse != null
                 && scanTextResponse.getBody() != null
                 && scanTextResponse.getBody().getData() != null
@@ -189,12 +196,12 @@ public class AlibabaGreenTemplate {
     }
 
 
-    private String[] scenesStr() {
-        String scenes = greenProperties.getScenes();
+    private String[] scenesStr(String scenes) {
+
         if (scenes != null) {
             return scenes.split(",");
         }
-        return null;
+        return new String[]{""};
     }
 }
 

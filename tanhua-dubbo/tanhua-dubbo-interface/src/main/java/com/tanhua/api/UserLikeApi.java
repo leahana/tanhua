@@ -8,7 +8,7 @@ import java.util.Map;
 public interface UserLikeApi {
 
     //保存或更新
-    Boolean saveOrUpdate(Long userId, Long likeUserId, boolean b);
+    Boolean saveOrUpdate(Long userId, Long likeUserId, Boolean b);
 
     // 数量统计1 互相关注 2 我关注 3 粉丝 4 谁看过我
     Map<String, Integer> countUserLike(Long userId);

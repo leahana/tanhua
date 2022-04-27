@@ -318,6 +318,7 @@ public class UserService {
             List<Long> ids = CollUtil.getFieldValues(userLikes, "userId", Long.class);
             map = userInfoApi.findByIds(ids, null);
             List<String> redisUserIds = getRedisUserIds();
+            System.err.println(redisUserIds);
             userLikes.forEach(userLike -> {
                 UserInfo userInfo = map.get(userLike.getUserId());
                 if (userInfo != null) {
@@ -365,11 +366,16 @@ public class UserService {
      */
     private void updateRedis() {
         List<UserLike> myLikeList = userLikeApi.listUserLikes(UserHolderUtil.getUserId());
+        System.err.println("myLikeList = " + myLikeList);
         if (CollUtil.isNotEmpty(myLikeList)) {
             // 获取我关注的用户id 存入redis
             String key = "user_like_" + UserHolderUtil.getUserId();
+            String s = redisTemplate.opsForValue().get(key);
+            System.err.println(s);
             List<Long> baseIds = CollUtil.getFieldValues(myLikeList, "likeUserId", Long.class);
+            System.err.println("baseIds = " + baseIds);
             redisTemplate.opsForValue().set(key, baseIds.toString(), 60, TimeUnit.SECONDS);
+            System.err.println(redisTemplate.opsForValue().get(key));
         }
     }
 
@@ -400,7 +406,6 @@ public class UserService {
         //1.给user_like表添加数据
         Boolean orUpdate = userLikeApi.saveOrUpdate(UserHolderUtil.getUserId(), likeUserId, true);
         //2.添加环信好友并且给friend表添加数据
-
         Boolean aBoolean = imTemplate.addContact("hx" + UserHolderUtil.getUserId(), "hx" + likeUserId);
         Boolean aBoolean1 = friendApi.addFriend(UserHolderUtil.getUserId(), likeUserId);
         if (!aBoolean || !orUpdate || !aBoolean1) {

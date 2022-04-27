@@ -21,7 +21,9 @@ public class GreenProperties {
     /**
      * 场景
      */
-    String scenes;
+    String imageScanScenes;
+
+    String txtScanScenes;
 
 
     String regionId;

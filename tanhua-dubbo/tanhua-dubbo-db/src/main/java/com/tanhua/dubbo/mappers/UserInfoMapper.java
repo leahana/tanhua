@@ -12,5 +12,6 @@ import org.apache.ibatis.annotations.Select;
 
 public interface UserInfoMapper extends BaseMapper<UserInfo> {
 
+
     IPage<UserInfo> selectPageBlackList(@Param("pageParam") Page pageParam, @Param("userId") Long userId);
 }

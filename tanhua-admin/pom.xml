@@ -36,11 +36,11 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
-        <!--lombok依赖-->
+<!--        &lt;!&ndash;lombok依赖&ndash;&gt;
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-        </dependency>
+        </dependency>-->
 
         <!--工具包-->
         <dependency>

@@ -31,7 +31,7 @@ public class BlackListApiTest {
     @Test
     public  void testQueryBlackList(){
 
-        IPage<UserInfo> userInfoIPage = blackListApi.queryBlackListByUserId(106L, 1, 10);
+        IPage<UserInfo> userInfoIPage = blackListApi.listBlackList(106L, 1, 10);
 
         System.out.println(userInfoIPage.getRecords());
     }
