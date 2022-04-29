@@ -31,6 +31,7 @@ public class AlibabaGreenTemplate {
     public AlibabaGreenTemplate(GreenProperties properties) {
 
         try {
+
             this.greenProperties = properties;
             Config config = new Config()
                     // 您的AccessKey ID
@@ -41,6 +42,7 @@ public class AlibabaGreenTemplate {
             config.endpoint = greenProperties.getEndpoint();
 
             client = new Client(config);
+
         } catch (Exception e) {
             e.printStackTrace();
             log.error("GreenTemplate初始化失败");
