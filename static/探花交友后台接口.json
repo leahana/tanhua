@@ -1,0 +1,1035 @@
+[
+  {
+    "index": 0,
+    "name": "系统框架",
+    "desc": "",
+    "add_time": 1605021267,
+    "up_time": 1605021267,
+    "list": [
+      {
+        "query_path": {
+          "path": "/system/users/profile",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 295,
+        "method": "POST",
+        "catid": 135,
+        "title": "用户基本信息",
+        "path": "/system/users/profile",
+        "project_id": 25,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5faaaf472425fb001544f4f5",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "required": "1",
+            "_id": "5faaaf472425fb001544f4f4",
+            "name": "Authorization",
+            "value": "",
+            "desc": "用户令牌token"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_type": "form",
+        "res_body": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"用户id\"},\"username\":{\"type\":\"string\",\"description\":\"账号\"},\"avatar\":{\"type\":\"string\",\"description\":\"头像\"}},\"required\":[\"id\",\"username\",\"avatar\"]}",
+        "uid": 20,
+        "add_time": 1605021267,
+        "up_time": 1605021511,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/system/users/logout",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 304,
+        "method": "POST",
+        "catid": 135,
+        "title": "用户登出",
+        "path": "/system/users/logout",
+        "project_id": 25,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f47817accf53300184f6ef7",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "required": "1",
+            "_id": "5f47817accf53300184f6ef6",
+            "name": "Authorization",
+            "value": "",
+            "desc": "用户令牌token"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_type": "form",
+        "res_body": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{}}",
+        "uid": 20,
+        "add_time": 1605021267,
+        "up_time": 1605021267,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/system/users/login",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 313,
+        "method": "POST",
+        "catid": 135,
+        "title": "用户登录",
+        "path": "/system/users/login",
+        "project_id": 25,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f44663eccf53300184f6e16",
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"username\":{\"type\":\"string\",\"description\":\"账号\"},\"password\":{\"type\":\"string\",\"description\":\"密码\"},\"verificationCode\":{\"type\":\"string\",\"description\":\"验证码\"},\"uuid\":{\"type\":\"string\",\"description\":\"同获取验证码时uuid\"}},\"required\":[\"username\",\"verificationCode\",\"password\",\"uuid\"]}",
+        "req_body_type": "json",
+        "res_body": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"token\":{\"type\":\"string\",\"description\":\"用户jwt签名token\"}},\"required\":[\"token\"]}",
+        "uid": 20,
+        "add_time": 1605021267,
+        "up_time": 1605021267,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/system/users/verification",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": false,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 322,
+        "method": "GET",
+        "catid": 135,
+        "title": "用户登录验证码图片",
+        "path": "/system/users/verification",
+        "project_id": 25,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "1",
+            "_id": "5f44661cccf53300184f6e14",
+            "name": "uuid",
+            "desc": "浏览器生成随机id"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f44661cccf53300184f6e15",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_type": "form",
+        "res_body": "{\n   \"type\": \"object\",\n   \"title\": \"empty object\",\n   \"properties\": {}\n}",
+        "uid": 20,
+        "add_time": 1605021267,
+        "up_time": 1605021267,
+        "__v": 0
+      }
+    ]
+  },
+  {
+    "index": 0,
+    "name": "后台面板",
+    "desc": null,
+    "add_time": 1605021267,
+    "up_time": 1605021267,
+    "list": [
+      {
+        "query_path": {
+          "path": "/dashboard/users",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 340,
+        "method": "GET",
+        "catid": 147,
+        "title": "新增、活跃用户、次日留存率",
+        "path": "/dashboard/users",
+        "project_id": 25,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "1",
+            "_id": "5f5adeacccf53300184f78b5",
+            "name": "sd",
+            "desc": "开始时间"
+          },
+          {
+            "required": "1",
+            "_id": "5f5adeacccf53300184f78b4",
+            "name": "ed",
+            "example": "",
+            "desc": "结束时间"
+          },
+          {
+            "required": "1",
+            "_id": "5f5adeacccf53300184f78b3",
+            "name": "type",
+            "example": "",
+            "desc": "101 新增 102 活跃用户 103 次日留存率"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f5adeacccf53300184f78b7",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "required": "1",
+            "_id": "5f5adeacccf53300184f78b6",
+            "name": "Authorization",
+            "value": "",
+            "desc": "用户令牌token"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_type": "form",
+        "res_body": "{\"type\":\"object\",\"properties\":{\"thisYear\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"title\":{\"type\":\"string\",\"description\":\"日期\",\"enum\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\"]},\"amount\":{\"type\":\"integer\",\"description\":\"数量\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":50,\"maximum\":9999}},\"required\":[\"title\",\"amount\"]},\"description\":\"本年\",\"minItems\":12,\"maxItems\":12,\"uniqueItems\":true},\"lastYear\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"title\":{\"type\":\"string\",\"description\":\"日期\",\"enum\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\"]},\"amount\":{\"type\":\"integer\",\"description\":\"数量\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":50,\"maximum\":9999}},\"required\":[\"title\",\"amount\"]},\"description\":\"去年\",\"uniqueItems\":true,\"minItems\":12,\"maxItems\":12}},\"required\":[\"thisYear\",\"lastYear\"]}",
+        "uid": 20,
+        "add_time": 1605021267,
+        "up_time": 1605021267,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/dashboard/summary",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 349,
+        "method": "GET",
+        "catid": 147,
+        "title": "概要统计信息",
+        "path": "/dashboard/summary",
+        "project_id": 25,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5faaafa52425fb001544f4f9",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "required": "1",
+            "_id": "5faaafa52425fb001544f4f8",
+            "name": "Authorization",
+            "value": "",
+            "desc": "用户令牌token"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_type": "form",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"cumulativeUsers\":{\"type\":\"integer\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":0,\"maximum\":500,\"description\":\"累计用户\"},\"activePassMonth\":{\"type\":\"integer\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":0,\"maximum\":500,\"description\":\"过去30天活跃用户\"},\"activePassWeek\":{\"type\":\"integer\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":0,\"maximum\":500,\"description\":\"过去7天活跃用户\"},\"newUsersToday\":{\"type\":\"integer\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":0,\"maximum\":500,\"description\":\"今日新增用户\"},\"newUsersTodayRate\":{\"type\":\"integer\",\"description\":\"今日新增用户涨跌率，单位百分数，正数为涨，负数为跌\"},\"loginTimesToday\":{\"type\":\"integer\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":0,\"maximum\":500,\"description\":\"今日登录次数\"},\"loginTimesTodayRate\":{\"type\":\"integer\",\"description\":\"今日登录次数涨跌率，单位百分数，正数为涨，负数为跌\"},\"activeUsersToday\":{\"type\":\"integer\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":0,\"maximum\":500,\"description\":\"今日活跃用户\"},\"activeUsersTodayRate\":{\"type\":\"integer\",\"description\":\"今日活跃用户涨跌率，单位百分数，正数为涨，负数为跌\"}},\"required\":[\"cumulativeUsers\",\"activePassMonth\",\"activePassMonth\",\"activePassWeek\",\"newUsersToday\",\"loginTimesToday\",\"activeUsersToday\",\"activeUsersToday\",\"newUsersTodayRate\",\"loginTimesTodayRate\",\"activeUsersTodayRate\"]}",
+        "uid": 20,
+        "add_time": 1605021267,
+        "up_time": 1605021605,
+        "__v": 0
+      }
+    ]
+  },
+  {
+    "index": 0,
+    "name": "用户管理",
+    "desc": null,
+    "add_time": 1605021267,
+    "up_time": 1605021267,
+    "list": [
+      {
+        "query_path": {
+          "path": "/manage/users/freeze",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 367,
+        "method": "POST",
+        "catid": 153,
+        "title": "用户冻结操作",
+        "path": "/manage/users/freeze",
+        "project_id": 25,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f51a02dccf53300184f752e",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f51a02dccf53300184f752d",
+            "name": "Authorization",
+            "value": "",
+            "desc": "用户令牌token"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_type": "json",
+        "res_body": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"message\":{\"type\":\"string\",\"description\":\"操作结果\",\"mock\":{\"mock\":\"操作成功\"}}},\"required\":[\"message\"]}",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"userId\":{\"type\":\"integer\",\"description\":\"用户id\"},\"freezingTime\":{\"type\":\"integer\",\"description\":\"冻结时间，1为冻结3天，2为冻结7天，3为永久冻结\"},\"freezingRange\":{\"type\":\"integer\",\"description\":\"冻结范围，1为冻结登录，2为冻结发言，3为冻结发布动态\"},\"reasonsForFreezing\":{\"type\":\"string\",\"description\":\"冻结原因\"},\"frozenRemarks\":{\"type\":\"string\",\"description\":\"冻结备注\"}},\"required\":[\"userId\",\"freezingTime\",\"freezingRange\",\"reasonsForFreezing\",\"frozenRemarks\"]}",
+        "uid": 20,
+        "add_time": 1605021267,
+        "up_time": 1605021267,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/manage/users/:userID",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 376,
+        "method": "GET",
+        "catid": 153,
+        "title": "用户基本资料",
+        "path": "/manage/users/:userID",
+        "project_id": 25,
+        "req_params": [
+          {
+            "_id": "5fb668e12425fb001544f576",
+            "name": "userID",
+            "desc": "用户ID"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5fb668e12425fb001544f578",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "required": "1",
+            "_id": "5fb668e12425fb001544f577",
+            "name": "Authorization",
+            "value": "",
+            "desc": "用户令牌token"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_type": "form",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"id\":{\"type\":\"integer\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":9000001,\"maximum\":9010000,\"description\":\"用户ID\"},\"nickname\":{\"type\":\"string\",\"format\":\"ctitle\",\"description\":\"昵称\",\"mock\":{\"mock\":\"@cname\"}},\"gender\":{\"type\":\"string\",\"format\":\"ctitle\",\"description\":\"性别\",\"enum\":[\"男\",\"女\",\"未知\"]},\"age\":{\"type\":\"integer\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":20,\"maximum\":80,\"description\":\"年龄\"},\"income\":{\"type\":\"integer\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":0,\"maximum\":500,\"description\":\"收入\"},\"userStatus\":{\"type\":\"string\",\"format\":\"ctitle\",\"description\":\"用户状态，1为正常，2为冻结\",\"enum\":[\"1\",\"2\"]},\"created\":{\"type\":\"integer\",\"description\":\"注册时间\",\"enum\":[1598608534811]},\"city\":{\"type\":\"string\",\"format\":\"ctitle\",\"description\":\"注册地区\",\"mock\":{\"mock\":\"@city\"}},\"avatar\":{\"type\":\"string\",\"format\":\"ctitle\",\"description\":\"头像\",\"enum\":[\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-01.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-02.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-03.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-04.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-05.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-06.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-07.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-08.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-09.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-10.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-11.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-12.png\"]},\"tags\":{\"type\":\"string\",\"description\":\"用户标签\",\"enum\":[\"音乐,上班族,麦霸,网瘾少年,手办\"]},\"marriage\":{\"type\":\"string\",\"description\":\"0：未婚，1：已婚   \"}},\"required\":[\"id\",\"nickname\",\"gender\",\"age\",\"income\",\"userStatus\",\"created\",\"city\",\"avatar\",\"tags\",\"marriage\"]}",
+        "uid": 20,
+        "add_time": 1605021267,
+        "up_time": 1605789921,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/manage/users",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 385,
+        "method": "GET",
+        "catid": 153,
+        "title": "用户数据翻页",
+        "path": "/manage/users",
+        "project_id": 25,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "0",
+            "_id": "5ff2644f70c41200156dfea5",
+            "name": "pagesize",
+            "desc": "开始时间"
+          },
+          {
+            "required": "0",
+            "_id": "5ff2644f70c41200156dfea4",
+            "name": "page",
+            "example": "",
+            "desc": "结束时间"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5ff2644f70c41200156dfea7",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "required": "1",
+            "_id": "5ff2644f70c41200156dfea6",
+            "name": "Authorization",
+            "value": "",
+            "desc": "用户令牌token"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_type": "form",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"counts\":{\"type\":\"integer\",\"description\":\"总记录数\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":100,\"maximum\":5000},\"pagesize\":{\"type\":\"integer\",\"description\":\"页大小\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":5,\"maximum\":50},\"pages\":{\"type\":\"integer\",\"description\":\"总页数\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":1,\"maximum\":100},\"page\":{\"type\":\"integer\",\"description\":\"当前页码\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":1,\"maximum\":100},\"items\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":9000001,\"maximum\":9010000,\"description\":\"用户id\"},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-01.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-02.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-03.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-04.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-05.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-06.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-07.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-08.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-09.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-10.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-11.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-12.png\"]},\"nickname\":{\"type\":\"string\",\"format\":\"ctitle\",\"description\":\"昵称\",\"mock\":{\"mock\":\"@cname\"}},\"gender\":{\"type\":\"string\",\"format\":\"ctitle\",\"description\":\"性别\",\"enum\":[\"男\",\"女\",\"未知\"]},\"age\":{\"type\":\"integer\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":20,\"maximum\":90,\"description\":\"年龄\"},\"userStatus\":{\"type\":\"string\",\"format\":\"ctitle\",\"description\":\"用户状态,1为正常，2为冻结\",\"enum\":[\"1\",\"2\"]},\"city\":{\"type\":\"string\",\"format\":\"ctitle\",\"description\":\"注册城市名称，城市信息叶子节点名称即可，无需adcode\",\"mock\":{\"mock\":\"@city\"}}},\"required\":[\"id\",\"nickname\",\"gender\",\"age\",\"userStatus\",\"city\",\"avatar\"]},\"minItems\":10,\"maxItems\":10,\"uniqueItems\":true,\"description\":\"列表\"}},\"required\":[\"counts\",\"pagesize\",\"pages\",\"page\",\"items\"]}",
+        "uid": 20,
+        "add_time": 1605021267,
+        "up_time": 1609720911,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/manage/users/unfreeze",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 394,
+        "method": "POST",
+        "catid": 153,
+        "title": "用户解冻操作",
+        "path": "/manage/users/unfreeze",
+        "project_id": 25,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f51a035ccf53300184f7530",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f51a035ccf53300184f752f",
+            "name": "Authorization",
+            "value": "",
+            "desc": "用户令牌token"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_type": "json",
+        "res_body": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"message\":{\"type\":\"string\",\"description\":\"操作结果\",\"mock\":{\"mock\":\"操作成功\"}}},\"required\":[\"message\"]}",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"userId\":{\"type\":\"integer\",\"description\":\"用户id\"},\"reasonsForThawing\":{\"type\":\"string\",\"description\":\"解冻原因\"}},\"required\":[\"userId\",\"reasonsForThawing\"]}",
+        "uid": 20,
+        "add_time": 1605021267,
+        "up_time": 1605021267,
+        "__v": 0
+      }
+    ]
+  },
+  {
+    "index": 0,
+    "name": "动态管理",
+    "desc": null,
+    "add_time": 1605021267,
+    "up_time": 1605021397,
+    "list": [
+      {
+        "query_path": {
+          "path": "/manage/messages",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 403,
+        "method": "GET",
+        "catid": 159,
+        "title": "动态分页",
+        "path": "/manage/messages",
+        "project_id": 25,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "0",
+            "_id": "5faab1f92425fb001544f533",
+            "name": "pagesize",
+            "desc": "页尺寸"
+          },
+          {
+            "required": "0",
+            "_id": "5faab1f92425fb001544f532",
+            "name": "page",
+            "example": "",
+            "desc": "页数"
+          },
+          {
+            "required": "1",
+            "_id": "5faab1f92425fb001544f531",
+            "name": "uid",
+            "example": "",
+            "desc": "用户ID"
+          },
+          {
+            "required": "1",
+            "_id": "5faab1f92425fb001544f530",
+            "name": "state",
+            "example": "",
+            "desc": "审核状态"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5faab1f92425fb001544f535",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5faab1f92425fb001544f534",
+            "name": "Authorization",
+            "value": "",
+            "desc": "用户令牌token"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_type": "json",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"counts\":{\"type\":\"integer\",\"description\":\"总记录数\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":100,\"maximum\":5000},\"pagesize\":{\"type\":\"integer\",\"description\":\"页大小\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":5,\"maximum\":50},\"pages\":{\"type\":\"integer\",\"description\":\"总页数\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":1,\"maximum\":100},\"page\":{\"type\":\"integer\",\"description\":\"当前页码\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":1,\"maximum\":100},\"items\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"编号\",\"mock\":{\"mock\":\"@id\"}},\"nickname\":{\"type\":\"string\",\"format\":\"ctitle\",\"description\":\"作者昵称\",\"mock\":{\"mock\":\"@cname\"}},\"userId\":{\"type\":\"integer\",\"description\":\"作者ID\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":9000001,\"maximum\":9999999},\"avatar\":{\"type\":\"string\",\"description\":\"作者头像\",\"enum\":[\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-01.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-02.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-03.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-04.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-05.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-06.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-07.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-08.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-09.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-10.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-11.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-12.png\"]},\"createDate\":{\"type\":\"integer\",\"exclusiveMinimum\":false,\"exclusiveMaximum\":false,\"description\":\"发布日期\",\"enum\":[1598608534811]},\"textContent\":{\"type\":\"string\",\"description\":\"正文\",\"mock\":{\"mock\":\"@cparagraph\"}},\"state\":{\"type\":\"string\",\"description\":\"审核状态，1为待审核，2为自动审核通过，3为待人工审核，4为人工审核拒绝，5为人工审核通过，6为自动审核拒绝\",\"enum\":[\"1\",\"2\",\"3\",\"4\",\"5\",\"6\"]},\"likeCount\":{\"type\":\"integer\",\"description\":\"点赞数\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":10,\"maximum\":99999},\"commentCount\":{\"type\":\"integer\",\"description\":\"评论数\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":10,\"maximum\":99999},\"imageContent\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"enum\":[\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/pic-1.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/pic-2.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/pic-3.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/pic-4.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/pic-5.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/pic-6.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/pic-7.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/pic-8.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/pic-9.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/pic-10.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/pic-11.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/pic-12.png\"]},\"description\":\"图片列表\",\"minItems\":0,\"uniqueItems\":true,\"maxItems\":6}},\"required\":[\"id\",\"nickname\",\"userId\",\"createDate\",\"textContent\",\"state\",\"likeCount\",\"commentCount\",\"imageContent\",\"avatar\"]},\"minItems\":9,\"maxItems\":9,\"uniqueItems\":true,\"description\":\"列表\"}},\"required\":[\"counts\",\"pagesize\",\"pages\",\"page\",\"items\"]}",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"userID\":{\"type\":\"string\",\"description\":\"用户id\"},\"reasonsForThawing\":{\"type\":\"string\",\"description\":\"解冻原因\"}},\"required\":[\"userID\",\"reasonsForThawing\"]}",
+        "uid": 20,
+        "add_time": 1605021267,
+        "up_time": 1605022201,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/manage/messages/:id/untop",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 430,
+        "method": "POST",
+        "catid": 159,
+        "title": "动态取消置顶",
+        "path": "/manage/messages/:id/untop",
+        "project_id": 25,
+        "req_params": [
+          {
+            "_id": "5faab1142425fb001544f520",
+            "name": "id",
+            "desc": "消息id"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5faab1142425fb001544f522",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "required": "1",
+            "_id": "5faab1142425fb001544f521",
+            "name": "Authorization",
+            "value": "",
+            "desc": "用户令牌token"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "<p>二次点击则取反操作</p>\n",
+        "markdown": "二次点击则取反操作",
+        "req_body_type": "form",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"message\":{\"type\":\"string\",\"description\":\"操作结果\",\"mock\":{\"mock\":\"操作成功\"}}},\"required\":[\"message\"]}",
+        "req_body_other": "{\"type\":\"array\",\"items\":{\"type\":\"integer\"},\"description\":\"评论id列表\"}",
+        "uid": 20,
+        "add_time": 1605021267,
+        "up_time": 1605021972,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/manage/messages/reject",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 448,
+        "method": "POST",
+        "catid": 159,
+        "title": "动态拒绝",
+        "path": "/manage/messages/reject",
+        "project_id": 25,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5faab1752425fb001544f52a",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5faab1752425fb001544f529",
+            "name": "Authorization",
+            "value": "",
+            "desc": "用户令牌token"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_type": "json",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"message\":{\"type\":\"string\",\"mock\":{\"mock\":\"操作成功\"},\"description\":\"操作结果\"}},\"required\":[\"message\"]}",
+        "req_body_other": "{\"type\":\"array\",\"items\":{\"type\":\"string\"},\"description\":\"动态id列表\"}",
+        "uid": 20,
+        "add_time": 1605021268,
+        "up_time": 1605022069,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/manage/messages/:id/top",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 421,
+        "method": "POST",
+        "catid": 159,
+        "title": "动态置顶",
+        "path": "/manage/messages/:id/top",
+        "project_id": 25,
+        "req_params": [
+          {
+            "_id": "5faab10b2425fb001544f51d",
+            "name": "id",
+            "desc": "消息id"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5faab10b2425fb001544f51f",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "required": "1",
+            "_id": "5faab10b2425fb001544f51e",
+            "name": "Authorization",
+            "value": "",
+            "desc": "用户令牌token"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "<p>二次点击则取反操作</p>\n",
+        "markdown": "二次点击则取反操作",
+        "req_body_type": "form",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"message\":{\"type\":\"string\",\"description\":\"操作结果\",\"mock\":{\"mock\":\"操作成功\"}}},\"required\":[\"message\"]}",
+        "req_body_other": "{\"type\":\"array\",\"items\":{\"type\":\"integer\"},\"description\":\"评论id列表\"}",
+        "uid": 20,
+        "add_time": 1605021267,
+        "up_time": 1605021963,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/manage/messages/:id",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 412,
+        "method": "GET",
+        "catid": 159,
+        "title": "动态详情",
+        "path": "/manage/messages/:id",
+        "project_id": 25,
+        "req_params": [
+          {
+            "_id": "5faab0fa2425fb001544f51a",
+            "name": "id",
+            "desc": "消息id"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5faab0fa2425fb001544f51c",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5faab0fa2425fb001544f51b",
+            "name": "Authorization",
+            "value": "",
+            "desc": "用户令牌token"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_type": "json",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"编号\",\"mock\":{\"mock\":\"@id\"}},\"nickname\":{\"type\":\"string\",\"format\":\"ctitle\",\"description\":\"作者昵称\",\"mock\":{\"mock\":\"@cname\"}},\"userId\":{\"type\":\"integer\",\"description\":\"作者ID\"},\"avatar\":{\"type\":\"string\",\"description\":\"作者头像\",\"enum\":[\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-01.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-02.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-03.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-04.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-05.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-06.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-07.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-08.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-09.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-10.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-11.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/header-12.png\"]},\"createDate\":{\"type\":\"integer\",\"exclusiveMinimum\":false,\"exclusiveMaximum\":false,\"description\":\"发布日期\",\"enum\":[1598608534811]},\"textContent\":{\"type\":\"string\",\"format\":\"ctitle\",\"description\":\"正文\",\"mock\":{\"mock\":\"@cparagraph\"}},\"imageContent\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"enum\":[\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/message-detail-pic01.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/message-detail-pic02.png\",\"\"]},\"description\":\"图片列表\",\"uniqueItems\":true,\"minItems\":2,\"maxItems\":3},\"state\":{\"type\":\"integer\",\"description\":\"审核状态，1为待审核，2为自动审核通过，3为待人工审核，4为人工审核拒绝，5为人工审核通过，6为自动审核拒绝\",\"enum\":[1,2,3,4,5]},\"commentCount\":{\"type\":\"integer\",\"description\":\"评论数\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":100,\"maximum\":99999},\"likeCount\":{\"type\":\"integer\",\"description\":\"点赞数\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":100,\"maximum\":99999}},\"required\":[\"id\",\"nickname\",\"userId\",\"createDate\",\"textContent\",\"imageContent\",\"state\",\"commentCount\",\"likeCount\",\"avatar\"]}",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"userID\":{\"type\":\"string\",\"description\":\"用户id\"},\"reasonsForThawing\":{\"type\":\"string\",\"description\":\"解冻原因\"}},\"required\":[\"userID\",\"reasonsForThawing\"]}",
+        "uid": 20,
+        "add_time": 1605021267,
+        "up_time": 1605021946,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/manage/messages/pass",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 439,
+        "method": "POST",
+        "catid": 159,
+        "title": "动态通过",
+        "path": "/manage/messages/pass",
+        "project_id": 25,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5faab16b2425fb001544f528",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5faab16b2425fb001544f527",
+            "name": "Authorization",
+            "value": "",
+            "desc": "用户令牌token"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_type": "json",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"message\":{\"type\":\"string\",\"description\":\"操作结果\"}},\"required\":[\"message\"]}",
+        "req_body_other": "{\"type\":\"array\",\"items\":{\"type\":\"string\"},\"description\":\"动态id列表\"}",
+        "uid": 20,
+        "add_time": 1605021267,
+        "up_time": 1605022059,
+        "__v": 0
+      }
+    ]
+  },
+  {
+    "index": 0,
+    "name": "视频管理",
+    "desc": null,
+    "add_time": 1605021267,
+    "up_time": 1605021267,
+    "list": [
+      {
+        "query_path": {
+          "path": "/manage/videos",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 466,
+        "method": "GET",
+        "catid": 165,
+        "title": "视频记录翻页",
+        "path": "/manage/videos",
+        "project_id": 25,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "0",
+            "_id": "5faab1912425fb001544f52d",
+            "name": "pagesize",
+            "desc": "页尺寸"
+          },
+          {
+            "required": "0",
+            "_id": "5faab1912425fb001544f52c",
+            "name": "page",
+            "example": "",
+            "desc": "页数"
+          },
+          {
+            "required": "1",
+            "_id": "5faab1912425fb001544f52b",
+            "name": "uid",
+            "example": "",
+            "desc": "用户ID"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5faab1912425fb001544f52f",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5faab1912425fb001544f52e",
+            "name": "Authorization",
+            "value": "",
+            "desc": "用户令牌token"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_type": "json",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"counts\":{\"type\":\"integer\",\"description\":\"总记录数\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":100,\"maximum\":5000},\"pagesize\":{\"type\":\"integer\",\"description\":\"页大小\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":5,\"maximum\":50},\"pages\":{\"type\":\"integer\",\"description\":\"总页数\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":1,\"maximum\":100},\"page\":{\"type\":\"integer\",\"description\":\"当前页码\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":1,\"maximum\":100},\"items\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":9000001,\"maximum\":9010000,\"description\":\"编号\"},\"nickname\":{\"type\":\"string\",\"format\":\"ctitle\",\"description\":\"发布人\"},\"userId\":{\"type\":\"integer\",\"description\":\"发布人id\"},\"createDate\":{\"type\":\"integer\",\"exclusiveMinimum\":false,\"exclusiveMaximum\":false,\"description\":\"发布时间\",\"enum\":[1598608534811]},\"videoUrl\":{\"type\":\"string\",\"format\":\"ctitle\",\"description\":\"视频链接\",\"enum\":[\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/macbook-air.mp4\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/starbucks.mp4\"]},\"picUrl\":{\"type\":\"string\",\"description\":\"封面图片\",\"enum\":[\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/message-detail-pic01.png\",\"https://yjy-oss-files.oss-cn-zhangjiakou.aliyuncs.com/tanhua/message-detail-pic02.png\"]},\"likeCount\":{\"type\":\"integer\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":0,\"maximum\":500,\"description\":\"点赞数\"},\"commentCount\":{\"type\":\"integer\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":0,\"maximum\":500,\"description\":\"评论数\"}},\"required\":[\"id\",\"nickname\",\"userId\",\"createDate\",\"videoUrl\",\"likeCount\",\"commentCount\",\"picUrl\"]},\"minItems\":10,\"maxItems\":10,\"uniqueItems\":true,\"description\":\"列表\"}},\"required\":[\"counts\",\"pagesize\",\"pages\",\"page\",\"items\"]}",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"userID\":{\"type\":\"string\",\"description\":\"用户id\"},\"reasonsForThawing\":{\"type\":\"string\",\"description\":\"解冻原因\"}},\"required\":[\"userID\",\"reasonsForThawing\"]}",
+        "uid": 20,
+        "add_time": 1605021268,
+        "up_time": 1605022097,
+        "__v": 0
+      }
+    ]
+  },
+  {
+    "index": 0,
+    "name": "评论管理",
+    "desc": null,
+    "add_time": 1605021267,
+    "up_time": 1605021267,
+    "list": [
+      {
+        "query_path": {
+          "path": "/manage/messages/comments",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 475,
+        "method": "GET",
+        "catid": 171,
+        "title": "评论列表翻页",
+        "path": "/manage/messages/comments",
+        "project_id": 25,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "0",
+            "_id": "60160eb3c70102009f196e30",
+            "name": "pagesize",
+            "desc": "页尺寸"
+          },
+          {
+            "required": "0",
+            "_id": "60160eb3c70102009f196e2f",
+            "name": "page",
+            "example": "",
+            "desc": "页数"
+          },
+          {
+            "required": "1",
+            "_id": "60160eb3c70102009f196e2e",
+            "name": "messageID",
+            "example": "",
+            "desc": "消息ID"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "60160eb3c70102009f196e32",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "60160eb3c70102009f196e31",
+            "name": "Authorization",
+            "value": "",
+            "desc": "用户令牌token"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_type": "json",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"counts\":{\"type\":\"integer\",\"description\":\"总记录数\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":100,\"maximum\":5000},\"pagesize\":{\"type\":\"integer\",\"description\":\"页大小\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":5,\"maximum\":50},\"pages\":{\"type\":\"integer\",\"description\":\"总页数\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":1,\"maximum\":100},\"page\":{\"type\":\"integer\",\"description\":\"当前页码\",\"exclusiveMinimum\":true,\"exclusiveMaximum\":true,\"minimum\":1,\"maximum\":100},\"items\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"编号\"},\"nickname\":{\"type\":\"string\",\"format\":\"ctitle\",\"description\":\"评论人昵称\",\"mock\":{\"mock\":\"@cname\"}},\"userId\":{\"type\":\"integer\",\"description\":\"评论人ID\"},\"content\":{\"type\":\"string\",\"format\":\"ctitle\",\"description\":\"评论内容\",\"mock\":{\"mock\":\"@cparagraph\"}},\"createDate\":{\"type\":\"integer\",\"exclusiveMinimum\":false,\"exclusiveMaximum\":false,\"description\":\"评论时间\",\"enum\":[1598608534811]}},\"required\":[\"id\",\"nickname\",\"userId\",\"content\",\"createDate\"]},\"minItems\":5,\"maxItems\":5,\"uniqueItems\":true,\"description\":\"列表\"}},\"required\":[\"counts\",\"pagesize\",\"pages\",\"page\",\"items\"]}",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"userID\":{\"type\":\"string\",\"description\":\"用户id\"},\"reasonsForThawing\":{\"type\":\"string\",\"description\":\"解冻原因\"}},\"required\":[\"userID\",\"reasonsForThawing\"]}",
+        "uid": 20,
+        "add_time": 1605021268,
+        "up_time": 1612058291,
+        "__v": 0
+      }
+    ]
+  }
+]

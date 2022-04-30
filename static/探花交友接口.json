@@ -1,0 +1,3844 @@
+[
+  {
+    "index": 0,
+    "name": "百度接口",
+    "desc": null,
+    "add_time": 1603896273,
+    "up_time": 1603896273,
+    "list": [
+      {
+        "query_path": {
+          "path": "/baidu/location",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": false,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 82,
+        "method": "POST",
+        "catid": 67,
+        "title": "上报地理信息",
+        "path": "/baidu/location",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d5cdfa5ccf53300184ec7bb",
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"latitude\":{\"type\":\"number\",\"description\":\"纬度\"},\"longitude\":{\"type\":\"number\",\"description\":\"经度\"},\"addrStr\":{\"type\":\"string\",\"description\":\"位置描述\"}},\"required\":[\"latitude\",\"longitude\",\"addrStr\"]}",
+        "req_body_type": "json",
+        "res_body": "{}",
+        "uid": 20,
+        "add_time": 1603896273,
+        "up_time": 1603896273,
+        "__v": 0
+      }
+    ]
+  },
+  {
+    "index": 0,
+    "name": "0 用户登录",
+    "desc": null,
+    "add_time": 1603896273,
+    "up_time": 1616558306,
+    "list": [
+      {
+        "query_path": {
+          "path": "/user/login",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 94,
+        "method": "POST",
+        "catid": 83,
+        "title": "01 登录---获取验证码",
+        "path": "/user/login",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "605ade28ddc0680015340e20",
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"phone\":{\"type\":\"string\",\"description\":\"手机号\"}},\"required\":[\"phone\"]}",
+        "req_body_type": "json",
+        "res_body": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{}}",
+        "uid": 20,
+        "add_time": 1603896273,
+        "up_time": 1616567848,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/user/loginVerification",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 1,
+        "tag": [],
+        "_id": 97,
+        "method": "POST",
+        "catid": 83,
+        "title": "02 登录---验证码校验",
+        "path": "/user/loginVerification",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "605c37d3ddc0680015340e21",
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"phone\":{\"type\":\"string\",\"description\":\"手机号\"},\"verificationCode\":{\"type\":\"string\",\"description\":\"验证码\"}},\"required\":[\"phone\",\"verificationCode\"]}",
+        "req_body_type": "json",
+        "res_body": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"token\":{\"type\":\"string\",\"description\":\"jwt-token字符串\"},\"isNew\":{\"type\":\"string\",\"description\":\"是否新用户\"}},\"required\":[\"token\",\"isNew\"]}",
+        "uid": 20,
+        "add_time": 1603896273,
+        "up_time": 1616656339,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/user/loginReginfo",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 2,
+        "tag": [],
+        "_id": 88,
+        "method": "POST",
+        "catid": 83,
+        "title": "03 首次登录---完善资料",
+        "path": "/user/loginReginfo",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "605addfcddc0680015340e1c",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "605addfcddc0680015340e1b",
+            "name": "Authorization",
+            "value": "token",
+            "example": "xxxxxxxxxxx",
+            "desc": ""
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"gender\":{\"type\":\"string\",\"description\":\"性别 man woman\"},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\"},\"birthday\":{\"type\":\"string\",\"description\":\"生日 年月日\"},\"city\":{\"type\":\"string\",\"description\":\"城市\"},\"header\":{\"type\":\"string\",\"description\":\"用户头像\"}},\"required\":[\"gender\",\"nickname\",\"birthday\",\"city\"]}",
+        "req_body_type": "json",
+        "res_body": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{}}",
+        "uid": 20,
+        "add_time": 1603896273,
+        "up_time": 1616567804,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/user/loginReginfo/head",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 3,
+        "tag": [],
+        "_id": 91,
+        "method": "POST",
+        "catid": 83,
+        "title": "04 首次登录---补充头像",
+        "path": "/user/loginReginfo/head",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "605ade12ddc0680015340e1e",
+            "name": "Content-Type",
+            "value": "multipart/form-data"
+          },
+          {
+            "required": "1",
+            "_id": "605ade12ddc0680015340e1d",
+            "name": "Authorization",
+            "value": "token",
+            "example": "xxxxxxxxxxx",
+            "desc": ""
+          }
+        ],
+        "req_body_form": [
+          {
+            "required": "1",
+            "_id": "605ade12ddc0680015340e1f",
+            "name": "headPhoto",
+            "type": "file",
+            "desc": "头像图片"
+          }
+        ],
+        "desc": "",
+        "markdown": "",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"file\":{\"type\":\"object\",\"properties\":{},\"description\":\"头像图片\"}},\"required\":[\"file\"]}",
+        "req_body_type": "form",
+        "res_body": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{}}",
+        "uid": 20,
+        "add_time": 1603896273,
+        "up_time": 1616567826,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/huanxin/user",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 4,
+        "tag": [],
+        "_id": 85,
+        "method": "GET",
+        "catid": 83,
+        "title": "环信用户信息",
+        "path": "/huanxin/user",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"username\":{\"type\":\"string\",\"description\":\"用户名\",\"enum\":[\"taoshiwei\"]},\"password\":{\"type\":\"string\",\"description\":\"用户密码\",\"enum\":[\"123456\"]}},\"required\":[\"username\",\"password\"]}",
+        "uid": 20,
+        "add_time": 1603896273,
+        "up_time": 1616558338,
+        "__v": 0
+      }
+    ]
+  },
+  {
+    "index": 0,
+    "name": "1 交友（前端已联调）",
+    "desc": null,
+    "add_time": 1603896273,
+    "up_time": 1603896273,
+    "list": [
+      {
+        "query_path": {
+          "path": "/tanhua/todayBest",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 100,
+        "method": "GET",
+        "catid": 91,
+        "title": "今日佳人",
+        "path": "/tanhua/todayBest",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f4cbd96ccf53300184f702d",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f4cbd96ccf53300184f702c",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"编号\",\"minimum\":1,\"maximum\":10000},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"]},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\",\"enum\":[\"黑马小妹\",\"米朵妹妹\",\"致远哥哥\"]},\"gender\":{\"type\":\"string\",\"description\":\"性别 man woman\",\"enum\":[\"man\",\"woman\"]},\"age\":{\"type\":\"integer\",\"description\":\"年龄\",\"minimum\":20,\"maximum\":30},\"tags\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"enum\":[\"单身\",\"本科\",\"年龄相仿\"]},\"description\":\"标签\",\"minItems\":1,\"maxItems\":3,\"uniqueItems\":true},\"fateValue\":{\"type\":\"integer\",\"description\":\"缘分值\",\"minimum\":80,\"maximum\":100}},\"required\":[\"id\",\"avatar\",\"nickname\",\"gender\",\"age\",\"tags\",\"fateValue\"]}",
+        "uid": 20,
+        "add_time": 1603896273,
+        "up_time": 1603896273,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/tanhua/:id/personalInfo",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 1,
+        "tag": [],
+        "_id": 103,
+        "method": "GET",
+        "catid": 91,
+        "title": "佳人信息",
+        "path": "/tanhua/:id/personalInfo",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5f4cc25dccf53300184f704f",
+            "name": "id",
+            "example": "1",
+            "desc": "用户id"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f4cc25dccf53300184f7051",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f4cc25dccf53300184f7050",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"编号\",\"minimum\":1,\"maximum\":10000},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"]},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\",\"enum\":[\"相思落无声\"]},\"gender\":{\"type\":\"string\",\"description\":\"性别 man woman\",\"enum\":[\"woman\"]},\"age\":{\"type\":\"integer\",\"description\":\"年龄\",\"minimum\":25,\"maximum\":25},\"tags\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"enum\":[\"单身\",\"本科\",\"年龄相仿\"]},\"description\":\"标签\",\"minItems\":1,\"maxItems\":3,\"uniqueItems\":true},\"fateValue\":{\"type\":\"integer\",\"description\":\"缘分值\",\"minimum\":80,\"maximum\":100}},\"required\":[\"id\",\"avatar\",\"nickname\",\"gender\",\"age\",\"tags\",\"fateValue\"]}",
+        "uid": 20,
+        "add_time": 1603896273,
+        "up_time": 1603896273,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/tanhua/strangerQuestions",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 2,
+        "tag": [],
+        "_id": 106,
+        "method": "POST",
+        "catid": 91,
+        "title": "回复陌生人问题",
+        "path": "/tanhua/strangerQuestions",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5da04399ccf53300184ee90c",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5da04399ccf53300184ee90b",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [
+          {
+            "required": "1",
+            "_id": "5da04399ccf53300184ee90d",
+            "name": "id",
+            "type": "text"
+          }
+        ],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"type\":\"object\",\"properties\":{}}",
+        "req_body_type": "json",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"userId\":{\"type\":\"integer\",\"description\":\"用户id\"},\"reply\":{\"type\":\"string\",\"description\":\"回复\"}},\"required\":[\"reply\",\"userId\"]}",
+        "uid": 20,
+        "add_time": 1603896273,
+        "up_time": 1603896273,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/tanhua/:id/unlove",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 3,
+        "tag": [],
+        "_id": 109,
+        "method": "GET",
+        "catid": 91,
+        "title": "探花-不喜欢",
+        "path": "/tanhua/:id/unlove",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5da04371ccf53300184ee8f3",
+            "name": "id",
+            "example": "1",
+            "desc": "用户编号"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5da04371ccf53300184ee8f5",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5da04371ccf53300184ee8f4",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"type\":\"object\",\"properties\":{}}",
+        "req_body_type": "json",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"编号\"}},\"required\":[\"id\"]}",
+        "uid": 20,
+        "add_time": 1603896273,
+        "up_time": 1603896273,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/tanhua/:id/love",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 4,
+        "tag": [],
+        "_id": 112,
+        "method": "GET",
+        "catid": 91,
+        "title": "探花-喜欢",
+        "path": "/tanhua/:id/love",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5da0436accf53300184ee8f0",
+            "name": "id",
+            "example": "1",
+            "desc": "用户编号"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5da0436accf53300184ee8f2",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5da0436accf53300184ee8f1",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"type\":\"object\",\"properties\":{}}",
+        "req_body_type": "json",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"编号\"},\"isLike\":{\"type\":\"integer\",\"description\":\"1喜欢/0不喜欢\"}},\"required\":[\"id\",\"isLike\"]}",
+        "uid": 20,
+        "add_time": 1603896273,
+        "up_time": 1603896273,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/tanhua/cards",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 5,
+        "tag": [],
+        "_id": 115,
+        "method": "GET",
+        "catid": 91,
+        "title": "探花-左滑右滑",
+        "path": "/tanhua/cards",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f4cc02bccf53300184f704a",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f4cc02bccf53300184f7049",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"编号\",\"minimum\":1,\"maximum\":10000},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"]},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\",\"enum\":[\"黑马小妹\",\"米朵妹妹\",\"致远哥哥\"]},\"gender\":{\"type\":\"string\",\"description\":\"性别 man woman\",\"enum\":[\"man\",\"woman\"]},\"age\":{\"type\":\"integer\",\"description\":\"年龄\",\"minimum\":20,\"maximum\":30},\"tags\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"enum\":[\"单身\",\"本科\",\"年龄相仿\"]},\"description\":\"标签\",\"minItems\":1,\"maxItems\":3,\"uniqueItems\":true}},\"required\":[\"id\",\"avatar\",\"nickname\",\"gender\",\"age\",\"tags\"]},\"minItems\":10,\"maxItems\":10,\"uniqueItems\":true}",
+        "uid": 20,
+        "add_time": 1603896273,
+        "up_time": 1603896273,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/tanhua/recommendation",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 6,
+        "tag": [],
+        "_id": 118,
+        "method": "GET",
+        "catid": 91,
+        "title": "推荐朋友",
+        "path": "/tanhua/recommendation",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "1",
+            "_id": "608750878eabb50011dfe549",
+            "name": "page",
+            "example": "1",
+            "desc": "当前页数"
+          },
+          {
+            "required": "1",
+            "_id": "608750878eabb50011dfe548",
+            "name": "pagesize",
+            "example": "10",
+            "desc": "页尺寸"
+          },
+          {
+            "required": "0",
+            "_id": "608750878eabb50011dfe547",
+            "name": "gender",
+            "example": "man",
+            "desc": "性别 man woman"
+          },
+          {
+            "required": "0",
+            "_id": "608750878eabb50011dfe546",
+            "name": "lastLogin",
+            "example": "1天",
+            "desc": "近期登陆时间（15分钟, 1小时, 1天）"
+          },
+          {
+            "required": "0",
+            "_id": "608750878eabb50011dfe545",
+            "name": "age",
+            "example": "30",
+            "desc": "年龄（岁）"
+          },
+          {
+            "required": "0",
+            "_id": "608750878eabb50011dfe544",
+            "name": "city",
+            "example": "北京城区",
+            "desc": "居住地"
+          },
+          {
+            "required": "0",
+            "_id": "608750878eabb50011dfe543",
+            "name": "education",
+            "example": "本科",
+            "desc": "学历（博士, 研究生, 本科, 大专, 高中及以下, 不限）"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "608750878eabb50011dfe54b",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "608750878eabb50011dfe54a",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"counts\":{\"type\":\"integer\",\"description\":\"总记录数\",\"minimum\":100,\"maximum\":5000},\"pagesize\":{\"type\":\"integer\",\"description\":\"页大小\",\"minimum\":5,\"maximum\":50},\"pages\":{\"type\":\"integer\",\"description\":\"总页数\",\"minimum\":1,\"maximum\":100},\"page\":{\"type\":\"integer\",\"description\":\"当前页码\",\"minimum\":1,\"maximum\":100},\"items\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"编号\",\"minimum\":1,\"maximum\":10000},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"]},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\",\"enum\":[\"黑马小妹\",\"米朵妹妹\",\"致远哥哥\"]},\"gender\":{\"type\":\"string\",\"description\":\"性别 man woman\",\"enum\":[\"man\",\"woman\"]},\"age\":{\"type\":\"integer\",\"description\":\"年龄\",\"minimum\":20,\"maximum\":30},\"tags\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"enum\":[\"单身\",\"本科\",\"年龄相仿\"]},\"description\":\"标签\",\"minItems\":1,\"maxItems\":3,\"uniqueItems\":true},\"fateValue\":{\"type\":\"integer\",\"description\":\"缘分值\",\"minimum\":80,\"maximum\":100}},\"required\":[\"id\",\"avatar\",\"nickname\",\"gender\",\"age\",\"tags\",\"fateValue\"]},\"description\":\"列表\",\"minItems\":10,\"maxItems\":10,\"uniqueItems\":true}},\"required\":[\"counts\",\"pagesize\",\"pages\",\"page\",\"items\"]}",
+        "uid": 20,
+        "add_time": 1603896273,
+        "up_time": 1619480711,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/tanhua/search",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 7,
+        "tag": [],
+        "_id": 121,
+        "method": "GET",
+        "catid": 91,
+        "title": "搜附近",
+        "path": "/tanhua/search",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "1",
+            "_id": "6013702ac70102009f196e2b",
+            "name": "gender",
+            "example": "man",
+            "desc": "性别 man woman"
+          },
+          {
+            "required": "1",
+            "_id": "6013702ac70102009f196e2a",
+            "name": "distance",
+            "example": "500",
+            "desc": "距离（m）"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "6013702ac70102009f196e2d",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "6013702ac70102009f196e2c",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"userId\":{\"type\":\"integer\",\"minimum\":1,\"maximum\":10000,\"description\":\"用户Id\"},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"]},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\",\"enum\":[\"下了夏天\",\"花花花世界\",\"谁动了我的冬天\",\"梦里的画\",\"雨落的花\"]}},\"required\":[\"userId\",\"avatar\",\"nickname\"]},\"minItems\":20,\"maxItems\":20}",
+        "uid": 20,
+        "add_time": 1603896273,
+        "up_time": 1611886634,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/movements/visitors",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 8,
+        "tag": [],
+        "_id": 175,
+        "method": "GET",
+        "catid": 91,
+        "title": "谁看过我",
+        "path": "/movements/visitors",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f640ff0ccf53300184f797b",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f640ff0ccf53300184f797a",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"minimum\":1,\"maximum\":10000,\"description\":\"用户id\"},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"]},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\",\"enum\":[\"黑马小妹\",\"米朵妹妹\",\"致远哥哥\"]},\"gender\":{\"type\":\"string\",\"description\":\"性别 man woman\",\"enum\":[\"man\",\"woman\"]},\"age\":{\"type\":\"integer\",\"description\":\"年龄\",\"minimum\":20,\"maximum\":30},\"tags\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"enum\":[\"单身\",\"本科\",\"年龄相仿\"]},\"description\":\"标签\",\"minItems\":1,\"maxItems\":3,\"uniqueItems\":true},\"fateValue\":{\"type\":\"integer\",\"description\":\"缘分值\",\"minimum\":80,\"maximum\":100}},\"required\":[\"id\",\"avatar\",\"nickname\",\"gender\",\"age\",\"tags\",\"fateValue\"]},\"minItems\":0,\"maxItems\":4,\"uniqueItems\":true}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1623762010,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/tanhua/strangerQuestions",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 9,
+        "tag": [],
+        "_id": 124,
+        "method": "GET",
+        "catid": 91,
+        "title": "查询陌生人问题",
+        "path": "/tanhua/strangerQuestions",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "1",
+            "_id": "5da04390ccf53300184ee908",
+            "name": "userId",
+            "example": "1",
+            "desc": "用户id"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5da04390ccf53300184ee90a",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5da04390ccf53300184ee909",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"type\":\"string\",\"description\":\"陌生人问题\",\"enum\":[\"你喜欢去看蔚蓝的大海还是去爬巍峨的高山？\"]}",
+        "req_body_other": "{\"type\":\"object\",\"properties\":{\"content\":{\"type\":\"string\",\"description\":\"问题\"}},\"required\":[\"content\"]}",
+        "req_body_type": "json",
+        "uid": 20,
+        "add_time": 1603896273,
+        "up_time": 1603896273,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/peachblossom",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 10,
+        "tag": [],
+        "_id": 127,
+        "method": "POST",
+        "catid": 91,
+        "title": "桃花传音-发送语音（学生实战）",
+        "path": "/peachblossom",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f4c6bb4ccf53300184f6ff7",
+            "name": "Content-Type",
+            "value": "multipart/form-data"
+          },
+          {
+            "required": "1",
+            "_id": "5f4c6bb4ccf53300184f6ff6",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [
+          {
+            "required": "1",
+            "_id": "5f4c6bb4ccf53300184f6ff8",
+            "name": "soundFile",
+            "type": "file"
+          }
+        ],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+        "req_body_type": "form",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"answers\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"questionId\":{\"type\":\"string\",\"description\":\"试题编号\"},\"optionId\":{\"type\":\"string\",\"description\":\"选项编号\"}},\"required\":[\"questionId\",\"optionId\"]},\"description\":\"作答\"}},\"required\":[\"answers\"]}",
+        "uid": 20,
+        "add_time": 1603896273,
+        "up_time": 1603896273,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/peachblossom",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 11,
+        "tag": [],
+        "_id": 130,
+        "method": "GET",
+        "catid": 91,
+        "title": "桃花传音-接收语音（学生实战）",
+        "path": "/peachblossom",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f61c487ccf53300184f793a",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f61c487ccf53300184f7939",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"用户id\",\"minimum\":1,\"maximum\":10000},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"]},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\",\"enum\":[\"相思落无声\"]},\"gender\":{\"type\":\"string\",\"description\":\"性别 man woman\",\"enum\":[\"woman\",\"man\"]},\"age\":{\"type\":\"integer\",\"description\":\"年龄\",\"minimum\":20,\"maximum\":40},\"soundUrl\":{\"type\":\"string\",\"description\":\"语音地址\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/peach_blossom/eabf404f623db20344011507026cb53e.m4a\"]},\"remainingTimes\":{\"type\":\"integer\",\"minimum\":0,\"maximum\":10,\"description\":\"剩余次数\"}},\"required\":[\"avatar\",\"nickname\",\"gender\",\"age\",\"soundUrl\",\"id\",\"remainingTimes\"]}",
+        "uid": 20,
+        "add_time": 1603896273,
+        "up_time": 1603896273,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/testSoul",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 12,
+        "tag": [],
+        "_id": 133,
+        "method": "POST",
+        "catid": 91,
+        "title": "测灵魂-提交问卷（学生实战）",
+        "path": "/testSoul",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f5996abccf53300184f7853",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f5996abccf53300184f7852",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [
+          {
+            "required": "1",
+            "_id": "5f5996abccf53300184f7854",
+            "name": "id",
+            "type": "text"
+          }
+        ],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"type\":\"string\",\"mock\":{\"mock\":\"@id\"},\"description\":\"报告id\"}",
+        "req_body_type": "json",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"answers\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"questionId\":{\"type\":\"string\",\"description\":\"试题编号\"},\"optionId\":{\"type\":\"string\",\"description\":\"选项编号\"}},\"required\":[\"questionId\",\"optionId\"]},\"description\":\"作答\"}},\"required\":[\"answers\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/testSoul/report/:id",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 13,
+        "tag": [],
+        "_id": 136,
+        "method": "GET",
+        "catid": 91,
+        "title": "测灵魂-查看结果（学生实战）",
+        "path": "/testSoul/report/:id",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5f640e41ccf53300184f7958",
+            "name": "id",
+            "desc": "报告id"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f640e41ccf53300184f795a",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f640e41ccf53300184f7959",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"type\":\"object\",\"properties\":{\"conclusion\":{\"type\":\"string\",\"description\":\"鉴定结果\",\"enum\":[\"猫头鹰：他们的共同特质为重计划、条理、细节精准。在行为上，表现出喜欢理性思考与分析、较重视制度、结构、规范。他们注重执行游戏规则、循规蹈矩、巨细靡遗、重视品质、敬业负责。\",\"白兔型：平易近人、敦厚可靠、避免冲突与不具批判性。在行为上，表现出不慌不忙、冷静自持的态度。他们注重稳定与中长程规划，现实生活中，常会反思自省并以和谐为中心，即使面对困境，亦能泰然自若，从容应付。\",\"狐狸型 ：人际关系能力极强，擅长以口语表达感受而引起共鸣，很会激励并带动气氛。他们喜欢跟别人互动，重视群体的归属感，基本上是比较「人际导向」。由于他们富同理心并乐于分享，具有很好的亲和力，在服务业、销售业、传播业及公共关系等领域中，狐狸型的领导者都有很杰出的表现。\",\"狮子型：性格为充满自信、竞争心强、主动且企图心强烈，是个有决断力的领导者。一般而言，狮子型的人胸怀大志，勇于冒险，看问题能够直指核心，并对目标全力以赴。他们在领导风格及决策上，强调权威与果断，擅长危机处理，此种性格最适合开创性与改革性的工作。\"]},\"cover\":{\"type\":\"string\",\"description\":\"鉴定图片\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/test_soul/owl.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/test_soul/rabbit.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/test_soul/fox.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/test_soul/lion.png\"]},\"dimensions\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"key\":{\"type\":\"string\",\"description\":\"维度项（外向，判断，抽象，理性）\",\"enum\":[\"外向\",\"判断\",\"抽象\",\"理性\"]},\"value\":{\"type\":\"string\",\"description\":\"维度值\",\"enum\":[\"80%\",\"70%\",\"90%\",\"60%\"]}},\"required\":[\"key\",\"value\"]},\"description\":\"维度\",\"minItems\":4,\"maxItems\":4},\"similarYou\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"用户编号\",\"minimum\":1,\"maximum\":10000,\"mock\":{\"mock\":\"@id\"}},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"]}},\"required\":[\"id\",\"avatar\"]},\"description\":\"与你相似\",\"minItems\":10,\"maxItems\":10,\"uniqueItems\":true}},\"required\":[\"conclusion\",\"dimensions\",\"cover\"]}",
+        "req_body_type": "json",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{}}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/testSoul",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 14,
+        "tag": [],
+        "_id": 139,
+        "method": "GET",
+        "catid": 91,
+        "title": "测灵魂-问卷列表（学生实战）",
+        "path": "/testSoul",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f630af0ccf53300184f7953",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f630af0ccf53300184f7952",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"问卷编号\",\"mock\":{\"mock\":\"@id\"}},\"name\":{\"type\":\"string\",\"description\":\"问卷名称\",\"enum\":[\"初级灵魂题\",\"中级灵魂题\",\"高级灵魂题\"]},\"cover\":{\"type\":\"string\",\"description\":\"封面\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/test_soul/qn_cover_01.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/test_soul/qn_cover_02.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/test_soul/qn_cover_03.png\"]},\"level\":{\"type\":\"string\",\"description\":\"级别\",\"enum\":[\"初级\",\"中级\",\"高级\"]},\"star\":{\"type\":\"integer\",\"minimum\":2,\"maximum\":5,\"description\":\"星别（例如：2颗星，3颗星，5颗星）\"},\"questions\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"试题编号\",\"mock\":{\"mock\":\"@id\"}},\"question\":{\"type\":\"string\",\"description\":\"题目\",\"enum\":[\"假如你在你房间墙壁上发现一个了小孔，你希望从这个小孔中看如下到什么样的场景？\"]},\"options\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"选项编号\",\"mock\":{\"mock\":\"@id\"}},\"option\":{\"type\":\"string\",\"description\":\"选项\",\"enum\":[\"正在拥抱的一对恋人\",\"一家人正其乐融融地吃晚餐\"]}}},\"description\":\"选项\",\"uniqueItems\":true,\"minItems\":7,\"maxItems\":7}}},\"description\":\"试题\",\"uniqueItems\":true,\"minItems\":10,\"maxItems\":10},\"isLock\":{\"type\":\"integer\",\"description\":\"是否锁住（0解锁，1锁住）\",\"minimum\":0,\"maximum\":1},\"reportId\":{\"type\":\"string\",\"mock\":{\"mock\":\"@id\"},\"description\":\"最新报告id\"}},\"required\":[\"id\",\"name\",\"star\",\"cover\",\"level\",\"isLock\"]},\"minItems\":3,\"maxItems\":3,\"uniqueItems\":true}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      }
+    ]
+  },
+  {
+    "index": 0,
+    "name": "2 圈子（前端已联调）",
+    "desc": null,
+    "add_time": 1603896273,
+    "up_time": 1603896273,
+    "list": [
+      {
+        "query_path": {
+          "path": "/movements/all",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 142,
+        "method": "GET",
+        "catid": 99,
+        "title": "我的动态",
+        "path": "/movements/all",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "1",
+            "_id": "6092859a1b267800159138a9",
+            "name": "page",
+            "example": "1",
+            "desc": "当前页数"
+          },
+          {
+            "required": "1",
+            "_id": "6092859a1b267800159138a8",
+            "name": "pagesize",
+            "example": "10",
+            "desc": "页尺寸"
+          },
+          {
+            "required": "1",
+            "_id": "6092859a1b267800159138a7",
+            "name": "userId",
+            "example": "1",
+            "desc": "用户id"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "6092859a1b267800159138ab",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "6092859a1b267800159138aa",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"counts\":{\"type\":\"integer\",\"description\":\"总记录数\",\"minimum\":100,\"maximum\":5000},\"pagesize\":{\"type\":\"integer\",\"description\":\"页大小\",\"minimum\":5,\"maximum\":50},\"pages\":{\"type\":\"integer\",\"description\":\"总页数\",\"minimum\":1,\"maximum\":100},\"page\":{\"type\":\"integer\",\"description\":\"当前页码\",\"minimum\":1,\"maximum\":100},\"items\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"动态id\"},\"userId\":{\"type\":\"integer\",\"description\":\"用户id\",\"minimum\":1,\"maximum\":10000},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\"]},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\",\"enum\":[\"相思落无声\"]},\"gender\":{\"type\":\"string\",\"description\":\"性别 man woman\",\"enum\":[\"woman\"]},\"age\":{\"type\":\"integer\",\"description\":\"年龄\",\"minimum\":25,\"maximum\":25},\"tags\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"enum\":[\"单身\",\"本科\",\"年龄相仿\"]},\"description\":\"标签\",\"minItems\":1,\"maxItems\":3,\"uniqueItems\":true},\"textContent\":{\"type\":\"string\",\"description\":\"文字动态\",\"enum\":[\"下属去看脱发……请病假合适吗……\",\"有家的地方，没有工作，有工作的地方没有家，他乡容不下的灵魂，故乡安置不了的肉身，谁能留下我这尊大可爱~\"]},\"imageContent\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_4.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_5.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_6.png\"]},\"description\":\"图片动态\",\"minItems\":1,\"maxItems\":6,\"uniqueItems\":true},\"distance\":{\"type\":\"string\",\"description\":\"距离\",\"enum\":[\"1.2公里\"]},\"createDate\":{\"type\":\"string\",\"description\":\"发布时间\",\"enum\":[\"10分钟前\"]},\"likeCount\":{\"type\":\"integer\",\"description\":\"点赞数\",\"minimum\":0,\"maximum\":100},\"commentCount\":{\"type\":\"integer\",\"description\":\"评论数\",\"minimum\":0,\"maximum\":100},\"loveCount\":{\"type\":\"integer\",\"description\":\"喜欢数\",\"minimum\":0,\"maximum\":100},\"hasLiked\":{\"type\":\"integer\",\"description\":\"是否点赞（1是，0否）\",\"minimum\":0,\"maximum\":1},\"hasLoved\":{\"type\":\"integer\",\"description\":\"是否喜欢（1是，0否）\",\"minimum\":0,\"maximum\":1}},\"required\":[\"id\",\"userId\",\"avatar\",\"nickname\",\"gender\",\"age\",\"tags\",\"textContent\",\"imageContent\",\"distance\",\"createDate\",\"likeCount\",\"commentCount\",\"loveCount\",\"hasLiked\",\"hasLoved\"]},\"description\":\"列表\",\"minItems\":10,\"maxItems\":10,\"uniqueItems\":true}},\"required\":[\"counts\",\"pagesize\",\"pages\",\"page\",\"items\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1620215194,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/movements/recommend",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 1,
+        "tag": [],
+        "_id": 145,
+        "method": "GET",
+        "catid": 99,
+        "title": "推荐动态",
+        "path": "/movements/recommend",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "1",
+            "_id": "5f640eebccf53300184f7960",
+            "name": "page",
+            "example": "1",
+            "desc": "当前页数"
+          },
+          {
+            "required": "1",
+            "_id": "5f640eebccf53300184f795f",
+            "name": "pagesize",
+            "example": "10",
+            "desc": "页尺寸"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f640eebccf53300184f7962",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f640eebccf53300184f7961",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"counts\":{\"type\":\"integer\",\"description\":\"总记录数\",\"minimum\":100,\"maximum\":5000},\"pagesize\":{\"type\":\"integer\",\"description\":\"页大小\",\"minimum\":5,\"maximum\":50},\"pages\":{\"type\":\"integer\",\"description\":\"总页数\",\"minimum\":1,\"maximum\":100},\"page\":{\"type\":\"integer\",\"description\":\"当前页码\",\"minimum\":1,\"maximum\":100},\"items\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"动态id\"},\"userId\":{\"type\":\"integer\",\"description\":\"用户id\",\"minimum\":1,\"maximum\":10000},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"]},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\",\"enum\":[\"黑马小妹\",\"米朵妹妹\",\"致远哥哥\"]},\"gender\":{\"type\":\"string\",\"description\":\"性别 man woman\",\"enum\":[\"man\",\"woman\"]},\"age\":{\"type\":\"integer\",\"description\":\"年龄\",\"minimum\":20,\"maximum\":30},\"tags\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"enum\":[\"单身\",\"本科\",\"年龄相仿\"]},\"description\":\"标签\",\"minItems\":1,\"maxItems\":3,\"uniqueItems\":true},\"textContent\":{\"type\":\"string\",\"description\":\"文字动态\",\"enum\":[\"下属去看脱发……请病假合适吗……\",\"有家的地方，没有工作，有工作的地方没有家，他乡容不下的灵魂，故乡安置不了的肉身，谁能留下我这尊大可爱~\"]},\"imageContent\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_4.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_5.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_6.png\"]},\"description\":\"图片动态\",\"minItems\":1,\"maxItems\":6,\"uniqueItems\":true},\"distance\":{\"type\":\"string\",\"description\":\"距离\",\"enum\":[\"1.2公里\"]},\"createDate\":{\"type\":\"string\",\"description\":\"发布时间\",\"enum\":[\"10分钟前\"]},\"likeCount\":{\"type\":\"integer\",\"description\":\"点赞数\",\"minimum\":0,\"maximum\":100},\"commentCount\":{\"type\":\"integer\",\"description\":\"评论数\",\"minimum\":0,\"maximum\":100},\"loveCount\":{\"type\":\"integer\",\"description\":\"喜欢数\",\"minimum\":0,\"maximum\":100},\"hasLiked\":{\"type\":\"integer\",\"description\":\"是否点赞（1是，0否）\",\"minimum\":0,\"maximum\":1},\"hasLoved\":{\"type\":\"integer\",\"description\":\"是否喜欢（1是，0否）\",\"minimum\":0,\"maximum\":1}},\"required\":[\"id\",\"userId\",\"avatar\",\"nickname\",\"gender\",\"age\",\"tags\",\"textContent\",\"imageContent\",\"distance\",\"createDate\",\"likeCount\",\"commentCount\",\"loveCount\",\"hasLiked\",\"hasLoved\"]},\"description\":\"列表\",\"minItems\":10,\"maxItems\":10,\"uniqueItems\":true}},\"required\":[\"counts\",\"pagesize\",\"pages\",\"page\",\"items\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/movements",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 3,
+        "tag": [],
+        "_id": 148,
+        "method": "GET",
+        "catid": 99,
+        "title": "好友动态",
+        "path": "/movements",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "1",
+            "_id": "5f640f34ccf53300184f7968",
+            "name": "page",
+            "example": "1",
+            "desc": "当前页数"
+          },
+          {
+            "required": "1",
+            "_id": "5f640f34ccf53300184f7967",
+            "name": "pagesize",
+            "example": "10",
+            "desc": "页尺寸"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f640f34ccf53300184f796a",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f640f34ccf53300184f7969",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"counts\":{\"type\":\"integer\",\"description\":\"总记录数\",\"minimum\":100,\"maximum\":5000},\"pagesize\":{\"type\":\"integer\",\"description\":\"页大小\",\"minimum\":5,\"maximum\":50},\"pages\":{\"type\":\"integer\",\"description\":\"总页数\",\"minimum\":1,\"maximum\":100},\"page\":{\"type\":\"integer\",\"description\":\"当前页码\",\"minimum\":1,\"maximum\":100},\"items\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"动态id\"},\"userId\":{\"type\":\"integer\",\"description\":\"用户id\",\"minimum\":1,\"maximum\":10000},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"]},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\",\"enum\":[\"黑马小妹\",\"米朵妹妹\",\"致远哥哥\"]},\"gender\":{\"type\":\"string\",\"description\":\"性别 man woman\",\"enum\":[\"man\",\"woman\"]},\"age\":{\"type\":\"integer\",\"description\":\"年龄\",\"minimum\":20,\"maximum\":30},\"tags\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"enum\":[\"单身\",\"本科\",\"年龄相仿\"]},\"description\":\"标签\",\"minItems\":1,\"maxItems\":3,\"uniqueItems\":true},\"textContent\":{\"type\":\"string\",\"description\":\"文字动态\",\"enum\":[\"下属去看脱发……请病假合适吗……\",\"有家的地方，没有工作，有工作的地方没有家，他乡容不下的灵魂，故乡安置不了的肉身，谁能留下我这尊大可爱~\"]},\"imageContent\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_4.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_5.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_6.png\"]},\"description\":\"图片动态\",\"minItems\":1,\"maxItems\":6,\"uniqueItems\":true},\"distance\":{\"type\":\"string\",\"description\":\"距离\",\"enum\":[\"1.2公里\"]},\"createDate\":{\"type\":\"string\",\"description\":\"发布时间\",\"enum\":[\"10分钟前\"]},\"likeCount\":{\"type\":\"integer\",\"description\":\"点赞数\",\"minimum\":0,\"maximum\":100},\"commentCount\":{\"type\":\"integer\",\"description\":\"评论数\",\"minimum\":0,\"maximum\":100},\"loveCount\":{\"type\":\"integer\",\"description\":\"喜欢数\",\"minimum\":0,\"maximum\":100},\"hasLiked\":{\"type\":\"integer\",\"description\":\"是否点赞（1是，0否）\",\"minimum\":0,\"maximum\":1},\"hasLoved\":{\"type\":\"integer\",\"description\":\"是否喜欢（1是，0否）\",\"minimum\":0,\"maximum\":1}},\"required\":[\"id\",\"userId\",\"avatar\",\"nickname\",\"gender\",\"age\",\"tags\",\"textContent\",\"imageContent\",\"distance\",\"createDate\",\"likeCount\",\"commentCount\",\"loveCount\",\"hasLiked\",\"hasLoved\"]},\"description\":\"列表\",\"minItems\":10,\"maxItems\":10,\"uniqueItems\":true}},\"required\":[\"counts\",\"pagesize\",\"pages\",\"page\",\"items\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/movements/:id",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 4,
+        "tag": [],
+        "_id": 151,
+        "method": "GET",
+        "catid": 99,
+        "title": "单条动态",
+        "path": "/movements/:id",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5f640fabccf53300184f7975",
+            "name": "id",
+            "desc": "动态id"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f640fabccf53300184f7977",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f640fabccf53300184f7976",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"动态id\"},\"userId\":{\"type\":\"integer\",\"description\":\"用户id\",\"minimum\":1,\"maximum\":10000},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"]},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\",\"enum\":[\"黑马小妹\",\"米朵妹妹\",\"致远哥哥\"]},\"gender\":{\"type\":\"string\",\"description\":\"性别 man woman\",\"enum\":[\"man\",\"woman\"]},\"age\":{\"type\":\"integer\",\"description\":\"年龄\",\"minimum\":20,\"maximum\":30},\"tags\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"enum\":[\"单身\",\"本科\",\"年龄相仿\"]},\"description\":\"标签\",\"minItems\":1,\"maxItems\":3,\"uniqueItems\":true},\"textContent\":{\"type\":\"string\",\"description\":\"文字动态\",\"enum\":[\"下属去看脱发……请病假合适吗……\",\"有家的地方，没有工作，有工作的地方没有家，他乡容不下的灵魂，故乡安置不了的肉身，谁能留下我这尊大可爱~\"]},\"imageContent\":{\"type\":\"array\",\"items\":{\"type\":\"string\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_4.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_5.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/group_6.png\"]},\"description\":\"图片动态\",\"minItems\":1,\"maxItems\":6,\"uniqueItems\":true},\"distance\":{\"type\":\"string\",\"description\":\"距离\",\"enum\":[\"1.2公里\"]},\"createDate\":{\"type\":\"string\",\"description\":\"发布时间\",\"enum\":[\"10分钟前\"]},\"likeCount\":{\"type\":\"integer\",\"description\":\"点赞数\",\"minimum\":0,\"maximum\":100},\"commentCount\":{\"type\":\"integer\",\"description\":\"评论数\",\"minimum\":0,\"maximum\":100},\"loveCount\":{\"type\":\"integer\",\"description\":\"喜欢数\",\"minimum\":0,\"maximum\":100}},\"required\":[\"id\",\"userId\",\"avatar\",\"nickname\",\"gender\",\"age\",\"tags\",\"textContent\",\"imageContent\",\"distance\",\"createDate\",\"likeCount\",\"commentCount\",\"loveCount\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/movements",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 5,
+        "tag": [],
+        "_id": 154,
+        "method": "POST",
+        "catid": 99,
+        "title": "动态-发布",
+        "path": "/movements",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d75aee2ccf53300184ed406",
+            "name": "Content-Type",
+            "value": "multipart/form-data"
+          },
+          {
+            "required": "1",
+            "_id": "5d75aee2ccf53300184ed405",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [
+          {
+            "required": "1",
+            "_id": "5d75aee2ccf53300184ed40b",
+            "name": "textContent",
+            "type": "text",
+            "desc": "文字动态"
+          },
+          {
+            "required": "1",
+            "_id": "5d75aee2ccf53300184ed40a",
+            "name": "imageContent",
+            "type": "file",
+            "example": "",
+            "desc": "图片动态（支持多张图片）"
+          },
+          {
+            "required": "1",
+            "_id": "5d75aee2ccf53300184ed409",
+            "name": "location",
+            "type": "text",
+            "example": "",
+            "desc": "位置"
+          },
+          {
+            "required": "1",
+            "_id": "5d75aee2ccf53300184ed408",
+            "name": "longitude",
+            "type": "text",
+            "example": "",
+            "desc": "经度"
+          },
+          {
+            "required": "1",
+            "_id": "5d75aee2ccf53300184ed407",
+            "name": "latitude",
+            "type": "text",
+            "example": "",
+            "desc": "纬度"
+          }
+        ],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"type\":\"object\",\"properties\":{}}",
+        "req_body_type": "form",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"编号\"}},\"required\":[\"id\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/movements/:id/like",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 6,
+        "tag": [],
+        "_id": 157,
+        "method": "GET",
+        "catid": 99,
+        "title": "动态-点赞",
+        "path": "/movements/:id/like",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5d678899ccf53300184eccb7",
+            "name": "id",
+            "desc": "动态id"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d678899ccf53300184eccb9",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5d678899ccf53300184eccb8",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"type\":\"integer\",\"description\":\"点赞数\",\"minimum\":0,\"maximum\":100}",
+        "req_body_type": "json",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"编号\"},\"isLike\":{\"type\":\"integer\",\"description\":\"1喜欢/0不喜欢\"}},\"required\":[\"id\",\"isLike\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/movements/:id/dislike",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 7,
+        "tag": [],
+        "_id": 160,
+        "method": "GET",
+        "catid": 99,
+        "title": "动态-取消点赞",
+        "path": "/movements/:id/dislike",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5d64ef67ccf53300184ec8fe",
+            "name": "id",
+            "desc": "动态id"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d64ef67ccf53300184ec900",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5d64ef67ccf53300184ec8ff",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"type\":\"integer\",\"description\":\"点赞数\",\"minimum\":0,\"maximum\":100}",
+        "req_body_type": "json",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"编号\"},\"isLike\":{\"type\":\"integer\",\"description\":\"1喜欢/0不喜欢\"}},\"required\":[\"id\",\"isLike\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/movements/:id/love",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 8,
+        "tag": [],
+        "_id": 163,
+        "method": "GET",
+        "catid": 99,
+        "title": "动态-喜欢",
+        "path": "/movements/:id/love",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5d67889eccf53300184eccba",
+            "name": "id",
+            "desc": "动态id"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d67889eccf53300184eccbc",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5d67889eccf53300184eccbb",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"type\":\"integer\",\"minimum\":0,\"maximum\":100,\"description\":\"喜欢数\"}",
+        "req_body_type": "json",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"编号\"},\"isLike\":{\"type\":\"integer\",\"description\":\"1喜欢/0不喜欢\"}},\"required\":[\"id\",\"isLike\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/movements/:id/unlove",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 9,
+        "tag": [],
+        "_id": 166,
+        "method": "GET",
+        "catid": 99,
+        "title": "动态-取消喜欢",
+        "path": "/movements/:id/unlove",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5d6788a3ccf53300184eccbd",
+            "name": "id",
+            "desc": "动态id"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d6788a3ccf53300184eccbf",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5d6788a3ccf53300184eccbe",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"type\":\"integer\",\"description\":\"喜欢数\",\"minimum\":0,\"maximum\":100}",
+        "req_body_type": "json",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"编号\"},\"isLike\":{\"type\":\"integer\",\"description\":\"1喜欢/0不喜欢\"}},\"required\":[\"id\",\"isLike\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/users/:id/fateValue",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 10,
+        "tag": [],
+        "_id": 169,
+        "method": "GET",
+        "catid": 99,
+        "title": "缘分值（前端暂未联调）",
+        "path": "/users/:id/fateValue",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5d78b2d1ccf53300184ed48c",
+            "name": "id",
+            "desc": ""
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d78b2d1ccf53300184ed48e",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5d78b2d1ccf53300184ed48d",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"fateValue\":{\"type\":\"integer\",\"description\":\"缘分值\"},\"tags\":{\"type\":\"array\",\"items\":{\"type\":\"string\"},\"description\":\"标签\"},\"myAvatar\":{\"type\":\"string\",\"description\":\"我的头像\"},\"friendAvatar\":{\"type\":\"string\",\"description\":\"好友头像\"}},\"required\":[\"fateValue\",\"tags\",\"myAvatar\",\"friendAvatar\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/movements/:id/noInterest",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 11,
+        "tag": [],
+        "_id": 172,
+        "method": "GET",
+        "catid": 99,
+        "title": "动态-不感兴趣（前端暂未联调）",
+        "path": "/movements/:id/noInterest",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5d75a68accf53300184ed3a8",
+            "name": "id",
+            "desc": "动态id"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d75a68accf53300184ed3aa",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5d75a68accf53300184ed3a9",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"type\":\"object\",\"properties\":{}}",
+        "req_body_type": "json",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"编号\"}},\"required\":[\"id\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/comments",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 12,
+        "tag": [],
+        "_id": 178,
+        "method": "GET",
+        "catid": 99,
+        "title": "评论列表",
+        "path": "/comments",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "1",
+            "_id": "5f64102eccf53300184f797e",
+            "name": "movementId",
+            "example": "",
+            "desc": "动态编号"
+          },
+          {
+            "required": "1",
+            "_id": "5f64102eccf53300184f797d",
+            "name": "page",
+            "example": "1",
+            "desc": "当前页数"
+          },
+          {
+            "required": "1",
+            "_id": "5f64102eccf53300184f797c",
+            "name": "pagesize",
+            "example": "10",
+            "desc": "页尺寸"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f64102eccf53300184f7980",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f64102eccf53300184f797f",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"counts\":{\"type\":\"integer\",\"description\":\"总记录数\",\"minimum\":100,\"maximum\":5000},\"pagesize\":{\"type\":\"integer\",\"description\":\"页大小\",\"minimum\":5,\"maximum\":50},\"pages\":{\"type\":\"integer\",\"description\":\"总页数\",\"minimum\":1,\"maximum\":100},\"page\":{\"type\":\"integer\",\"description\":\"当前页码\",\"minimum\":1,\"maximum\":100},\"items\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"评论id\"},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"]},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\",\"enum\":[\"春花多时有\",\"清水河上住\"]},\"content\":{\"type\":\"string\",\"description\":\"评论\",\"enum\":[\"最美的风景配最美的人~\",\"灯泡\"]},\"createDate\":{\"type\":\"string\",\"description\":\"评论时间\",\"enum\":[\"08:27\"]},\"likeCount\":{\"type\":\"integer\",\"description\":\"点赞数\",\"minimum\":0,\"maximum\":100},\"hasLiked\":{\"type\":\"integer\",\"description\":\"是否点赞（1是，0否）\",\"minimum\":0,\"maximum\":1}},\"required\":[\"id\",\"avatar\",\"nickname\",\"content\",\"createDate\",\"likeCount\",\"hasLiked\"]},\"description\":\"列表\",\"minItems\":1,\"maxItems\":10,\"uniqueItems\":true}},\"required\":[\"counts\",\"pagesize\",\"pages\",\"page\",\"items\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/comments",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 13,
+        "tag": [],
+        "_id": 181,
+        "method": "POST",
+        "catid": 99,
+        "title": "评论-提交",
+        "path": "/comments",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d75a981ccf53300184ed3ff",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5d75a981ccf53300184ed3fe",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [
+          {
+            "required": "1",
+            "_id": "5d75a981ccf53300184ed400",
+            "name": "id",
+            "type": "text"
+          }
+        ],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"type\":\"object\",\"properties\":{}}",
+        "req_body_type": "json",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"movementId\":{\"type\":\"string\",\"description\":\"动态编号\"},\"comment\":{\"type\":\"string\",\"description\":\"评论\"}},\"required\":[\"movementId\",\"comment\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/comments/:id/like",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 14,
+        "tag": [],
+        "_id": 184,
+        "method": "GET",
+        "catid": 99,
+        "title": "评论-点赞",
+        "path": "/comments/:id/like",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5d75a6b9ccf53300184ed3ab",
+            "name": "id",
+            "desc": "评论id"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d75a6b9ccf53300184ed3ad",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5d75a6b9ccf53300184ed3ac",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"type\":\"integer\",\"description\":\"点赞数\",\"minimum\":0,\"maximum\":100}",
+        "req_body_type": "json",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"编号\"},\"isLike\":{\"type\":\"integer\",\"description\":\"1喜欢/0不喜欢\"}},\"required\":[\"id\",\"isLike\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/comments/:id/dislike",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 15,
+        "tag": [],
+        "_id": 187,
+        "method": "GET",
+        "catid": 99,
+        "title": "评论-取消点赞",
+        "path": "/comments/:id/dislike",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5d75a6bdccf53300184ed3ae",
+            "name": "id",
+            "desc": "评论id"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d75a6bdccf53300184ed3b0",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5d75a6bdccf53300184ed3af",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"type\":\"integer\",\"description\":\"点赞数\",\"minimum\":0,\"maximum\":100}",
+        "req_body_type": "json",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"编号\"},\"isLike\":{\"type\":\"integer\",\"description\":\"1喜欢/0不喜欢\"}},\"required\":[\"id\",\"isLike\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/users/:uid/alreadyLove",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 16,
+        "tag": [],
+        "_id": 190,
+        "method": "GET",
+        "catid": 99,
+        "title": "是否喜欢（新增接口）",
+        "path": "/users/:uid/alreadyLove",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5f166231ccf53300184f623d",
+            "name": "uid",
+            "desc": ""
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f166231ccf53300184f623f",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f166231ccf53300184f623e",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"type\":\"boolean\",\"default\":true}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      }
+    ]
+  },
+  {
+    "index": 0,
+    "name": "3 消息（前端已联调）",
+    "desc": null,
+    "add_time": 1603896273,
+    "up_time": 1603896273,
+    "list": [
+      {
+        "query_path": {
+          "path": "/messages/announcements",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 193,
+        "method": "GET",
+        "catid": 107,
+        "title": "公告列表",
+        "path": "/messages/announcements",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "1",
+            "_id": "5da3ceaeccf53300184ee96c",
+            "name": "page",
+            "example": "1",
+            "desc": "当前页数"
+          },
+          {
+            "required": "1",
+            "_id": "5da3ceaeccf53300184ee96b",
+            "name": "pagesize",
+            "example": "10",
+            "desc": "页尺寸"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5da3ceaeccf53300184ee96e",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5da3ceaeccf53300184ee96d",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"counts\":{\"type\":\"integer\",\"description\":\"总记录数\",\"minimum\":100,\"maximum\":5000},\"pagesize\":{\"type\":\"integer\",\"description\":\"页大小\",\"minimum\":5,\"maximum\":50},\"pages\":{\"type\":\"integer\",\"description\":\"总页数\",\"minimum\":1,\"maximum\":100},\"page\":{\"type\":\"integer\",\"description\":\"当前页码\",\"minimum\":1,\"maximum\":100},\"items\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"编号\"},\"title\":{\"type\":\"string\",\"description\":\"标题\",\"enum\":[\"探花新版本上线发布啦～\",\"盛夏high趴开始了，赶紧来报名吧！\"]},\"description\":{\"type\":\"string\",\"description\":\"描述\",\"enum\":[\"探花App2019年7月23日起在苹果商店…\",\"浓情夏日，清爽一聚，探花将吧大家聚…\"]},\"createDate\":{\"type\":\"string\",\"format\":\"date-time\",\"description\":\"发布时间\",\"enum\":[\"2019-09-08 10:07\"]}},\"required\":[\"id\",\"title\",\"description\",\"createDate\"]},\"description\":\"列表\",\"minItems\":10,\"maxItems\":10,\"uniqueItems\":true}},\"required\":[\"counts\",\"pagesize\",\"pages\",\"page\",\"items\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/messages/loves",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 196,
+        "method": "GET",
+        "catid": 107,
+        "title": "喜欢列表",
+        "path": "/messages/loves",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "1",
+            "_id": "5f641097ccf53300184f798a",
+            "name": "page",
+            "example": "1",
+            "desc": "当前页数"
+          },
+          {
+            "required": "1",
+            "_id": "5f641097ccf53300184f7989",
+            "name": "pagesize",
+            "example": "10",
+            "desc": "页尺寸"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f641097ccf53300184f798c",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f641097ccf53300184f798b",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"counts\":{\"type\":\"integer\",\"description\":\"总记录数\",\"minimum\":100,\"maximum\":5000},\"pagesize\":{\"type\":\"integer\",\"description\":\"页大小\",\"minimum\":5,\"maximum\":50},\"pages\":{\"type\":\"integer\",\"description\":\"总页数\",\"minimum\":1,\"maximum\":100},\"page\":{\"type\":\"integer\",\"description\":\"当前页码\",\"minimum\":1,\"maximum\":100},\"items\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"编号\"},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"]},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\",\"enum\":[\"Wendy\",\"谁动了我的冬天\",\"卿本笨笨\"]},\"createDate\":{\"type\":\"string\",\"description\":\"喜欢时间\",\"enum\":[\"2019-09-08 10:07\"]}},\"required\":[\"id\",\"avatar\",\"nickname\",\"createDate\"]},\"description\":\"列表\",\"minItems\":10,\"maxItems\":10,\"uniqueItems\":true}},\"required\":[\"counts\",\"pagesize\",\"pages\",\"page\",\"items\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/messages/likes",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 199,
+        "method": "GET",
+        "catid": 107,
+        "title": "点赞列表",
+        "path": "/messages/likes",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "1",
+            "_id": "5f641078ccf53300184f7982",
+            "name": "page",
+            "example": "1",
+            "desc": "当前页数"
+          },
+          {
+            "required": "1",
+            "_id": "5f641078ccf53300184f7981",
+            "name": "pagesize",
+            "example": "10",
+            "desc": "页尺寸"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f641078ccf53300184f7984",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f641078ccf53300184f7983",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"counts\":{\"type\":\"integer\",\"description\":\"总记录数\",\"minimum\":100,\"maximum\":5000},\"pagesize\":{\"type\":\"integer\",\"description\":\"页大小\",\"minimum\":5,\"maximum\":50},\"pages\":{\"type\":\"integer\",\"description\":\"总页数\",\"minimum\":1,\"maximum\":100},\"page\":{\"type\":\"integer\",\"description\":\"当前页码\",\"minimum\":1,\"maximum\":100},\"items\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"编号\"},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"]},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\",\"enum\":[\"Wendy\",\"谁动了我的冬天\",\"卿本笨笨\"]},\"createDate\":{\"type\":\"string\",\"description\":\"点赞时间\",\"enum\":[\"2019-09-08 10:07\"]}},\"required\":[\"id\",\"avatar\",\"nickname\",\"createDate\"]},\"description\":\"列表\",\"minItems\":10,\"maxItems\":10,\"uniqueItems\":true}},\"required\":[\"counts\",\"pagesize\",\"pages\",\"page\",\"items\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/messages/contacts",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 202,
+        "method": "GET",
+        "catid": 107,
+        "title": "联系人列表",
+        "path": "/messages/contacts",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "1",
+            "_id": "5f6410b4ccf53300184f798f",
+            "name": "page",
+            "example": "1",
+            "desc": "当前页数"
+          },
+          {
+            "required": "1",
+            "_id": "5f6410b4ccf53300184f798e",
+            "name": "pagesize",
+            "example": "10",
+            "desc": "页尺寸"
+          },
+          {
+            "required": "1",
+            "_id": "5f6410b4ccf53300184f798d",
+            "name": "keyword",
+            "example": "",
+            "desc": "关键字"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f6410b4ccf53300184f7991",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f6410b4ccf53300184f7990",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"counts\":{\"type\":\"integer\",\"description\":\"总记录数\",\"minimum\":100,\"maximum\":5000},\"pagesize\":{\"type\":\"integer\",\"description\":\"页大小\",\"minimum\":5,\"maximum\":50},\"pages\":{\"type\":\"integer\",\"description\":\"总页数\",\"minimum\":1,\"maximum\":100},\"page\":{\"type\":\"integer\",\"description\":\"当前页码\",\"minimum\":1,\"maximum\":100},\"items\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"编号\",\"minimum\":1,\"maximum\":10000},\"userId\":{\"type\":\"string\",\"description\":\"用户id\",\"enum\":[\"liujunjie\"]},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"]},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\",\"mock\":{\"mock\":\"@cname\"}},\"gender\":{\"type\":\"string\",\"description\":\"性别 man woman\",\"enum\":[\"man\",\"woman\"]},\"age\":{\"type\":\"integer\",\"description\":\"年龄\",\"minimum\":20,\"maximum\":30},\"city\":{\"type\":\"string\",\"description\":\"城市\",\"enum\":[\"上海\",\"北京\",\"广州\"]}},\"required\":[\"userId\",\"avatar\",\"nickname\",\"gender\",\"age\",\"city\"]},\"description\":\"列表\",\"minItems\":10,\"maxItems\":10,\"uniqueItems\":true}},\"required\":[\"counts\",\"pagesize\",\"pages\",\"page\",\"items\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/messages/contacts",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 205,
+        "method": "POST",
+        "catid": 107,
+        "title": "联系人添加",
+        "path": "/messages/contacts",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d8f2930ccf53300184ee1c3",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5d8f2930ccf53300184ee1c2",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "<p>“聊一下”一键添加好友</p>\n",
+        "markdown": "“聊一下”一键添加好友",
+        "res_body": "{\"type\":\"object\",\"properties\":{}}",
+        "req_body_type": "json",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"userId\":{\"type\":\"integer\",\"description\":\"用户id\",\"minimum\":1,\"maximum\":10000}},\"required\":[\"userId\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/messages/comments",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 208,
+        "method": "GET",
+        "catid": 107,
+        "title": "评论列表",
+        "path": "/messages/comments",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "1",
+            "_id": "5f641089ccf53300184f7986",
+            "name": "page",
+            "example": "1",
+            "desc": "当前页数"
+          },
+          {
+            "required": "1",
+            "_id": "5f641089ccf53300184f7985",
+            "name": "pagesize",
+            "example": "10",
+            "desc": "页尺寸"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f641089ccf53300184f7988",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f641089ccf53300184f7987",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"counts\":{\"type\":\"integer\",\"description\":\"总记录数\",\"minimum\":100,\"maximum\":5000},\"pagesize\":{\"type\":\"integer\",\"description\":\"页大小\",\"minimum\":5,\"maximum\":50},\"pages\":{\"type\":\"integer\",\"description\":\"总页数\",\"minimum\":1,\"maximum\":100},\"page\":{\"type\":\"integer\",\"description\":\"当前页码\",\"minimum\":1,\"maximum\":100},\"items\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"编号\"},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"]},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\",\"enum\":[\"Wendy\",\"谁动了我的冬天\",\"卿本笨笨\"]},\"createDate\":{\"type\":\"string\",\"description\":\"评论时间\",\"enum\":[\"2019-09-08 10:07\"]}},\"required\":[\"id\",\"avatar\",\"nickname\",\"createDate\"]},\"description\":\"列表\",\"minItems\":10,\"maxItems\":10,\"uniqueItems\":true}},\"required\":[\"counts\",\"pagesize\",\"pages\",\"page\",\"items\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      }
+    ]
+  },
+  {
+    "index": 0,
+    "name": "4 小视频（前端已联调）",
+    "desc": null,
+    "add_time": 1603896273,
+    "up_time": 1617259089,
+    "list": [
+      {
+        "query_path": {
+          "path": "/smallVideos",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 211,
+        "method": "GET",
+        "catid": 115,
+        "title": "小视频列表",
+        "path": "/smallVideos",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "1",
+            "_id": "5f64110dccf53300184f7997",
+            "name": "page",
+            "example": "1",
+            "desc": "当前页数"
+          },
+          {
+            "required": "1",
+            "_id": "5f64110dccf53300184f7996",
+            "name": "pagesize",
+            "example": "10",
+            "desc": "页尺寸"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f64110dccf53300184f7999",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f64110dccf53300184f7998",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"counts\":{\"type\":\"integer\",\"description\":\"总记录数\",\"minimum\":100,\"maximum\":5000},\"pagesize\":{\"type\":\"integer\",\"description\":\"页大小\",\"minimum\":5,\"maximum\":50},\"pages\":{\"type\":\"integer\",\"description\":\"总页数\",\"minimum\":1,\"maximum\":100},\"page\":{\"type\":\"integer\",\"description\":\"当前页码\",\"minimum\":1,\"maximum\":100},\"items\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"编号\",\"mock\":{\"mock\":\"@id\"}},\"userId\":{\"type\":\"integer\",\"description\":\"用户id\"},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"]},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\",\"mock\":{\"mock\":\"@cname\"}},\"hasFocus\":{\"type\":\"integer\",\"description\":\"是否关注 （1是，0否）\",\"enum\":[1,0]},\"cover\":{\"type\":\"string\",\"description\":\"封面\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/video/video_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/video/video_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/video/video_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/video/video_4.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/video/video_5.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/video/video_6.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/video/video_7.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/video/video_8.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/video/video_9.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/video/video_10.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/video/video_12.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/video/video_13.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/video/video_14.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/video/video_15.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/video/video_16.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/video/video_17.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/video/video_18.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/video/video_19.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/video/video_20.png\"]},\"videoUrl\":{\"type\":\"string\",\"description\":\"视频URL\",\"enum\":[\"https://itcast-tanhua.oss-cn-shanghai.aliyuncs.com/images/video/1576134125940400.mp4\"]},\"signature\":{\"type\":\"string\",\"description\":\"签名\",\"mock\":{\"mock\":\"@ctitle\"}},\"likeCount\":{\"type\":\"integer\",\"description\":\"点赞数量\",\"minimum\":10,\"maximum\":999},\"hasLiked\":{\"type\":\"integer\",\"description\":\"是否已赞（1是，0否）\",\"enum\":[1,0]},\"commentCount\":{\"type\":\"integer\",\"description\":\"评论数量\",\"minimum\":10,\"maximum\":999}},\"required\":[\"id\",\"avatar\",\"nickname\",\"likeCount\",\"commentCount\",\"signature\",\"cover\",\"videoUrl\",\"hasLiked\",\"userId\",\"hasFocus\"]},\"description\":\"列表\",\"minItems\":10,\"maxItems\":10,\"uniqueItems\":true}},\"required\":[\"counts\",\"pagesize\",\"pages\",\"page\",\"items\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/smallVideos",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": false,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 214,
+        "method": "POST",
+        "catid": 115,
+        "title": "视频上传",
+        "path": "/smallVideos",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d6c889accf53300184ecec8",
+            "name": "Content-Type",
+            "value": "multipart/form-data"
+          }
+        ],
+        "req_body_form": [
+          {
+            "required": "1",
+            "_id": "5d6c889accf53300184ececa",
+            "name": "videoThumbnail",
+            "type": "file",
+            "example": "",
+            "desc": "视频封面文件"
+          },
+          {
+            "required": "1",
+            "_id": "5d6c889accf53300184ecec9",
+            "name": "videoFile",
+            "type": "file",
+            "desc": "视频文件"
+          }
+        ],
+        "desc": "",
+        "markdown": "",
+        "req_body_type": "form",
+        "res_body": "{}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/smallVideos/:id/like",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": false,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 217,
+        "method": "POST",
+        "catid": 115,
+        "title": "视频点赞",
+        "path": "/smallVideos/:id/like",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5d8865d8ccf53300184eddb0",
+            "name": "id",
+            "desc": "视频id"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d8865d8ccf53300184eddb1",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_type": "form",
+        "res_body": "{}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/smallVideos/:id/dislike",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": false,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 220,
+        "method": "POST",
+        "catid": 115,
+        "title": "视频点赞 - 取消",
+        "path": "/smallVideos/:id/dislike",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5d888c02ccf53300184ede07",
+            "name": "id",
+            "desc": "视频id"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d888c02ccf53300184ede08",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_type": "form",
+        "res_body": "{}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/smallVideos/:uid/userFocus",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": false,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 223,
+        "method": "POST",
+        "catid": 115,
+        "title": "视频用户关注",
+        "path": "/smallVideos/:uid/userFocus",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5d8865cfccf53300184eddae",
+            "name": "uid",
+            "desc": "用户uid"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d8865cfccf53300184eddaf",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_type": "form",
+        "res_body": "{}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/smallVideos/:uid/userUnFocus",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": false,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 226,
+        "method": "POST",
+        "catid": 115,
+        "title": "视频用户关注 - 取消",
+        "path": "/smallVideos/:uid/userUnFocus",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5d888c10ccf53300184ede09",
+            "name": "uid",
+            "desc": "用户uid"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d888c10ccf53300184ede0a",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "req_body_type": "form",
+        "res_body": "{}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/smallVideos/:id/comments",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 229,
+        "method": "GET",
+        "catid": 115,
+        "title": "评论列表",
+        "path": "/smallVideos/:id/comments",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5f64119accf53300184f799a",
+            "name": "id",
+            "desc": "视频id"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "1",
+            "_id": "5f64119accf53300184f799c",
+            "name": "page",
+            "example": "1",
+            "desc": "当前页数"
+          },
+          {
+            "required": "1",
+            "_id": "5f64119accf53300184f799b",
+            "name": "pagesize",
+            "example": "10",
+            "desc": "页尺寸"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f64119accf53300184f799e",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f64119accf53300184f799d",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"counts\":{\"type\":\"integer\",\"description\":\"总记录数\",\"minimum\":100,\"maximum\":5000},\"pagesize\":{\"type\":\"integer\",\"description\":\"页大小\",\"minimum\":5,\"maximum\":50},\"pages\":{\"type\":\"integer\",\"description\":\"总页数\",\"minimum\":1,\"maximum\":100},\"page\":{\"type\":\"integer\",\"description\":\"当前页码\",\"minimum\":1,\"maximum\":100},\"items\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"string\",\"description\":\"编号\",\"mock\":{\"mock\":\"@id\"}},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"]},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\",\"mock\":{\"mock\":\"@cname\"}},\"content\":{\"type\":\"string\",\"description\":\"评论内容\",\"mock\":{\"mock\":\"@cparagraph\"}},\"createDate\":{\"type\":\"string\",\"description\":\"评论时间\",\"mock\":{\"mock\":\"@time\"}},\"likeCount\":{\"type\":\"integer\",\"description\":\"评论被赞数量\",\"minimum\":10,\"maximum\":999},\"hasLiked\":{\"type\":\"integer\",\"description\":\"是否已赞（1是，0否）\"}},\"required\":[\"id\",\"avatar\",\"nickname\",\"content\",\"createDate\",\"likeCount\",\"hasLiked\"]},\"description\":\"列表\",\"minItems\":10,\"maxItems\":10,\"uniqueItems\":true}},\"required\":[\"counts\",\"pagesize\",\"pages\",\"page\",\"items\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/smallVideos/:id/comments",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": false,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 232,
+        "method": "POST",
+        "catid": 115,
+        "title": "评论发布",
+        "path": "/smallVideos/:id/comments",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5d6f297accf53300184ed15d",
+            "name": "id",
+            "desc": "视频id"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d6f297accf53300184ed15e",
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "<p>服务端自动切换点赞状态 做取反操作</p>\n",
+        "markdown": "服务端自动切换点赞状态 做取反操作",
+        "req_body_type": "json",
+        "res_body": "{}",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"comment\":{\"type\":\"string\",\"description\":\"评论正文\"}},\"required\":[\"comment\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/smallVideos/comments/:id/like",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": false,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 235,
+        "method": "POST",
+        "catid": 115,
+        "title": "评论点赞",
+        "path": "/smallVideos/comments/:id/like",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5d888fdfccf53300184ede21",
+            "name": "id",
+            "desc": "评论id"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d888fdfccf53300184ede20",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "<p>服务端自动切换点赞状态 做取反操作</p>\n",
+        "markdown": "服务端自动切换点赞状态 做取反操作",
+        "req_body_type": "form",
+        "res_body": "{}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/smallVideos/comments/:id/dislike",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": false,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 238,
+        "method": "POST",
+        "catid": 115,
+        "title": "评论点赞 - 取消",
+        "path": "/smallVideos/comments/:id/dislike",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5d888ff2ccf53300184ede22",
+            "name": "id",
+            "desc": "评论 id"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d888ff2ccf53300184ede23",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "<p>服务端自动切换点赞状态 做取反操作</p>\n",
+        "markdown": "服务端自动切换点赞状态 做取反操作",
+        "req_body_type": "form",
+        "res_body": "{}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      }
+    ]
+  },
+  {
+    "index": 0,
+    "name": "5 我的（前端已联调）",
+    "desc": null,
+    "add_time": 1603896273,
+    "up_time": 1603896273,
+    "list": [
+      {
+        "query_path": {
+          "path": "/users",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 265,
+        "method": "GET",
+        "catid": 123,
+        "title": "用户资料 - 读取",
+        "path": "/users",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "0",
+            "_id": "60b6ff3fff713a0017f71280",
+            "name": "userID",
+            "example": "100",
+            "desc": "用户id，当不传递时，查询当前用户的资料信息"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "60b6ff3fff713a0017f71282",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "60b6ff3fff713a0017f71281",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"编号\"},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"]},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\",\"enum\":[\"神仙与妖精\",\"始终都爱你\",\"你还梦不梦\",\"一无所有\",\"奇葩少女萌哒哒i\",\"妖の叶子\",\"氧气萌主\",\"他没挽留i\",\"长伴心中人i\",\"野似温柔猫\"]},\"birthday\":{\"type\":\"string\",\"description\":\"生日 2019-09-11\",\"enum\":[\"2010-01-01\",\"1990-01-01\",\"1988-01-01\",\"1992-01-01\",\"1995-01-01\"]},\"age\":{\"type\":\"string\",\"description\":\"年龄\",\"enum\":[\"18\",\"20\",\"25\",\"28\",\"29\"]},\"gender\":{\"type\":\"string\",\"description\":\"性别 man woman\",\"enum\":[\"man\",\"woman\"]},\"city\":{\"type\":\"string\",\"description\":\"城市\",\"mock\":{\"mock\":\"@city\"}},\"education\":{\"type\":\"string\",\"description\":\"学历\",\"enum\":[\"本科\",\"硕士\",\"双硕\",\"博士\",\"双博\"]},\"income\":{\"type\":\"string\",\"description\":\"月收入\",\"enum\":[\"5k\",\"8K\",\"15K\",\"35K\",\"55K\",\"80K\",\"100K\"]},\"profession\":{\"type\":\"string\",\"description\":\"行业\",\"enum\":[\"IT行业\",\"服务行业\",\"公务员\"]},\"marriage\":{\"type\":\"integer\",\"description\":\"婚姻状态（0未婚，1已婚）\",\"enum\":[0,1]}},\"required\":[\"id\",\"avatar\",\"nickname\",\"birthday\",\"gender\",\"city\",\"education\",\"income\",\"profession\",\"marriage\",\"age\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1622605631,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/users/friends/:type",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 241,
+        "method": "GET",
+        "catid": 123,
+        "title": "互相喜欢、喜欢、粉丝、谁看过我 - 翻页列表",
+        "path": "/users/friends/:type",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5f6411dbccf53300184f799f",
+            "name": "type",
+            "desc": "1 互相关注\n2 我关注\n3 粉丝\n4 谁看过我"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "1",
+            "_id": "5f6411dbccf53300184f79a2",
+            "name": "page",
+            "example": "1",
+            "desc": "当前页数"
+          },
+          {
+            "required": "0",
+            "_id": "5f6411dbccf53300184f79a1",
+            "name": "pagesize",
+            "example": "10",
+            "desc": "页尺寸"
+          },
+          {
+            "required": "0",
+            "_id": "5f6411dbccf53300184f79a0",
+            "name": "nickname",
+            "example": "",
+            "desc": "昵称"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f6411dbccf53300184f79a4",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f6411dbccf53300184f79a3",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"counts\":{\"type\":\"integer\",\"description\":\"总记录数\",\"minimum\":100,\"maximum\":5000},\"pagesize\":{\"type\":\"integer\",\"description\":\"页大小\",\"minimum\":5,\"maximum\":50},\"pages\":{\"type\":\"integer\",\"description\":\"总页数\",\"minimum\":1,\"maximum\":100},\"page\":{\"type\":\"integer\",\"description\":\"当前页码\",\"minimum\":1,\"maximum\":100},\"items\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"编号\"},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"]},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\",\"mock\":{\"mock\":\"@cname\"}},\"gender\":{\"type\":\"string\",\"description\":\"性别 man woman\",\"enum\":[\"man\",\"woman\"]},\"age\":{\"type\":\"integer\",\"description\":\"年龄\",\"minimum\":18,\"maximum\":29},\"city\":{\"type\":\"string\",\"description\":\"城市\",\"mock\":{\"mock\":\"@city\"}},\"education\":{\"type\":\"string\",\"description\":\"学历\",\"enum\":[\"本科\",\"硕士\",\"双硕\",\"博士\",\"双博\"]},\"marriage\":{\"type\":\"integer\",\"description\":\"婚姻状态（0未婚，1已婚）\",\"enum\":[0,1]},\"matchRate\":{\"type\":\"integer\",\"description\":\"匹配度\",\"minimum\":30,\"maximum\":99},\"alreadyLove\":{\"type\":\"boolean\",\"description\":\"是否喜欢ta\"}},\"required\":[\"id\",\"avatar\",\"nickname\",\"gender\",\"age\",\"city\",\"marriage\",\"education\",\"matchRate\",\"alreadyLove\"]},\"description\":\"列表\",\"minItems\":10,\"maxItems\":10,\"uniqueItems\":true}},\"required\":[\"counts\",\"pagesize\",\"pages\",\"page\",\"items\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/users/phone/checkVerificationCode",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 247,
+        "method": "POST",
+        "catid": 123,
+        "title": "修改手机号 - 2 校验验证码",
+        "path": "/users/phone/checkVerificationCode",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5dbf8e18ccf53300184ef5a3",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "required": "1",
+            "_id": "5dbf8e18ccf53300184ef5a2",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [
+          {
+            "required": "1",
+            "_id": "5dbf8e18ccf53300184ef5a4",
+            "name": "verificationCode",
+            "type": "text",
+            "desc": "验证码"
+          }
+        ],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"verification\":{\"type\":\"boolean\",\"description\":\"是否验证通过\"}},\"required\":[\"verification\"]}",
+        "req_body_type": "form",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/users/phone",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 250,
+        "method": "POST",
+        "catid": 123,
+        "title": "修改手机号 - 3 保存",
+        "path": "/users/phone",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5dbf8e35ccf53300184ef5a6",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5dbf8e35ccf53300184ef5a5",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+        "req_body_type": "json",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"phone\":{\"type\":\"string\",\"description\":\"新手机号\"}},\"required\":[\"phone\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/users/phone/sendVerificationCode",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 253,
+        "method": "POST",
+        "catid": 123,
+        "title": "修改手机号- 1 发送短信验证码",
+        "path": "/users/phone/sendVerificationCode",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5dbf8da7ccf53300184ef59a",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "required": "1",
+            "_id": "5dbf8da7ccf53300184ef599",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+        "req_body_type": "form",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/users/like/:uid",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 256,
+        "method": "DELETE",
+        "catid": 123,
+        "title": "喜欢 - 取消",
+        "path": "/users/like/:uid",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5d78cb8cccf53300184ed52e",
+            "name": "uid",
+            "desc": "用户id"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d78cb8cccf53300184ed530",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "required": "1",
+            "_id": "5d78cb8cccf53300184ed52f",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+        "req_body_type": "form",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/users",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 259,
+        "method": "PUT",
+        "catid": 123,
+        "title": "用户资料 - 保存",
+        "path": "/users",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d808826ccf53300184edb11",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5d808826ccf53300184edb10",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"nickname\":{\"type\":\"string\",\"description\":\"昵称\"},\"birthday\":{\"type\":\"string\",\"description\":\"生日 1990-01-01\"},\"gender\":{\"type\":\"string\",\"description\":\"性别 man woman\"},\"city\":{\"type\":\"string\",\"description\":\"城市\"},\"education\":{\"type\":\"string\",\"description\":\"学历\"},\"income\":{\"type\":\"string\",\"description\":\"月收入\"},\"profession\":{\"type\":\"string\",\"description\":\"行业\"},\"marriage\":{\"type\":\"integer\",\"description\":\"婚姻状态（0未婚，1已婚）\"}},\"required\":[\"nickname\",\"birthday\",\"gender\",\"city\",\"education\",\"income\",\"profession\",\"marriage\"]}",
+        "req_body_type": "json",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/users/header",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 262,
+        "method": "POST",
+        "catid": 123,
+        "title": "用户资料 - 更新头像",
+        "path": "/users/header",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "607fc2fd52e01e001315f988",
+            "name": "Content-Type",
+            "value": "multipart/form-data"
+          },
+          {
+            "required": "1",
+            "_id": "607fc2fd52e01e001315f987",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [
+          {
+            "required": "1",
+            "_id": "607fc2fd52e01e001315f989",
+            "name": "headPhoto",
+            "type": "file",
+            "desc": "头像文件"
+          }
+        ],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+        "req_body_other": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"nickname\":{\"type\":\"string\",\"description\":\"昵称\"},\"birthday\":{\"type\":\"string\",\"description\":\"生日 1990-01-01\"},\"gender\":{\"type\":\"string\",\"description\":\"性别 man woman\"},\"city\":{\"type\":\"string\",\"description\":\"城市\"},\"education\":{\"type\":\"string\",\"description\":\"学历\"},\"income\":{\"type\":\"string\",\"description\":\"月收入\"},\"profession\":{\"type\":\"string\",\"description\":\"行业\"},\"marriage\":{\"type\":\"integer\",\"description\":\"婚姻状态（0未婚，1已婚）\"}},\"required\":[\"nickname\",\"birthday\",\"gender\",\"city\",\"education\",\"income\",\"profession\",\"marriage\"]}",
+        "req_body_type": "form",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1618985725,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/users/counts",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 244,
+        "method": "GET",
+        "catid": 123,
+        "title": "互相喜欢，喜欢，粉丝 - 统计",
+        "path": "/users/counts",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d78cb62ccf53300184ed522",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5d78cb62ccf53300184ed521",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"eachLoveCount\":{\"type\":\"integer\",\"description\":\"互相喜欢\",\"minimum\":55,\"maximum\":999},\"loveCount\":{\"type\":\"integer\",\"description\":\"喜欢\",\"minimum\":55,\"maximum\":999},\"fanCount\":{\"type\":\"integer\",\"description\":\"粉丝\",\"minimum\":55,\"maximum\":999}},\"required\":[\"eachLoveCount\",\"loveCount\",\"fanCount\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/users/settings",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 268,
+        "method": "GET",
+        "catid": 123,
+        "title": "用户通用设置 - 读取",
+        "path": "/users/settings",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d809489ccf53300184edb28",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5d809489ccf53300184edb27",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"编号\"},\"strangerQuestion\":{\"type\":\"string\",\"description\":\"陌生人问题\",\"enum\":[\"你喜欢打羽毛球么？\"]},\"phone\":{\"type\":\"string\",\"description\":\"手机号\",\"enum\":[\"18613338833\",\"18613338866\"]},\"likeNotification\":{\"type\":\"boolean\",\"description\":\"推送喜欢通知\"},\"pinglunNotification\":{\"type\":\"boolean\",\"description\":\"推送评论通知\"},\"gonggaoNotification\":{\"type\":\"boolean\",\"description\":\"推送公告通知\"}},\"required\":[\"id\",\"strangerQuestion\",\"phone\",\"pinglunNotification\",\"likeNotification\",\"gonggaoNotification\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/users/fans/:uid",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 271,
+        "method": "POST",
+        "catid": 123,
+        "title": "粉丝 - 喜欢",
+        "path": "/users/fans/:uid",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5f165a94ccf53300184f6211",
+            "name": "uid",
+            "desc": ""
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f165a94ccf53300184f6213",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "required": "1",
+            "_id": "5f165a94ccf53300184f6212",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+        "req_body_type": "form",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/users/friends/luck",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 274,
+        "method": "GET",
+        "catid": 123,
+        "title": "缘分值高 用户 - 列表（已废弃）",
+        "path": "/users/friends/luck",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f64124bccf53300184f79a6",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f64124bccf53300184f79a5",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"用户id\"},\"avatar\":{\"type\":\"string\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"],\"description\":\"头像\"}},\"required\":[\"id\",\"avatar\"]},\"minItems\":4,\"maxItems\":4,\"uniqueItems\":true}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/users/questions",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 277,
+        "method": "POST",
+        "catid": 123,
+        "title": "设置陌生人问题 - 保存",
+        "path": "/users/questions",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d78cb95ccf53300184ed532",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5d78cb95ccf53300184ed531",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+        "req_body_other": "{\"type\":\"object\",\"properties\":{\"content\":{\"type\":\"string\",\"description\":\"问题\"}},\"required\":[\"content\"]}",
+        "req_body_type": "json",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/users/notifications/setting",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": true,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 280,
+        "method": "POST",
+        "catid": 123,
+        "title": "通知设置 - 保存",
+        "path": "/users/notifications/setting",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d78cb36ccf53300184ed51b",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5d78cb36ccf53300184ed51a",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+        "req_body_type": "json",
+        "req_body_other": "{\"type\":\"object\",\"title\":\"empty object\",\"properties\":{\"likeNotification\":{\"type\":\"boolean\",\"description\":\"推送喜欢通知\"},\"pinglunNotification\":{\"type\":\"boolean\",\"description\":\"推送评论通知\"},\"gonggaoNotification\":{\"type\":\"boolean\",\"description\":\"推送公告通知\"}},\"required\":[\"likeNotification\",\"pinglunNotification\",\"gonggaoNotification\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/users/blacklist/:uid",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "var",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 283,
+        "method": "DELETE",
+        "catid": 123,
+        "title": "黑名单 - 移除",
+        "path": "/users/blacklist/:uid",
+        "project_id": 19,
+        "req_params": [
+          {
+            "_id": "5d78cbbfccf53300184ed53a",
+            "name": "uid",
+            "desc": "用户id"
+          }
+        ],
+        "res_body_type": "json",
+        "req_query": [],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5d78cbbfccf53300184ed53c",
+            "name": "Content-Type",
+            "value": "application/x-www-form-urlencoded"
+          },
+          {
+            "required": "1",
+            "_id": "5d78cbbfccf53300184ed53b",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{}}",
+        "req_body_type": "form",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      },
+      {
+        "query_path": {
+          "path": "/users/blacklist",
+          "params": []
+        },
+        "edit_uid": 0,
+        "status": "done",
+        "type": "static",
+        "req_body_is_json_schema": false,
+        "res_body_is_json_schema": true,
+        "api_opened": false,
+        "index": 0,
+        "tag": [],
+        "_id": 286,
+        "method": "GET",
+        "catid": 123,
+        "title": "黑名单 - 翻页列表",
+        "path": "/users/blacklist",
+        "project_id": 19,
+        "req_params": [],
+        "res_body_type": "json",
+        "req_query": [
+          {
+            "required": "1",
+            "_id": "5f641270ccf53300184f79a8",
+            "name": "page",
+            "example": "1",
+            "desc": "当前页数"
+          },
+          {
+            "required": "1",
+            "_id": "5f641270ccf53300184f79a7",
+            "name": "pagesize",
+            "example": "10",
+            "desc": "页尺寸"
+          }
+        ],
+        "req_headers": [
+          {
+            "required": "1",
+            "_id": "5f641270ccf53300184f79aa",
+            "name": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "required": "1",
+            "_id": "5f641270ccf53300184f79a9",
+            "name": "Authorization",
+            "value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1NjI4MjkzMzYsInVzZXJfaWQiOiIxIn0.Mbzn6LzsLrkVWEbhexR3lTYDZjxqIcqW11rJxDQ6Ewk",
+            "example": "",
+            "desc": "令牌"
+          }
+        ],
+        "req_body_form": [],
+        "desc": "",
+        "markdown": "",
+        "res_body": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"counts\":{\"type\":\"integer\",\"description\":\"总记录数\",\"minimum\":100,\"maximum\":5000},\"pagesize\":{\"type\":\"integer\",\"description\":\"页大小\",\"minimum\":5,\"maximum\":50},\"pages\":{\"type\":\"integer\",\"description\":\"总页数\",\"minimum\":1,\"maximum\":100},\"page\":{\"type\":\"integer\",\"description\":\"当前页码\",\"minimum\":1,\"maximum\":100},\"items\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"id\":{\"type\":\"integer\",\"description\":\"编号\"},\"avatar\":{\"type\":\"string\",\"description\":\"头像\",\"enum\":[\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_1.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_2.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_3.png\",\"https://tanhua-dev.oss-cn-zhangjiakou.aliyuncs.com/images/tanhua/avatar_4.png\"]},\"nickname\":{\"type\":\"string\",\"description\":\"昵称\",\"mock\":{\"mock\":\"@ctitle\"}},\"gender\":{\"type\":\"string\",\"description\":\"性别 man woman\",\"enum\":[\"man\",\"woman\"]},\"age\":{\"type\":\"integer\",\"description\":\"年龄\",\"minimum\":18,\"maximum\":29}},\"required\":[\"id\",\"avatar\",\"nickname\",\"gender\",\"age\"]},\"description\":\"列表\",\"minItems\":10,\"maxItems\":20,\"uniqueItems\":true}},\"required\":[\"counts\",\"pagesize\",\"pages\",\"page\",\"items\"]}",
+        "uid": 20,
+        "add_time": 1603896274,
+        "up_time": 1603896274,
+        "__v": 0
+      }
+    ]
+  }
+]
